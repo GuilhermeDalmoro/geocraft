@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"snd_andrius_defeat",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":8.04,
+  "exportDir":"",
+  "name":"snd_andrius_defeat",
+  "parent":{
+    "name":"sfx atk",
+    "path":"folders/Sons/Sound efects/sfx atk.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_andrius_defeat.mp3",
+  "volume":1.0,
+}

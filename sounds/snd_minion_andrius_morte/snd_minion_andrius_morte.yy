@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"snd_minion_andrius_morte",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":2,
+  "compression":0,
+  "compressionQuality":10,
+  "conversionMode":0,
+  "duration":9.456327,
+  "exportDir":"",
+  "name":"snd_minion_andrius_morte",
+  "parent":{
+    "name":"sfx atk",
+    "path":"folders/Sons/Sound efects/sfx atk.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":48000,
+  "soundFile":"snd_minion_andrius_morte.mp3",
+  "volume":1.0,
+}

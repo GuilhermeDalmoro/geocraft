@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"funcoes_itens",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funcoes_itens",
+  "parent":{
+    "name":"Configurações",
+    "path":"folders/Scripts/Configurações.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

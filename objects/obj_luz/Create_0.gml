@@ -1,0 +1,1 @@
+variacao = 1;

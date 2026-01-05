@@ -1,0 +1,1 @@
+dialogo_ativo = false;

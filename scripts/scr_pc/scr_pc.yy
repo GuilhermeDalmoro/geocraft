@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_pc",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_pc",
+  "parent":{
+    "name":"Aldeias",
+    "path":"folders/Objetos/Aldeias.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

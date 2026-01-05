@@ -1,0 +1,469 @@
+esse é toda a base do sistema de dialogo. 
+
+primeiro um objeto chamado obj_par_npc é criado, ele serve so pra se referir mais facilmente no jogo
+
+logo depois criei o primeiro npc do jogo e adicionei como filho do obj par npc e dentro do create coloquei uma variavel chamada nome = "Primeiro texto"
+
+logo depois criei um objeto chamado obj_dialogo:
+logo abaixo todo o codigo dentro dele:
+
+create do obj_dialogo:
+enum Infosnpc {
+    Texto,
+    Retrato,
+    Lado,
+    Nome
+}
+
+npc_nome = "";
+texto_grid = ds_grid_create(4, 0);
+pagina = 0;
+opcao[0] = "";
+opcao_resposta[0] = "";
+opcao_numero = 0;
+opcao_selecionado = 0;
+opcao_draw = false;
+inicializar = false;
+caractere = 0;
+alarm[0] = 1;
+palavras = [];
+efeitos = [];
+
+evento clean:
+ds_grid_destroy(texto_grid);
+
+
+step do obj dialogo:
+if (!inicializar) {
+    // Chama o script correto baseado no idioma
+    if (global.lingua == "pt-br") script_execute(scr_textos);
+    else script_execute(scr_textos_en);
+    inicializar = true;
+    alarm[0] = 1;
+    global.pause = true;
+    
+    // Parsear texto e criar palavras com efeitos (restante do código mantém igual)
+    var _texto = texto_grid[# Infosnpc.Texto, pagina];
+    palavras = [];
+    efeitos = [];
+    var _current = "";
+    var _efeito = { tipo: "nenhum", cor: c_white };
+    var _in_tag = false;
+    var _tag = "";
+    
+    for (var i = 1; i <= string_length(_texto); i++) {
+        var _char = string_char_at(_texto, i);
+        if (_char == "[") {
+            _in_tag = true;
+            _tag = "";
+            continue;
+        }
+        if (_char == "]" && _in_tag) {
+            _in_tag = false;
+            if (_tag == "semefeito") _efeito = { tipo: "nenhum", cor: c_white };
+            else if (string_pos("tremor", _tag) == 1) _efeito.tipo = string_pos("/tremor", _tag) == 0 ? "tremor" : "nenhum";
+            else if (string_pos("bounce", _tag) == 1) _efeito.tipo = string_pos("/bounce", _tag) == 0 ? "bounce" : "nenhum";
+            else if (string_pos("pulsar", _tag) == 1) _efeito.tipo = string_pos("/pulsar", _tag) == 0 ? "pulsar" : "nenhum";
+            else if (string_pos("onda", _tag) == 1) _efeito.tipo = string_pos("/onda", _tag) == 0 ? "onda" : "nenhum";
+            else if (string_pos("abalo", _tag) == 1) _efeito.tipo = string_pos("/abalo", _tag) == 0 ? "abalo" : "nenhum";
+            else if (string_pos("flutuar", _tag) == 1) _efeito.tipo = string_pos("/flutuar", _tag) == 0 ? "flutuar" : "nenhum";
+            else if (string_pos("zoom", _tag) == 1) _efeito.tipo = string_pos("/zoom", _tag) == 0 ? "zoom" : "nenhum";
+            else if (string_pos("cor=", _tag) == 1) {
+                var _cor = string_replace(_tag, "cor=", "");
+                if (_cor == "vermelho") _efeito.cor = c_red;
+                else if (_cor == "azul") _efeito.cor = c_blue;
+                else if (_cor == "amarelo") _efeito.cor = c_yellow;
+                else if (_cor == "roxo") _efeito.cor = c_purple;
+                else if (_cor == "laranja") _efeito.cor = c_orange;
+                else if (_cor == "verde") _efeito.cor = c_green;
+                else if (_cor == "/cor") _efeito.cor = c_white;
+            }
+            continue;
+        }
+        if (_in_tag) {
+            _tag += _char;
+            continue;
+        }
+        if (_char == " " || i == string_length(_texto)) {
+            if (i == string_length(_texto)) _current += _char;
+            if (_current != "") {
+                array_push(palavras, _current);
+                array_push(efeitos, { tipo: _efeito.tipo, cor: _efeito.cor });
+                _current = "";
+            }
+            if (_char == " ") {
+                array_push(palavras, " ");
+                array_push(efeitos, { tipo: "nenhum", cor: c_white });
+            }
+        } else _current += _char;
+    }
+}
+
+// Resto do código (páginas, opções) mantém igual
+if (caractere < string_length(texto_grid[# Infosnpc.Texto, pagina])) {
+    if (keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(global.controle, gp_face1)) {
+        caractere = string_length(texto_grid[# Infosnpc.Texto, pagina]);
+    }
+} else {
+    if (pagina < ds_grid_height(texto_grid) - 1) {
+        if (keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(global.controle, gp_face1)) {
+            alarm[0] = 1;
+            caractere = 0;
+            pagina++;
+            var _texto = texto_grid[# Infosnpc.Texto, pagina];
+            palavras = [];
+            efeitos = [];
+            var _current = "";
+            var _efeito = { tipo: "nenhum", cor: c_white };
+            var _in_tag = false;
+            var _tag = "";
+            for (var i = 1; i <= string_length(_texto); i++) {
+                var _char = string_char_at(_texto, i);
+                if (_char == "[") {
+                    _in_tag = true;
+                    _tag = "";
+                    continue;
+                }
+                if (_char == "]" && _in_tag) {
+                    _in_tag = false;
+                    if (_tag == "semefeito") _efeito = { tipo: "nenhum", cor: c_white };
+                    else if (string_pos("tremor", _tag) == 1) _efeito.tipo = string_pos("/tremor", _tag) == 0 ? "tremor" : "nenhum";
+                    else if (string_pos("bounce", _tag) == 1) _efeito.tipo = string_pos("/bounce", _tag) == 0 ? "bounce" : "nenhum";
+                    else if (string_pos("pulsar", _tag) == 1) _efeito.tipo = string_pos("/pulsar", _tag) == 0 ? "pulsar" : "nenhum";
+                    else if (string_pos("onda", _tag) == 1) _efeito.tipo = string_pos("/onda", _tag) == 0 ? "onda" : "nenhum";
+                    else if (string_pos("abalo", _tag) == 1) _efeito.tipo = string_pos("/abalo", _tag) == 0 ? "abalo" : "nenhum";
+                    else if (string_pos("flutuar", _tag) == 1) _efeito.tipo = string_pos("/flutuar", _tag) == 0 ? "flutuar" : "nenhum";
+                    else if (string_pos("zoom", _tag) == 1) _efeito.tipo = string_pos("/zoom", _tag) == 0 ? "zoom" : "nenhum";
+                    else if (string_pos("cor=", _tag) == 1) {
+                        var _cor = string_replace(_tag, "cor=", "");
+                        if (_cor == "vermelho") _efeito.cor = c_red;
+                        else if (_cor == "azul") _efeito.cor = c_blue;
+                        else if (_cor == "amarelo") _efeito.cor = c_yellow;
+                        else if (_cor == "roxo") _efeito.cor = c_purple;
+                        else if (_cor == "laranja") _efeito.cor = c_orange;
+                        else if (_cor == "verde") _efeito.cor = c_green;
+                        else if (_cor == "/cor") _efeito.cor = c_white;
+                    }
+                    continue;
+                }
+                if (_in_tag) {
+                    _tag += _char;
+                    continue;
+                }
+                if (_char == " " || i == string_length(_texto)) {
+                    if (i == string_length(_texto)) _current += _char;
+                    if (_current != "") {
+                        array_push(palavras, _current);
+                        array_push(efeitos, { tipo: _efeito.tipo, cor: _efeito.cor });
+                        _current = "";
+                    }
+                    if (_char == " ") {
+                        array_push(palavras, " ");
+                        array_push(efeitos, { tipo: "nenhum", cor: c_white });
+                    }
+                } else _current += _char;
+            }
+        }
+    } else {
+        if (opcao_numero != 0) opcao_draw = true;
+        else if (keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(global.controle, gp_face1)) {
+            instance_destroy();
+            global.pause = false;
+            global.dialogo_acontecendo = !global.dialogo_acontecendo;
+        }
+    }
+}
+
+
+alarm 0 do obj dialogo:
+if (inicializar) {
+    global.pause = true;
+    global.dialogo_acontecendo = true;
+    if (caractere < string_length(texto_grid[# Infosnpc.Texto, pagina])) {
+        var _char = string_char_at(texto_grid[# Infosnpc.Texto, pagina], caractere + 1);
+        var _is_abalo = false;
+        
+        // Verifica se o caractere atual tá numa palavra com [abalo]
+        var _texto_atual = string_copy(texto_grid[# Infosnpc.Texto, pagina], 1, caractere + 1);
+        for (var i = 0; i < array_length(palavras); i++) {
+            if (string_pos(palavras[i], _texto_atual) > 0 && efeitos[i].tipo == "abalo") {
+                _is_abalo = true;
+                break;
+            }
+        }
+        
+        if (_char != "." && _char != "," && _char != "-") {
+            var _snd = _is_abalo ? snd_tremor_leve : choose(snd_blip_2, snd_voice3, snd_pickup_coin_1);
+            audio_play_sound(_snd, 1, 0);
+            caractere++;
+            alarm[0] = 1;
+        } else {
+            alarm[0] = 15;
+            var _snd = _is_abalo ? snd_tremor_leve : choose(snd_blip_2, snd_voice3, snd_pickup_coin_1);
+            audio_play_sound(_snd, 1, 0);
+            caractere++;
+        }
+    }
+}
+
+draw gui do objeto dialogo:
+if (inicializar) {
+    var _guil = display_get_gui_width();
+    var _guia = display_get_gui_height();
+    var _xx = 0;
+    var _yy = _guia - 200;
+    var _c = c_black;
+    var _sprite_ret = texto_grid[# Infosnpc.Retrato, pagina];
+    var _texto = string_copy(texto_grid[# Infosnpc.Texto, pagina], 1, caractere);
+    draw_set_font(fnt_dialogo);
+
+    if (texto_grid[# Infosnpc.Lado, pagina] == 0) {
+        draw_rectangle_color(_xx + 200, _yy, _guil, _guia, _c, _c, _c, _c, false);
+        draw_rectangle_color(_xx + 200, _yy + 1, _guil, _guia, c_white, c_white, c_white, c_white, true);
+        draw_rectangle_color(_xx + 201, _yy + 2, _guil, _guia, c_white, c_white, c_white, c_white, true);
+        draw_rectangle_color(_xx + 202, _yy + 3, _guil, _guia, c_white, c_white, c_white, c_white, true);
+        draw_text_effect(_xx + 264, _yy + 32, _texto, 32, _guil - 264, palavras, efeitos);
+        draw_set_font(fnt_nome_npc_dialogo);
+        draw_set_color(c_white);
+        draw_text(_xx + 216, _yy - 32, texto_grid[# Infosnpc.Nome, pagina]);
+        draw_set_font(-1);
+        draw_set_color(c_white);
+        draw_sprite_ext(_sprite_ret, 0, 100, _guia, 3, 3, 0, c_white, 1);
+    } else {
+        draw_rectangle_color(_xx, _yy, _guil - 200, _guia, _c, _c, _c, _c, false);
+        draw_rectangle_color(_xx, _yy + 1, _guil - 200, _guia, c_white, c_white, c_white, c_white, true);
+        draw_rectangle_color(_xx, _yy + 2, _guil - 201, _guia, c_white, c_white, c_white, c_white, true);
+        draw_rectangle_color(_xx, _yy + 3, _guil - 202, _guia, c_white, c_white, c_white, c_white, true);
+        draw_text_effect(_xx + 64, _yy + 32, _texto, 32, _guil - 264, palavras, efeitos);
+        var _strw = string_width(texto_grid[# Infosnpc.Nome, pagina]);
+        draw_set_font(fnt_nome_npc_dialogo);
+        draw_set_color(c_white);
+        draw_text(_guil - 216 - _strw, _yy - 32, texto_grid[# Infosnpc.Nome, pagina]);
+        draw_set_font(-1);
+        draw_set_color(c_white);
+        draw_sprite_ext(_sprite_ret, 0, _guil - 100, _guia, -3, 3, 0, c_white, 1);
+    }
+
+    draw_set_font(fnt_dialogo);
+    if (opcao_draw) {
+        var _opx = _xx + 32;
+        var _opy = _yy - 32;
+        var _opsep = 48;
+        var _opborda = 6;
+        opcao_selecionado += keyboard_check_pressed(ord("W")) - keyboard_check_pressed(ord("S"));
+        opcao_selecionado = clamp(opcao_selecionado, 0, opcao_numero - 1);
+
+        for (var i = 0; i < opcao_numero; i++) {
+            var _stringw = string_width(opcao[i]);
+            draw_sprite_ext(spr_bg_opcoes, 0, _opx, _opy - (_opsep * i), (_stringw + _opborda * 2) / 16, 1, 0, c_white, 1);
+            draw_text(_opx + _opborda, _opy - (_opsep * i), opcao[i]);
+		
+            if (opcao_selecionado == i) {
+                draw_sprite(spr_seletor_opcoes, 0, _xx + 8, _opy - (_opsep * i) + 8);
+            }
+        }
+
+        if (keyboard_check_pressed(vk_enter) || gamepad_button_check_pressed(global.controle, gp_face1)) {
+            var _dialogo = instance_create_layer(x, y, "Dialogo", obj_dialogo);
+            _dialogo.npc_nome = opcao_resposta[opcao_selecionado];
+            instance_destroy();
+        }
+    }
+    draw_set_font(-1);
+}
+
+
+logo apos dentro do objeto do sdash eu coloquei isso aqui no step dele:
+#region Dialogo
+
+if distance_to_object(obj_par_npc)<= 15 {
+	if keyboard_check_pressed(ord("F")) or gamepad_button_check_pressed(global.controle,gp_face2){
+			global.dialogo_acontecendo = true
+	var _npc = 	instance_nearest(x,y,obj_par_npc);
+	var _dialogo = instance_create_layer(x,y, "Dialogo", obj_dialogo);
+	_dialogo.npc_nome = _npc.nome;
+	}
+}
+
+#endregion
+
+
+
+logo depois criei um script chamado script textos que é onde todos os textos do jogo sao guardados
+
+a estrutura é essa:
+
+#region Guarda todos os dialogos do jogo
+function scr_textos(){ //esse é o script que ira guardar todos os dialogos simples do jogo
+	switch npc_nome{ //dentro do switch case vai estar qual texto de qual personagem e o texto que ele vai exibir
+		case  "Primeiro Texto": //é o texto do "primeiro texto" definido dentro do create do obj do personagem
+			ds_grid_add_text("Nossa, eu nem tinha lido essa placa....", spr_ret_sdash_normal, 0, "Sdash");
+			ds_grid_add_text("Isto é apenas um dejeto alienigena do marcos", spr_ret_reia, 1, "Dejeto")
+			ds_grid_add_text("pera como assim isso é um dejeto \n preciso falar com alguem conhecido", spr_ret_sdash_paralisado, 0, "Sdash");
+		break;
+		
+		toda ves que eu qero adicionar um novo texto, eu crio um objeto npc, defino o nome do texto no create dele, coloco como filho do par npc, e crio um case com o nome do texto do npc.
+		
+		
+
+
+
+caso eu queira adicionar respostas e perguntas eu coloco um case nesse modelo:
+case "Texto treino":
+		ds_grid_add_text("Bom sdash, vamos só.... treinar um pouquinho", spr_ret_king_arts_normal,1,"King of Art's")
+		ds_grid_add_text("Certo mano!! oque eu tenho que fazer?", spr_ret_sdash_normal,0,"Sdash")
+		ds_grid_add_text("Use o seu... mouse para atacar e dar um.. dash ! \n Derrote esses pela saco!, essa é sua primeira missão", spr_ret_king_arts_normal,1,"King of Art's")
+		ds_grid_add_text("Aceita a primeira misao?", spr_ret_king_arts_normal, 1, "King of Art's")
+		
+		add_op("Então... eu aceito", "rsp 1")
+		add_op("Então mano, acho melhor não", "rsp 2")
+		break;
+		
+			case"rsp 1":
+		global.missions[0].status = "active"; //exemplo pra ativar missoes
+		ds_grid_add_text("Vamos nessa então", spr_ret_king_arts_bravo, 0, "King of Art's")
+		global.lealdade -=3;
+		break;
+		case"rsp 2":
+	ds_grid_add_text("Ta bom então né", spr_ret_king_arts_bravo, 0, "King of Art's")
+	global.lealdade -=1;
+		break;
+
+
+
+e no final depois de onde fica os textos dentro do script tem essas funções de perguntas e respostas:
+#region funções de adcionar linha na grid de texto, adcionar o texto e seus atributos e adcionar opções
+
+function ds_grid_add_row(){ //essa função serve para adicionar mais uma linha na ds grid
+	
+	var _grid = argument[0];
+	ds_grid_resize(_grid,ds_grid_width(_grid), ds_grid_height(_grid) + 1);
+	return(ds_grid_height(_grid) -1);
+}
+
+function ds_grid_add_text(){ //essa função serve pra adicionar o texto do dialogo
+	///@arg texto
+	///@arg retrato
+	///@arg lado
+	
+	var _grid = texto_grid;
+	var _y = ds_grid_add_row(_grid);
+	
+	_grid[# 0, _y] = argument[0]; //Texto
+	_grid[# 1, _y] = argument[1]; //Retrato
+	_grid[# 2, _y] = argument[2]; //Lado
+	_grid[# 3, _y] = argument[3]; //Nome
+ //_grid[# 4, _y] = argument[4]; //Som
+ 
+}
+	
+function add_op(_texto_op, _resposta){ //essa função serve para adicionar uma opção
+	opcao[opcao_numero] = _texto_op;
+	opcao_resposta[opcao_numero] = _resposta;
+	
+	opcao_numero++;
+}
+	
+function draw_text_effect(_x, _y, _texto, _sep, _width, _palavras, _efeitos) {
+    var _current_x = _x;
+    var _current_y = _y;
+    var _char_count = 0;
+    
+    for (var i = 0; i < array_length(_palavras); i++) {
+        var _palavra = _palavras[i];
+        var _palavra_len = string_length(_palavra);
+        var _palavra_width = string_width(_palavra);
+        
+        // Verifica se a palavra cabe na linha
+        if (_current_x + _palavra_width > _x + _width) {
+            _current_y += _sep;
+            _current_x = _x;
+        }
+        
+        // Aplica efeito por palavra
+        var _effect_x = _current_x;
+        var _effect_y = _current_y;
+        var _effect_color = c_white;
+        var _effect_scale = 1;
+        
+        if (i < array_length(_efeitos)) {
+            var _efeito = _efeitos[i];
+            if (_efeito.tipo == "tremor") {
+                _effect_x += random_range(-1.5, 2);
+                _effect_y += random_range(-1.5, 2);
+            }
+            if (_efeito.tipo == "bounce") {
+                _effect_y += sin(current_time * 0.005 + i) * 4;
+            }
+           if (_efeito.tipo == "pulsar") {
+                _effect_scale = 1 + sin(current_time * 0.005 + i) * 0.15; 
+            }
+            if (_efeito.tipo == "zoom") {
+                _effect_scale = 1 + sin(current_time * 0.01 + i) * 0.2; 
+            }
+            if (_efeito.tipo == "flutuar") {
+                _effect_y += sin(current_time * 0.003 + i) * 1; // Flutua suave
+            }
+            if (_efeito.tipo == "onda" || _efeito.tipo == "abalo") {
+                // Aplicado por caractere no loop abaixo
+            }
+            _effect_color = _efeito.cor;
+        }
+        
+        // Desenha caractere por caractere
+        for (var j = 1; j <= _palavra_len; j++) {
+            _char_count++;
+            if (_char_count > string_length(_texto)) break; // Respeita caractere atual
+            
+            var _char = string_char_at(_palavra, j);
+            var _char_width = string_width(_char);
+            
+            // Aplica efeitos por caractere
+            var _char_x = _effect_x;
+            var _char_y = _effect_y;
+            if (i < array_length(_efeitos)) {
+                if (_efeitos[i].tipo == "onda") {
+                    _char_y += sin(current_time * 0.003 + (i * 0.5 + j * 0.2)) * 4; // Onda por letra
+                }
+                if (_efeitos[i].tipo == "abalo") {
+                    _char_x += random_range(-1.8, 2.5); // Tremor individual por letra
+                    _char_y += random_range(-1.8, 2.5);
+                }
+            }
+            
+            draw_set_color(_effect_color);
+            draw_text_transformed(_char_x, _char_y, _char, _effect_scale, _effect_scale, 0);
+            
+            _effect_x += _char_width * _effect_scale;
+        }
+        
+        _current_x += _palavra_width;
+        if (_char_count > string_length(_texto)) break;
+    }
+    
+    draw_set_color(c_white);
+}	
+	
+	
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+nirmala ui fonte do dialogo

@@ -1,0 +1,6 @@
+if (distance_to_object(obj_sdash) <= 5) {
+    if (keyboard_check_pressed(ord("F"))) {
+            image_index += 1;
+			solid = !solid;
+    }
+}

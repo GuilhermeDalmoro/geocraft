@@ -1,0 +1,1 @@
+explosao_secundaria = false;

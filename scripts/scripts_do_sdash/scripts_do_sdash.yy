@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scripts_do_sdash",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scripts_do_sdash",
+  "parent":{
+    "name":"Personagens",
+    "path":"folders/Scripts/Personagens.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

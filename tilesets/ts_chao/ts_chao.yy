@@ -1,0 +1,42 @@
+{
+  "$GMTileSet":"v1",
+  "%Name":"ts_chao",
+  "autoTileSets":[],
+  "macroPageTiles":{
+    "SerialiseHeight":12,
+    "SerialiseWidth":16,
+    "TileCompressedData":[
+      -57,0,4,29,0,29,29,-12,0,4,29,0,0,29,-12,0,1,29,-3,0,1,29,-15,0,-2,29,-8,0,1,29,-4,0,4,29,0,0,29,-8,
+      0,4,29,0,29,29,-3,0,1,29,-8,0,4,29,0,0,29,-12,0,-2,29,-3,0,1,29,-12,0,-4,29,-2,0,
+    ],
+    "TileDataFormat":1,
+  },
+  "name":"ts_chao",
+  "out_columns":11,
+  "out_tilehborder":2,
+  "out_tilevborder":2,
+  "parent":{
+    "name":"Cubic-Land",
+    "path":"folders/Conjuntos de tiles/Cubic-Land.yy",
+  },
+  "resourceType":"GMTileSet",
+  "resourceVersion":"2.0",
+  "spriteId":{
+    "name":"spr_tile_floor_and_walls",
+    "path":"sprites/spr_tile_floor_and_walls/spr_tile_floor_and_walls.yy",
+  },
+  "spriteNoExport":false,
+  "textureGroupId":{
+    "name":"Default",
+    "path":"texturegroups/Default",
+  },
+  "tileAnimationFrames":[],
+  "tileAnimationSpeed":15.0,
+  "tileHeight":12,
+  "tilehsep":0,
+  "tilevsep":0,
+  "tileWidth":12,
+  "tilexoff":2,
+  "tileyoff":0,
+  "tile_count":132,
+}

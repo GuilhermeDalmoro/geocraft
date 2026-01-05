@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scripts_missoes",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scripts_missoes",
+  "parent":{
+    "name":"Configurações",
+    "path":"folders/Scripts/Configurações.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

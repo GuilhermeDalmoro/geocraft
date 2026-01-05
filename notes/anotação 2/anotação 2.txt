@@ -1,0 +1,43 @@
+cortando em partes pequenas os sistemass
+
+#inventário
+o inventario tera 32 slots, e 5 areas respectivamente: slots, craft, magias,
+atualizações e equipamento.
+
+slots: 
+cada slot podera comportar varios tipos de item, e quando vc passar o mouse por cima
+ele dara uma breve descrição do item
+
+craft: 
+voce podera juntar alguns materiais para criar novos itens, como colecionaveis,
+minerais, poções etc...
+
+
+
+#GAME FELL!!!!!
+
+#CAMERA!
+
+#SAVE/LOAD
+
+#QUESTS
+
+#CONSUMIVEIS/TROFEUS
+
+#FASES
+
+
+
+
+
+//anotações
+
+fluxo rooms
+room1 (inicio e dialogos king of arts) -> room2 (tutorial de combate e etc) -> room5(encontro com o almudeao e pegar o cavalo)
+room5 -> room3 (primeiro boss na ponte para atravessar)
+
+fluxo da batalha
+
+inimigos nivel 1, batalha corpo a corpo
+inimigos nivel 2, batalha estilo gd
+inimigos nivel 3, batalha turno com estilo bullet hell e gd

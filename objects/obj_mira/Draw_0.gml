@@ -1,0 +1,1 @@
+draw_sprite(spr_mira, 0, x, y);

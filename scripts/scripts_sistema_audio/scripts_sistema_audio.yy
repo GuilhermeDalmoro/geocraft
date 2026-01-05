@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scripts_sistema_audio",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scripts_sistema_audio",
+  "parent":{
+    "name":"Configurações",
+    "path":"folders/Scripts/Configurações.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

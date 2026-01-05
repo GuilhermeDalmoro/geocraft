@@ -1,0 +1,1 @@
+posso_destruir = true;

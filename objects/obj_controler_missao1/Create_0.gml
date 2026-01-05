@@ -1,0 +1,1 @@
+gmd_count = 0;

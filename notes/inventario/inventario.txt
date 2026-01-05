@@ -1,0 +1,599 @@
+função para criar itens que fica em um script chamado funcoes_itens
+
+///@function cria_item
+function cria_item(_meu_id, _nome, _desc, _spr, _frame,  _dano, _cura, _atributo, _rar, _vel, _tipo) constructor {
+    static qtd_item = 0;
+    item_id = qtd_item++;
+	
+	meu_id = _meu_id;
+	
+    nome = _nome;
+    desc = _desc;
+    spr = _spr;
+	frame = _frame
+    dano = _dano;
+    cura = _cura;
+    atributo = _atributo;
+    rar = _rar;
+    vel = _vel;
+	tipo = _tipo;
+    
+    usa_item = function() {
+        global.item_player = global.itens[| item_id];
+    }
+    
+    coleta_item = function() {
+        var _colunas = ds_grid_width(global.inventario_slots);
+        var _linhas = ds_grid_height(global.inventario_slots);
+        for (var _i = 0; _i < _linhas; _i++) {
+            for (var _j = 0; _j < _colunas; _j++) {
+                var _atual = global.inventario_slots[# _j, _i];
+                if (!_atual) {
+                    global.inventario_slots[# _j, _i] = global.itens[| item_id];
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+enum ITENS {
+    reia,
+    arco,
+    gd,
+    cura,
+    espadalv1,
+    boladeneve,
+    orb,
+    moedaenferrujada,
+    pocaogeleia,
+	pedra,
+	madeira,
+	cerca,
+	flor,
+	bloco_pedra,
+	bloco_madeira,
+	terra
+}
+
+enum TIPO_ITENS{
+	consumivel,
+	material,
+	armamento
+}
+
+//criando a minha lista de itens
+global.itens = ds_list_create();
+global.item_player = noone;
+
+//criando um item
+var _reia = new cria_item(ITENS.reia, "dejeto", "Um pequeno pedaço de dejeto alienigena fresquinho", spr_item_reia,0, 0, 1, "Deixa vc mais feliz", "Comum", 0, TIPO_ITENS.consumivel);
+var _arco = new cria_item(ITENS.arco, "arco", "Um arco que destroi tudo pela frente", spr_arco, 0, 10, 1, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.armamento);
+var _gd = new cria_item(ITENS.gd, "gd", "Um cubinho que é sapeca", spr_item_gd, 0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
+var _cura = new cria_item(ITENS.cura, "cura", "Uma poção de cura: +10hp", spr_pocao_cura,0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
+var _espadalv1 = new cria_item(ITENS.espadalv1, "espada", "Uma espada de agua, em que machuca muito :(", spr_espada,0, 1, 1, 1, 1, 1, TIPO_ITENS.armamento);
+var _neve = new cria_item(ITENS.boladeneve, "Neve", "Isto é uma bolinha de neve, leve ao fim do planeta", spr_particula, 0, 1, 1, 1, 1, 1, TIPO_ITENS.material);
+var _orb = new cria_item(ITENS.orb, "orb", "Recupera 3 de Hp", spr_orb, 0, 1, 1, 1, 1, 1, TIPO_ITENS.consumivel);
+var _moeda_enferrujada = new cria_item(ITENS.moedaenferrujada,"Moeda enferrujada", "Tem valor sentimental... pra alguem", spr_moeda_enferrujada,0, 1, 1, 1, 1, 1, TIPO_ITENS.consumivel);
+var _pocao_geleia = new cria_item(ITENS.pocaogeleia, "poção geleia", "Uma geleia gostosinha", spr_pocao_geleia, 0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
+var _pedra = new cria_item(ITENS.pedra, "Pedra", "Pedregulho de pedra", spr_drop, 0, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material)
+var _madeira = new cria_item(ITENS.madeira, "Madeira", "Um pedaço de madeira", spr_drop, 1, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material)
+var _cerca = new cria_item(ITENS.cerca, "Cerca", "Estacas de madeira para cercar lugares", spr_drop, 2, 1, 0, "nenhum", "Padrao", 0, TIPO_ITENS.material)
+var _flor = new cria_item(ITENS.flor, "Flor", "Uma simples flor", spr_drop, 3, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.consumivel)
+var _bloco_pedra = new cria_item(ITENS.bloco_pedra,"Bloco de pedra", "Uma caralhada de pedra", spr_drop, 4, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material)
+var _bloco_madeira = new cria_item(ITENS.bloco_madeira,"Bloco de madeira", "Uma caralhada de madeira", spr_drop, 5, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material)
+var _terra = new cria_item(ITENS.terra, "Terra", "Um pouco de terra", spr_drop, 6, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material)
+
+
+//salvando os meus itens na minha lista de itens
+ds_list_add(global.itens, _reia, _arco, _gd, _cura, _espadalv1, _neve, _orb, _moeda_enferrujada, _pocao_geleia, _pedra, _madeira, _cerca, _flor, _bloco_pedra, _bloco_madeira, _terra);
+
+obj_inventario:
+create:
+
+//criando a dsgrid do inventario
+global.inventario_slots = ds_grid_create(8,4); //largura, altura da grid
+//limpando a ds grid pra nao acumular lixo na memoria
+ds_grid_clear(global.inventario_slots,0);
+
+//me dando um item
+#region Preenchendo slots
+global.inventario_slots[# 0, 0] = global.itens[| ITENS.reia];
+global.inventario_slots[# 1, 0] = global.itens[| ITENS.arco];
+global.inventario_slots[# 2, 0] = global.itens[| ITENS.boladeneve];
+global.inventario_slots[# 3, 0] = global.itens[| ITENS.cura];
+global.inventario_slots[# 4, 0] = global.itens[| ITENS.gd];
+global.inventario_slots[# 5, 0] = global.itens[| ITENS.pocaogeleia];
+global.inventario_slots[# 6, 0] = global.itens[| ITENS.moedaenferrujada];
+global.inventario_slots[# 7, 0] = global.itens[| ITENS.espadalv1];
+global.inventario_slots[# 0, 1] = global.itens[| ITENS.orb];
+#endregion
+
+
+//// Debug
+    //show_debug_message("Slot [0, 2]: " + global.inventario_slots[# 5, 2].nome);
+//} else {
+//    show_debug_message("Slot [1, 2] está vazio!");
+//}
+
+
+//show_message(global.inventario_slots[# 0, 1])
+//show_message(global.inventario_slots[# 2, 2])
+//variavel que indica se o inventario vai ou nao estar aberto
+inventario = false;
+//variavel que sera a escala da imagem
+escala = 3;
+
+//começo dos slots do inventario
+comeco_x = 15 * escala;
+comeco_y = 20 * escala;
+
+//quantos slots existem na horizontal e vertical do inventario
+slot_h = 8;
+slot_v = 4;
+//total de slots no inventario
+total = slot_h * slot_v;
+
+//tamanho do slot 
+tamanho_slot = 16 * escala;
+//buffer é a divisoria entre slots que nao faz nada so separa mesmo
+buffer = 1 * escala;
+
+//pegando as medidas da sprite do inventario
+inventario_a = sprite_get_width(spr_inventario) * escala;
+inventario_l = sprite_get_height(spr_inventario) * escala;
+
+global.item_mouse = noone;
+
+ //para encontrar o item no inventario
+ encontra_item = function(_x,_y){
+	
+	return global.inventario_slots[# _x, _y]
+ }
+ 
+
+troca_item = function(_x, _y, _item) {
+    var _item_guardado = global.inventario_slots[# _x, _y];
+    global.inventario_slots[# _x, _y] = _item;
+    return _item_guardado;
+}
+
+obj_inventario:
+step do obj_inventario:
+
+if (instance_exists(obj_sdash)) {
+	if (!obj_sdash.active) exit;
+	 //if (obj_dialogo.inicializar)
+	    if (keyboard_check_pressed(ord("E")) || gamepad_button_check_pressed(global.controle, gp_face4)) && global.dialogo_acontecendo = false{
+	        inventario = !inventario;
+        
+	        global.pause = inventario;
+	        global.pause_por_inventario = inventario;
+			tocar_som_efeito(snd_blip_2, 8, 1)
+	    }
+} else {
+    inventario = false;
+    global.pause_por_inventario = false;
+}
+
+obj_inventario:
+obj_inventario draw gui
+
+//se ele n tiver ativo ent n desenha
+//if !obj_sdash.active exit
+
+// Inicializando o inventário
+// Pegando a largura e altura da GUI
+var _guil = display_get_gui_width();
+var _guia = display_get_gui_height();
+
+// Coordenadas do mouse na GUI
+var _mx = device_mouse_x_to_gui(0);
+var _my = device_mouse_y_to_gui(0);
+
+// Desenhando o inventário
+if inventario == true {
+    var _invx = _guil / 2 - inventario_l / 2;
+    var _invy = _guia / 2 - inventario_a / 2;
+
+    // Desenhar o sprite do inventário na posição calculada
+    draw_sprite_ext(spr_inventario, 0, _invx, _invy, escala, escala, 0, c_white, 1);
+
+    // Criando um loop for para definir os slots
+    var ix = 0; // Essas variáveis servem para qualquer slot no x e no y do inventário começarem no ponto 0
+    var iy = 0;
+	
+    if (global.item_player) {
+        draw_sprite_ext(global.item_player.spr, 0, 1016, 582, 2, 2, 0, c_white, 1);
+    }
+
+    for (var i = 0; i < total; i++) {
+        // Calculando as coordenadas para desenhar cada slot do inventário
+        var _slotsx = _invx + comeco_x + ((tamanho_slot + buffer) * ix);
+        var _slotsy = _invy + comeco_y + ((tamanho_slot + buffer) * iy);
+		
+        //draw_rectangle(_slotsx, _slotsy, _slotsx + tamanho_slot, _slotsy + tamanho_slot, true); //PARA SABER ONDE FICA A CORDENADA DOS SLOTS
+        //draw_rectangle(); //PARA SABER ONDE EXATAMENTE QUE DESENHA O INVENTARIO
+       // draw_rectangle(992 ,560 ,986 + tamanho_slot , 550 +tamanho_slot , true); //PARA SABER ONDE FICA A CORDENADA DO EQUIP
+        //draw_rectangle(x+ 132,y + 320,_guil - 536, _guia - 140,1); //PARA SABER ONDE FICA A CORDENADA DAS INFORMAÇÕES DOS ITENS
+        // Verificando se o mouse está sobre o slot atual
+        if point_in_rectangle(_mx, _my, _slotsx, _slotsy, _slotsx + tamanho_slot, _slotsy + tamanho_slot) {
+            // Desenhando um seletor no slot se o mouse estiver sobre ele
+            draw_sprite_ext(spr_inventario_seletor, 0, _slotsx, _slotsy, escala, escala, 0, c_white, 1);
+        } 
+		
+        //checando se na minha selecão atual existe algum item
+        var _item_atual = encontra_item(ix, iy);
+        //se a seleção atual possui um valor que nao seja nulo
+        //entao eu tenho algum item
+        if (_item_atual) {
+            var _item_atual_x = _slotsx;
+            var _item_atual_y = _slotsy;
+            //desenhar a sprite do item
+            draw_sprite_stretched(_item_atual.spr, 0, _item_atual_x, _item_atual_y, tamanho_slot, tamanho_slot);
+        }
+						
+        // Verificando se o mouse está sobre o slot atual
+        if point_in_rectangle(_mx, _my, _slotsx, _slotsy, _slotsx + tamanho_slot, _slotsy + tamanho_slot) {
+            // Verificar se há um item no slot sob o cursor
+            var _sel_atual = encontra_item(ix, iy);
+
+            // Se houver um item no slot, desenhar a sprite e a descrição
+            if (_sel_atual) {
+                //variavel pro efeitinho da sprite
+                var _efeitox = sin(get_timer() / 1000000);
+                draw_sprite_stretched(_sel_atual.spr, 0, x + 178, y + 338, 60, 60);
+                //draw_sprite_ext(_sel_atual.spr, 0, x+178, y + 338, _efeitox, 1, 0, c_white,1)
+                // Desenhar a descrição do item
+                draw_set_font(fnt_desc_inventario);
+                draw_set_color(c_black);
+                draw_text_ext(x + 153, y + 416, _sel_atual.desc, 25, 100);
+                draw_set_color(c_white);
+                draw_text_ext(x + 152, y + 415, _sel_atual.desc, 25, 100);
+                //desenhando minha fonte em escala
+                //draw_text_ext_transformed(x + 152, y + 415, _sel_atual.desc,20, 100, .4, .4, 0)
+                
+                draw_set_font(-1);
+            }
+        }
+		
+        if point_in_rectangle(_mx, _my, _slotsx, _slotsy, _slotsx + tamanho_slot, _slotsy + tamanho_slot) {
+            var _item_sel = encontra_item(ix, iy);
+            if mouse_check_button_released(mb_right) {
+                if (_item_sel) {
+                    _item_sel.usa_item();	
+                }
+            }
+            if mouse_check_button_released(mb_left) {
+                global.item_mouse = troca_item(ix, iy, global.item_mouse);
+            }
+        }
+
+        // Drop com "D" só se não estiver equipado
+        if point_in_rectangle(_mx, _my, _slotsx, _slotsy, _slotsx + tamanho_slot, _slotsy + tamanho_slot) {
+            var _item_atual1 = encontra_item(ix, iy);
+            if (_item_atual1 && keyboard_check_pressed(ord("D"))) {
+                if (_item_atual1 != global.item_player) { // Só dropa se não estiver equipado
+                    var _sdash_x = obj_sdash.x;
+                    var _sdash_y = obj_sdash.y;
+                    var _drop_x = _sdash_x + random_range(-20, 20); // Dropa perto com variação
+                    var _drop_y = _sdash_y + random_range(-20, 20);
+                    var _novo_item = instance_create_layer(_drop_x, _drop_y, "Instances", obj_item);
+                    _novo_item.item = _item_atual1;
+                    global.inventario_slots[# ix, iy] = 0; // Remove do slot
+                }
+            }
+        }
+
+        if (global.item_mouse) { //se tem um item no mouse ele desennha
+            draw_sprite_ext(global.item_mouse.spr, 0, _mx, _my, 2, 2, 0, c_white, 0.8);
+        }
+
+        // Atualizando as coordenadas para o próximo slot
+        ix++;
+        if ix >= slot_h { //ele pula pro proximo slot (ou seja ele reseta a horizontal e soma mais um na vertical)
+            ix = 0;
+            iy++;
+        }
+    }
+}
+
+
+obj_mineravel:
+create:
+ini_boing();
+
+vida_max = 2
+vida = vida_max
+
+meu_brilho = new efeito_brilho(c_white, 60) 
+
+z = 0;
+velz = 0;
+grav = .25;
+
+perde_vida = function(_dano = 1){
+	vida -= _dano
+	if(vida <= 0 ){	
+		dropa_item();	
+		instance_create_depth(x, y, depth -10, obj_brilho)
+	}
+}
+
+
+
+dropa_item = function(){
+	var _ind = 0;
+	var _chance = random(100)
+	
+	switch(dropavel){
+		case "pedra":
+		 _ind = 0;
+		break;
+		
+		case "madeira":
+		_ind = 1;
+		break;
+		
+		case "cerca":
+		_ind = 2;
+		break;
+		
+		case "flor":
+		_ind = 3;
+		break;
+		
+		case "bloco_pedra":
+		_ind = 4;
+		break;
+		
+		case "blmadeira":
+		_ind = 5;
+		break;
+		
+		case "bloco_terra":
+		_ind = 6;
+		break;
+		
+		}
+		
+		//criando o dropavel
+		var _repete = 1;
+		
+		if (_chance >= 99){
+			_repete = 8
+		}else if (_chance > 60 ){
+			_repete = 4
+		}else if (_chance > 50 ){
+			_repete = 2
+		}else if (_chance > 30 ){
+			_repete = 1
+		}
+		
+		
+		repeat(_repete){
+			var _x = x + random_range(-10, 10);
+			var _y = y+ random_range(-10, 10)
+			var _drop = instance_create_depth(_x, _y, depth, obj_drop);
+			_drop.image_index = _ind;
+		
+			instance_destroy();
+		}
+}
+
+obj_mineravel step:
+efeito_boing();
+
+meu_brilho.brilhando();
+
+obj_mineravel draw:
+desenha_boing();
+meu_brilho.desenha_brilho();
+
+no objmineravel tem uma variavel de objeto chamada dropavel e ela guarda uma string que diz qual é o item que ele dropa
+
+obj_drop
+obj_drop create:
+qtd = 1;
+
+meu_id = 0;
+
+image_speed = 0;
+
+image_xscale = .5
+image_yscale = image_xscale
+
+xscale = image_xscale;
+yscale = image_yscale;
+
+z = -10;
+velz = 0;
+grav = .25;
+direction = random(364);
+speed = 3;
+
+osc_freq = random_range(0.002, 0.005);
+osc_amp  = random_range(.4, .6);
+osc_offset = random(1000);
+
+destruir = false;
+posso_destruir = false;
+alarm[0] = 60
+
+me_destruir = function(){
+	image_alpha = lerp(image_alpha, 0, 0.1);
+	
+		if (image_alpha <= 0.1){
+			instance_destroy();
+		}
+}
+
+junta_item = function(){
+	//pegando qual é o outro drop que ele ta colidindo
+	var _prox = collision_rectangle(bbox_left - 10, bbox_top - 10, bbox_right + 10, bbox_bottom +10, obj_drop, 0, 1);
+	
+	if (destruir) exit;
+	if (_prox){
+			if(_prox.meu_id != meu_id) return;
+				if (_prox.posso_destruir){
+					with(_prox){
+						//instance_create_depth(x, y, depth -10, obj_brilho)
+						destruir = true;
+						other.qtd += qtd;
+					}
+				}
+		}
+}
+
+//pegando as minhas informações
+var _info = global.itens[|meu_id]
+nome = _info.nome;
+sprite = _info.spr;
+
+
+step obj_drop:
+if (z >= 0){ // to no chao
+	velz = 0;
+	z = 0;
+}else{ // n to no chao
+	velz += grav;
+}
+
+z += velz;
+
+speed = lerp(speed, 0, .1)
+
+image_xscale = sin(current_time * osc_freq + osc_offset) * osc_amp;
+
+if place_meeting(x,y, obj_sdash) && !destruir && posso_destruir{
+	destruir = true;
+	instance_create_depth(x, y, depth -10, obj_brilho)
+}
+
+if(destruir){
+	me_destruir();	
+}
+
+junta_item();
+
+alarm 0 obj_drop:
+posso_destruir = true;
+
+draw obj_drop:
+//desenha_sombra();
+draw_sprite_ext(sprite_index, image_index, x, y + z, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
+
+draw_rectangle(bbox_left - 10, bbox_top - 10, bbox_right + 10, bbox_bottom +10, true)
+
+obj_item:
+obj_item create:
+//nada no create
+
+obj_item:
+obj_item step:
+sprite_index = item.spr;
+
+
+obj_item colisão com obj_sdash:
+if(item.coleta_item()){
+	instance_destroy();
+	instance_create_layer(x,y,"Instances", obj_brilho)
+}
+
+obj_sdash:
+create:
+#region Equipamentos
+// enumerator armas
+enum ARMAS{
+	Espada,
+	Arco ,
+	Cajado,
+	Altura
+}
+
+ferramenta = noone;
+usando_ferramenta = false;
+ferramenta_selecionada = false;
+meu_brilho = new efeito_brilho() ;
+
+usa_ferramenta = function() {
+    var _click = mouse_check_button(mb_left);
+    if (usando_ferramenta == false) {
+        if (_click) {
+			if (meu_seletor.alvo){
+				with(meu_seletor.alvo){
+						aplica_boing(2 , .5);
+						meu_brilho.inicia_brilho();
+						perde_vida();
+				}
+			}
+            usando_ferramenta = true;
+        }
+    } else {
+        usando_ferramenta = ferramenta.golpe();
+        if (!ferramenta.sendo_usada) usando_ferramenta = false; // Reseta após o golpe
+    }
+}
+
+segura_ferramenta = function() {
+    if (!ferramenta) exit;
+	
+	    ferramenta.visible = ferramenta_selecionada; // Só aparece se selecionada
+		
+    if (ferramenta_selecionada) {
+        usa_ferramenta();
+        ferramenta.x = x;
+        ferramenta.y = y + 5;
+        ferramenta.depth = depth - 5;
+        if (dir == 2) { ferramenta.image_xscale = -1; } else { ferramenta.image_xscale = 1; }
+    }
+}
+
+seletor = function(){
+	var _prox = instance_nearest(x, y, obj_mineravel);
+	
+	//verificando se existe um proximo pra ser procurado
+	if(_prox && instance_exists(meu_seletor)){
+		var _dist = point_distance(x, y, _prox.x, _prox.y);
+		
+		if _dist< 32{
+			meu_seletor.x = _prox.x;
+			meu_seletor.y = _prox.y;
+			global.seletor_visivel = true;
+		}else{
+			global.seletor_visivel = false;	
+		}
+	}else if !_prox{
+		global.seletor_visivel = false;	
+	}
+}
+
+
+ferramenta = instance_create_depth(x, y, depth, obj_picareta);
+meu_seletor = instance_create_depth(x, y, depth, obj_seletor);
+
+#endregion
+
+
+step obj_sdash:
+#region Ferramenta
+if (keyboard_check_pressed(ord("C"))) {
+	ferramenta_selecionada = !ferramenta_selecionada;
+	if (ferramenta_selecionada) {
+	    arma = noone;
+	} else {
+	    arma = ARMAS.Espada; 
+	}
+}
+
+segura_ferramenta();
+
+seletor();
+
+#endregion
+
+
+
+
+

@@ -1,0 +1,45 @@
+# Anotações do Geocraft
+
+## Enredo e Ideias
+- O protagonista Sdash tem o poder de cubicidade no qual consegue apos ingerir um pedaço do detrito alienigena em cubic-land.
+- Explorar os distritos de Cubic-Land e Indigenous-Land, Infernos-Land e por ultimo Purpletrix.
+- Missão principal de todo o jogo: derrotar Reia e desvendar o segredo do 'Geocraft'.
+
+## Mecânicas a implementar (versão alfa 0.03)
+- Editor de fases (focar na parte criativa).
+- Sistema de inventário. FEITO
+- Sistema de menu de pause. FEITO
+- Sistema de dialogo (Melhorar o sistema e a interface). FEITO
+- Sistema de missões/quests.
+- Sistema de xp e progressão de niveis.
+- Sistema de cosmeticos e trofeis.
+- Sistema de save e load.
+- Animação do primeiro boss (finalizada, falta a programação). FEITO
+- Sistema de cutscenes. FEITO (mais ou menos)
+
+## Bugs e Correções
+- Substituir a função obsoleta no sistema de diálogo. FEITO
+- Substituir todas as sprites dos inimigos FEITO
+- Corrigir TODA a estrutura do projeto (ele esta mt mal organizado pro meu gosto) FEITO
+
+## Próximas Tarefas
+- Finalizar a programação do primeiro boss. FEITO
+- Melhorar o sistema de HUD e submenus no botão 'Jogar'. FEITO
+- Adicionar novas features como mais "Game fell", efeitos de texto, interatividade do jogador com o mundo. 
+- Adicionar novas musicas e transições, fazendo a transição de room ficar mais bonita 
+-melhorar a camera do jogo, permitindo alterar o tamanho da janela com F11
+-adcionar um sistema de zoom, para que a camera do sdash seja mais dinamica
+-melhorar as animações que foram feitas com sequences
+-criar uma sequence pra animaçao de morte do sdash
+-sistema de save e load com criptografia base 64
+-criar mais dialogos 
+-Criar um sistema de missoes, onde se voce nao completou ela ainda voce nao consegue fazer alguma coisa
+-melhorar o sistema de dialogo do jogo, fazendo com que o sdash possa falar respondendo os personagens e que tenha uma imagem de qual personagem ta falando no momento
+-adcionar consumiveis
+-adiconar um level no estilo de geometry dash
+-
+-
+-
+-
+
+

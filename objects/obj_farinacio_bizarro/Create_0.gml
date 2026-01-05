@@ -1,0 +1,1 @@
+image_index = choose(3,4);

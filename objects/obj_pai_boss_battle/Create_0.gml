@@ -1,0 +1,12 @@
+nome_boss = "Boss";
+vida = 100;
+vida_max = 100;
+check_descricao[0] = "Um boss genérico.";
+acao[0] = "checar";
+acao[1] = "provocar";
+mostrar_vida = true;
+pode_poupar = false;
+ataque_id = "generico";
+fase_ataque = 0; // 0: intro, 1: execução, 2: fim
+ataque_timer = 0;
+image_speed = 0.2; // Animação balançando

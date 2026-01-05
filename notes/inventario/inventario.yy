@@ -1,0 +1,11 @@
+{
+  "$GMNotes":"v1",
+  "%Name":"inventario",
+  "name":"inventario",
+  "parent":{
+    "name":"Anotações",
+    "path":"folders/Anotações.yy",
+  },
+  "resourceType":"GMNotes",
+  "resourceVersion":"2.0",
+}

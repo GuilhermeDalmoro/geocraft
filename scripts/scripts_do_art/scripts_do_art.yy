@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scripts_do_art",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scripts_do_art",
+  "parent":{
+    "name":"Personagens",
+    "path":"folders/Scripts/Personagens.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

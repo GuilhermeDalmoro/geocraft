@@ -1,0 +1,1 @@
+obj_som.msc_theme_menu.play = false;
