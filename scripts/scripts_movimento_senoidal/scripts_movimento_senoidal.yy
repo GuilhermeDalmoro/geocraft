@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scripts_movimento_senoidal",
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Scripts/Configurações.yy",
+    "name":"sistemas",
+    "path":"folders/Scripts/Configurações/sistemas.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scripts_do_art",
   "parent":{
-    "name":"Personagens",
-    "path":"folders/Scripts/Personagens.yy",
+    "name":"Inimigos",
+    "path":"folders/Scripts/Personagens/Inimigos.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

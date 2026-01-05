@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scripts_construcao",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scripts_construcao",
+  "parent":{
+    "name":"inventario",
+    "path":"folders/Scripts/Configurações/inventario.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scripts_screen_shake",
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Scripts/Configurações.yy",
+    "name":"sistemas",
+    "path":"folders/Scripts/Configurações/sistemas.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scripts_missoes",
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Scripts/Configurações.yy",
+    "name":"missoes",
+    "path":"folders/Scripts/Configurações/missoes.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
