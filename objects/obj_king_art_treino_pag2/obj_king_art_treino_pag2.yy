@@ -9,8 +9,8 @@
   "name":"obj_king_art_treino_pag2",
   "overriddenProperties":[],
   "parent":{
-    "name":"dialogos",
-    "path":"folders/Objetos/Personagens/dialogos.yy",
+    "name":"Dialogos",
+    "path":"folders/Objetos/Configurações/Dialogo/Dialogos.yy",
   },
   "parentObjectId":{
     "name":"obj_par_npc",

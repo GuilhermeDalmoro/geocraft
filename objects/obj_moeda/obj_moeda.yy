@@ -12,7 +12,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"Itens",
-    "path":"folders/Objetos/Ferramentas/Itens.yy",
+    "path":"folders/Objetos/Configurações/Inventario/Ferramentas/Itens.yy",
   },
   "parentObjectId":null,
   "persistent":true,

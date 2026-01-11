@@ -145,43 +145,51 @@ var _tomate = new cria_item(ITENS.tomate, "Tomate", "Um tomatinho", spr_tomate, 
 #endregion
 
 #region Funcionalidades dos itens consumiveis
+
 _reia.usa_item = function() {
     with (obj_sdash) {
         vida-=1;
         instance_create_depth(x, y, depth - 10, obj_brilho);
     }
 };
+
 _gd.usa_item = function(){
     with(obj_sdash){
         dano = 8
         cria_brilho(x, y, c_yellow)
     }
 }
+
 _cura.usa_item = function(){
     with(obj_sdash)	{
         vida = min(vida + 4, max_vida);
         cria_brilho(x, y, c_purple)
     }
 }
+
 _orb.usa_item = function(){
     with(obj_sdash)	{
         vida = min(vida +1 , max_vida)
     }
 }
+
 _pocao_geleia.usa_item = function(){
     with(obj_sdash)	{
         vida = min(vida + 10, max_vida);
         cria_brilho(x, y, c_red)
     }
 }
+
 _tomate.usa_item = function(){
     with(obj_sdash){
         vida = min(vida + 2, max_vida);
     }
 }
+
 #endregion
 
 #region Ataques das armas
+
 _espadalv1.usa_arma = function(){
     if instance_exists(obj_sdash) {
         with (obj_sdash) {
@@ -199,14 +207,17 @@ _arco.usa_arma = function(){
             pode_andar = false;
             visible = false
             var _layer = layer_create(depth, "ataque_especial");
-            layer_sequence_create(_layer, x, y, sq_ataque_especial_sdash2);
+            layer_sequence_create(_layer, x, y, sq_ataque_especial_sdash1);
         }
     }
 }
+
 #endregion
 
 #region Salvando os meus itens na minha lista de itens
+
 ds_list_add(global.itens, _reia, _arco, _gd, _cura, _espadalv1, _neve, _orb, _moeda_enferrujada, _pocao_geleia, _pedra, _madeira, _cerca, _flor, _bloco_pedra, _bloco_madeira, _terra, _tomate);
+
 ///@function adiciona_ao_inventario
 /// 
 function adiciona_ao_inventario(_item_id, _qtd) {

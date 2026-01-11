@@ -8,8 +8,8 @@
   "name":"obj_pular_intro",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Menus",
+    "path":"folders/Objetos/Configurações/Menus.yy",
   },
   "parentObjectId":null,
   "persistent":false,

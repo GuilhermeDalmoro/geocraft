@@ -1,4 +1,4 @@
-visible = global.seletor_visivel;
+visible = obj_sdash.ferramenta_selecionada;
 
 if(visible){
 	alvo = instance_place(x, y, obj_mineravel)

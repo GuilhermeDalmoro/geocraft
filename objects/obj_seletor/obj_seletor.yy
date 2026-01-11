@@ -11,7 +11,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"Ferramentas",
-    "path":"folders/Objetos/Ferramentas.yy",
+    "path":"folders/Objetos/Configurações/Inventario/Ferramentas.yy",
   },
   "parentObjectId":null,
   "persistent":true,

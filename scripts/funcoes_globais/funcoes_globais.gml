@@ -13,19 +13,26 @@ var _sprite = sprite_index;
 	return _image + _spd >= sprite_get_number(_sprite);
 }
 
-function resetar_camera() {
-    var _cam = view_camera[0]; // Obtém a câmera ativa (view 0)
-    var _default_width =  334;  // Largura padrão
-	var _default_height = 192; // Altura padrão
-   camera_set_view_size(_cam, _default_width, _default_height); // Restaura o tamanho
-}
+function resetar_camera(_vel = 0.05) {
+    with (camera_sdash) {
+    	cam_w_alvo = 334;
+        cam_h_alvo = 192;
+        _vel = vel_lerp_cam = 0.05
+    }
+}  
 	
-function setar_camera(){
-		var _cam = view_camera[0]; // Obtém a câmera ativa (view 0)
-		var _new_width = 509;     // Nova largura
-		var _new_height = 288;     // Nova altura
-
-	   camera_set_view_size(_cam, _new_width, _new_height); // Altera o tamanho
+function setar_camera(_vel = 0.5){
+    with (camera_sdash) {
+        cam_w_alvo = 509;
+        cam_h_alvo = 288;
+        _vel = vel_lerp_cam = 0.05;
+    }
+    
+		//var _cam = view_camera[0]; // Obtém a câmera ativa (view 0)
+		//var _new_width = 509;     // Nova largura
+		//var _new_height = 288;     // Nova altura
+//
+	   //camera_set_view_size(_cam, _new_width, _new_height); // Altera o tamanho
 }
 	
 function cria_brilho(_x, _y, _cor) {
@@ -419,6 +426,20 @@ global.pause = false;
 
 //idioma padrão
 global.lingua = "pt-br";
+
+//<-------------FLAGS DE PROGRESSO---------------->
+global.area_1 = false;
+global.area_2 = false;
+global.area_3 = false;
+global.area_4 = false;
+global.area_5 = false;
+global.area_6 = false;
+
+////////<--------------CURSOR DO MOUSE------------------------->
+
+//window_set_cursor(cr_none); // esconde o cursor do Windows
+
+
 
 global.pause_por_inventario = false
 

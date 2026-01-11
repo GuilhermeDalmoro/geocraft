@@ -3,13 +3,14 @@
   "%Name":"obj_king_art",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"obj_king_art",
   "overriddenProperties":[],
   "parent":{
-    "name":"dialogos",
-    "path":"folders/Objetos/Personagens/dialogos.yy",
+    "name":"principais",
+    "path":"folders/Objetos/Personagens/principais.yy",
   },
   "parentObjectId":{
     "name":"obj_par_npc",

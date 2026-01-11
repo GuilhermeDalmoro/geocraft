@@ -7,6 +7,7 @@ enum ARMAS{
 	Altura
 }
 
+
 ferramenta = noone;
 usando_ferramenta = false;
 ferramenta_selecionada = false;
@@ -49,7 +50,7 @@ seletor = function(){
 	var _prox = instance_nearest(x, y, obj_mineravel);
 	
 	//verificando se existe um proximo pra ser procurado
-	if(_prox && instance_exists(meu_seletor)){
+	if(_prox && instance_exists(meu_seletor) && ferramenta_selecionada){
 		var _dist = point_distance(x, y, _prox.x, _prox.y);
 		
 		if _dist< 32{

@@ -8,8 +8,8 @@
   "name":"obj_dona_petunia",
   "overriddenProperties":[],
   "parent":{
-    "name":"canon",
-    "path":"folders/Objetos/Personagens/principais/canon.yy",
+    "name":"principais",
+    "path":"folders/Objetos/Personagens/principais.yy",
   },
   "parentObjectId":{
     "name":"obj_par_npc",

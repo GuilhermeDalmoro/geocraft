@@ -9,8 +9,8 @@
   "name":"obj_bloco",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Inventario",
+    "path":"folders/Objetos/Configurações/Inventario.yy",
   },
   "parentObjectId":{
     "name":"obj_parede",

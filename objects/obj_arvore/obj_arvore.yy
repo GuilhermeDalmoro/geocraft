@@ -35,7 +35,7 @@
   "properties":[],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
-  "solid":false,
+  "solid":true,
   "spriteId":{
     "name":"spr_tile_arvore",
     "path":"sprites/spr_tile_arvore/spr_tile_arvore.yy",

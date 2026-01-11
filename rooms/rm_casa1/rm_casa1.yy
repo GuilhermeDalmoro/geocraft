@@ -52,8 +52,8 @@
   ],
   "name":"rm_casa1",
   "parent":{
-    "name":"dentro das casas",
-    "path":"folders/Cenas/Cubic-Land/antes do boss/dentro das casas.yy",
+    "name":"dentro da prefeitura",
+    "path":"folders/Cenas/Cubic-Land/centro da cidade/dentro da prefeitura.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

@@ -35,6 +35,7 @@ if (!global.dialogo_acontecendo){
 		var _npc = 	instance_nearest(x,y,obj_par_npc);
 		var _dialogo = instance_create_layer(x,y, "Dialogo", obj_dialogo);
 		_dialogo.npc_nome = _npc.nome;
+        _dialogo.npc_ref = _npc 
 		}
 	}
 }

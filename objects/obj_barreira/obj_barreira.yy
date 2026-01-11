@@ -9,8 +9,8 @@
   "name":"obj_barreira",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Uteis",
+    "path":"folders/Objetos/Configurações/Uteis.yy",
   },
   "parentObjectId":{
     "name":"obj_parede",
@@ -30,7 +30,7 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
-    {"$GMObjectProperty":"v2","%Name":"mission_index","filters":[],"listItems":[],"multiselect":false,"name":"mission_index","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
+    {"$GMObjectProperty":"v2","%Name":"area_id","filters":[],"listItems":[],"multiselect":false,"name":"area_id","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

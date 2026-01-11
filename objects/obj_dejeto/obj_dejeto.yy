@@ -3,13 +3,15 @@
   "%Name":"obj_dejeto",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":2,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"obj_dejeto",
   "overriddenProperties":[],
   "parent":{
-    "name":"dialogos",
-    "path":"folders/Objetos/Personagens/dialogos.yy",
+    "name":"Dialogos",
+    "path":"folders/Objetos/Configurações/Dialogo/Dialogos.yy",
   },
   "parentObjectId":{
     "name":"obj_par_npc",

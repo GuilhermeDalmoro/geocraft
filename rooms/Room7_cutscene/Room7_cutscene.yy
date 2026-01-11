@@ -13,8 +13,8 @@
   ],
   "name":"Room7_cutscene",
   "parent":{
-    "name":"centro da cidade",
-    "path":"folders/Cenas/Cubic-Land/centro da cidade.yy",
+    "name":"Cubic-Land",
+    "path":"folders/Cenas/Cubic-Land.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

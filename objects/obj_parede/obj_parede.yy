@@ -6,8 +6,8 @@
   "name":"obj_parede",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Uteis",
+    "path":"folders/Objetos/Configurações/Uteis.yy",
   },
   "parentObjectId":null,
   "persistent":false,

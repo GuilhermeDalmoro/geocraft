@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scripts_config_personagens",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scripts_config_personagens",
+  "parent":{
+    "name":"sistemas",
+    "path":"folders/Scripts/Configurações/sistemas.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

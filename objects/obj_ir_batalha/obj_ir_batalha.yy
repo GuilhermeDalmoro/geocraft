@@ -8,8 +8,8 @@
   "name":"obj_ir_batalha",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Uteis",
+    "path":"folders/Objetos/Configurações/Uteis.yy",
   },
   "parentObjectId":null,
   "persistent":true,

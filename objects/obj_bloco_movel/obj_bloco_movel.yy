@@ -6,8 +6,8 @@
   "name":"obj_bloco_movel",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Uteis",
+    "path":"folders/Objetos/Configurações/Uteis.yy",
   },
   "parentObjectId":{
     "name":"obj_parede",

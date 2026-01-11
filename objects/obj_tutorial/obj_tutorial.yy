@@ -8,8 +8,8 @@
   "name":"obj_tutorial",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Missoes",
+    "path":"folders/Objetos/Configurações/Missoes.yy",
   },
   "parentObjectId":null,
   "persistent":false,

@@ -1,5 +1,5 @@
 function scr_screen_shake(_val1, _val2){
-	///@arg força do shake
+	///@arg forca do shake
 	///@arg tempo do shake	
 	
 	with(camera_sdash){

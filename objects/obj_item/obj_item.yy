@@ -10,8 +10,8 @@
   "name":"obj_item",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Inventario",
+    "path":"folders/Objetos/Configurações/Inventario.yy",
   },
   "parentObjectId":null,
   "persistent":false,

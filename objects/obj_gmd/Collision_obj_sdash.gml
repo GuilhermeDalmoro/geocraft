@@ -11,7 +11,6 @@ if other.tomardano == true{
 		vida -= 1;
 		audio_play_sound(snd_gmd_dano,15,false,100,2.20);
 		scr_screen_shake(10.8,5);
-		gerar_texto_flutuante(obj_sdash.x, obj_sdash.y - 2, "DAHM!", c_white, 120, "Instances");
 	
 	}
 }

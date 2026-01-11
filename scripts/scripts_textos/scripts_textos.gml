@@ -1,6 +1,7 @@
 #region Guarda todos os dialogos do jogo
 function scr_textos(){ //esse é o script que ira guardar todos os dialogos simples do jogo
-	switch npc_nome{ //dentro do switch case vai estar qual texto de qual personagem e o texto que ele vai exibir
+	
+    switch npc_nome{ //dentro do switch case vai estar qual texto de qual personagem e o texto que ele vai exibir
 		 
 		  case "teste_inicio":
             ds_grid_add_text("[tremor]Eu sou o Teste, o monstro cúbico![/tremor]", spr_portrait_teste, 0, "Teste");
@@ -8,43 +9,56 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
             add_op("Provocar", "teste_provocar");
             add_op("Checar", "teste_checar");
             break;
+        
         case "teste_provocar":
             ds_grid_add_text("Haha, seu chapéu é ridículo!", spr_ret_sdash_normal, 1, "Sdash");
             global.inimigo[0].vida_max -= 10;
             break;
+        
         case "teste_checar":
             ds_grid_add_text("descrição", spr_ret_sdash_normal, 1, "Sdash");
             break;
+        
         case "ataque_onda_basica_intro":
             ds_grid_add_text("[wave]Preparado pra onda cúbica?[/wave]", spr_portrait_teste, 0, "Teste");
             break;
+        
         case "ataque_onda_basica":
             ds_grid_add_text("[wave]Toma essa, cowboy![/wave]", spr_portrait_teste, 0, "Teste");
             break;
+        
         case "ataque_onda_basica_fim":
             ds_grid_add_text("Haha, sobreviveu dessa vez!", spr_portrait_teste, 0, "Teste");
             break;
+        
         case "ataque_geometry_dash_intro":
             ds_grid_add_text("[shake]Hora de pular como em Geometry Dash![/shake]", spr_portrait_teste, 0, "Teste");
             break;
+        
         case "ataque_geometry_dash":
             ds_grid_add_text("[shake]Desvia desses cubos, Sdash![/shake]", spr_portrait_teste, 0, "Teste");
             break;
+        
         case "ataque_geometry_dash_fim":
             ds_grid_add_text("Não tá fácil, né?", spr_portrait_teste, 0, "Teste");
             break;
+        
         case "ataque_hotline_miami_intro":
             ds_grid_add_text("[color=red]Bem-vindo ao caos, cowboy![/color]", spr_portrait_teste, 0, "Teste");
             break;
+        
         case "ataque_hotline_miami":
             ds_grid_add_text("[color=red]Cuidado com a multidão![/color]", spr_portrait_teste, 0, "Teste");
             break;
+        
         case "ataque_hotline_miami_fim":
             ds_grid_add_text("Você é rápido, hein?", spr_portrait_teste, 0, "Teste");
             break;
+        
         case "sdash_atacar":
             ds_grid_add_text("[shake]Toma essa, monstro![/shake]", spr_ret_sdash_normal, 1, "Sdash");
             break;
+        
         case "teste_nao_poupar":
             ds_grid_add_text("Não vou te poupar tão fácil!", spr_portrait_teste, 0, "Teste");
             break;
@@ -65,7 +79,7 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 				 
 		 case "Primeiro Texto":
         ds_grid_add_text("Este [pulsar] [cor=roxo] dejeto [/cor] [/pulsar] [semefeito] [flutuar] canta [/flutuar] [semefeito] o [onda] [cor=azul] hino [/cor] [/onda] [semefeito] da [tremor] invasão [/tremor] [semefeito]!", spr_ret_reia, 1, "Placa");
-        ds_grid_add_text("Que [abalo] [cor=vermelho] porra [/cor] [/abalo] [semefeito] é essa? [bounce] [/bounce] [semefeito] ?! Quem [zoom] [cor=amarelo] deixou [/cor] [/zoom] [semefeito] isso aqui?!", spr_ret_sdash_paralisado, 0, "Sdash");
+        ds_grid_add_text("Meu Deus do Céu [abalo] [cor=vermelho] OQUE FOI QUE EU FIZ [/cor] [/abalo] [semefeito]", spr_ret_sdash_paralisado, 0, "Sdash");
         break;		
 		
 		case "janela":
@@ -89,9 +103,10 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		case "Segundo Texto":
 		ds_grid_add_text("Nossa mano, oque tu ta fazendo aqui ? ..", spr_ret_sdash_normal, 0, "Sdash");
 		ds_grid_add_text("A sla tava so dando uma volta pelas redondesas aqui...", spr_ret_king_arts_normal, 1, "King of Art's")
-		ds_grid_add_text("Pera... \n [zoom]MAS QUE PORRA É AQUELA???? [/zoom] [semefeito]Sdash, você não tocou naquele [/semefeito] [cor=roxo] dejeto [semefeito] né? [/semefeito]", spr_ret_king_arts_normal, 1, "King of Art's")
+		ds_grid_add_text("Pera... \n [zoom]MAS QUE PORRA É AQUELA???? [/zoom] [semefeito]Sdash, você não tocou naquele [/semefeito] [cor=roxo] dejeto [semefeito] né? [/semefeito]", spr_ret_king_arts_normal, 1, "King of Art's")//obj_king_art.meu_nome)
 		ds_grid_add_text("Então.... eu comi um pouco, e to me sentindo... diferente [pulsar] [cor=vermelho] eu acho..", spr_ret_sdash_normal, 0, "Sdash");
 		ds_grid_add_text("Sdash... SEU IMBECIL ME ESPERE NO ESTABULO, EU IREI COMUNICAR O [cor=amarelo] ALMUDEAO [/cor] [semefeito] COM VOCÊ [/semefeito]", spr_ret_king_arts_bravo, 0, "King of Art's")
+        global.area_1 = true;
 		break;
 		
 			
@@ -106,7 +121,8 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		break;
 		
 		case"rsp 1":
-		global.missions[0].status = "active";
+		//scr_missoes_notificar("falar", "almudeon");
+    
 		ds_grid_add_text("Vamos nessa então", spr_ret_king_arts_bravo, 1, "King of Art's")
 		ds_grid_add_text("Porém antes receba uma magia", spr_ret_king_arts_bravo, 1, "King of Art's");
 		ds_grid_add_text("E receba este arco", spr_ret_king_arts_bravo, 1, "King of Art's");
@@ -272,7 +288,8 @@ function ds_grid_add_text(){ //essa função serve pra adicionar o texto do dial
 	_grid[# 0, _y] = argument[0]; //Texto
 	_grid[# 1, _y] = argument[1]; //Retrato
 	_grid[# 2, _y] = argument[2]; //Lado
-	_grid[# 3, _y] = argument[3]; //Nome
+	_grid[# 3, _y] = argument[3]; //Nome 
+ //_grid[# 4, _y] = argument[4]; //terminou
  //_grid[# 4, _y] = argument[4]; //Som
  
 }

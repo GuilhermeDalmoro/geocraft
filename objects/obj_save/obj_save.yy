@@ -10,8 +10,8 @@
   "name":"obj_save",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Sys Sdash",
+    "path":"folders/Objetos/Configurações/Sys Sdash.yy",
   },
   "parentObjectId":null,
   "persistent":false,

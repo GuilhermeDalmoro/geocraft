@@ -8,8 +8,8 @@
   "name":"obj_egg_daniel_fraga",
   "overriddenProperties":[],
   "parent":{
-    "name":"dialogos",
-    "path":"folders/Objetos/Personagens/dialogos.yy",
+    "name":"Dialogos",
+    "path":"folders/Objetos/Configurações/Dialogo/Dialogos.yy",
   },
   "parentObjectId":{
     "name":"obj_par_npc",

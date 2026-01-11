@@ -9,8 +9,8 @@
   "name":"obj_dia_noite",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Efeitos",
+    "path":"folders/Objetos/Configurações/Efeitos.yy",
   },
   "parentObjectId":null,
   "persistent":false,

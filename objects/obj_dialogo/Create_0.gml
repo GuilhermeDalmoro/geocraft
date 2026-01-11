@@ -6,6 +6,7 @@ enum Infosnpc {
 }
 
 npc_nome = "";
+npc_ref = noone
 texto_grid = ds_grid_create(4, 0);
 pagina = 0;
 opcao[0] = "";

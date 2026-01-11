@@ -13,9 +13,8 @@ if global.pause == false{
 			  _inst = instance_create_layer(x+10,y-10,"Instances",obj_orb);
 			 _inst = instance_create_layer(x-10,y+10,"Instances",obj_orb);
 			 _inst.image_blend = choose(c_aqua, c_purple, c_yellow, c_red, c_orange, c_blue)
-					 	if (global.missions[0].status == "active") {
-		            global.missions[0].progress[0] += 1;
-		        }
+             //scr_missoes_notificar("matar", "inimigo_basico");
+
 			 }
 		}
 }

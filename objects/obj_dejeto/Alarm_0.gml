@@ -1,0 +1,1 @@
+resetar_camera(0.003)

@@ -1,3 +1,5 @@
+depth = -y;
+
 if distance_to_object(obj_sdash) < 25{
 	if keyboard_check_pressed(vk_enter){
 		if !instance_exists(obj_transicao_circulo){

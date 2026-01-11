@@ -10,8 +10,8 @@
   "name":"obj_submenu_mundos",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Menus",
+    "path":"folders/Objetos/Configurações/Menus.yy",
   },
   "parentObjectId":null,
   "persistent":false,

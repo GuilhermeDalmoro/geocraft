@@ -11,7 +11,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"controles",
-    "path":"folders/Objetos/Configurações/dentro da room/Hud/controles.yy",
+    "path":"folders/Objetos/Configurações/Dentro da room/Hud/controles.yy",
   },
   "parentObjectId":null,
   "persistent":false,

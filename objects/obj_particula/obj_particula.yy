@@ -9,8 +9,8 @@
   "name":"obj_particula",
   "overriddenProperties":[],
   "parent":{
-    "name":"Aldeias",
-    "path":"folders/Objetos/Aldeias.yy",
+    "name":"Efeitos",
+    "path":"folders/Objetos/Configurações/Efeitos.yy",
   },
   "parentObjectId":null,
   "persistent":false,

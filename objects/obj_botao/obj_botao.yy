@@ -13,7 +13,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"botoes",
-    "path":"folders/Objetos/Configurações/menu/botoes.yy",
+    "path":"folders/Objetos/Configurações/Menu/botoes.yy",
   },
   "parentObjectId":null,
   "persistent":false,

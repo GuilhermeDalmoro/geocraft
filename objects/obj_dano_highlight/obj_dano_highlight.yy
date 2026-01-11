@@ -10,8 +10,8 @@
   "name":"obj_dano_highlight",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Efeitos",
+    "path":"folders/Objetos/Configurações/Efeitos.yy",
   },
   "parentObjectId":null,
   "persistent":false,

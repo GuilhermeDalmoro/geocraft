@@ -2,9 +2,9 @@
   "$GMSprite":"v2",
   "%Name":"spr_tile_casa_madeira",
   "bboxMode":0,
-  "bbox_bottom":107,
-  "bbox_left":7,
-  "bbox_right":73,
+  "bbox_bottom":110,
+  "bbox_left":0,
+  "bbox_right":79,
   "bbox_top":5,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -13,6 +13,8 @@
   "For3D":false,
   "frames":[
     {"$GMSpriteFrame":"v1","%Name":"df98a3ff-64fc-4a7e-9e87-584790d10364","name":"df98a3ff-64fc-4a7e-9e87-584790d10364","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"d6c49b1f-8f3f-442b-b964-d4b4e0d505cd","name":"d6c49b1f-8f3f-442b-b964-d4b4e0d505cd","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"cd52816f-76c9-4e76-b9c3-c160c7123a42","name":"cd52816f-76c9-4e76-b9c3-c160c7123a42","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -49,7 +51,7 @@
     },
     "eventStubScript":null,
     "eventToFunction":{},
-    "length":1.0,
+    "length":3.0,
     "lockOrigin":false,
     "moments":{
       "$KeyframeStore<MomentsEventKeyframe>":"",
@@ -59,7 +61,7 @@
     },
     "name":"spr_tile_casa_madeira",
     "playback":1,
-    "playbackSpeed":30.0,
+    "playbackSpeed":0.0,
     "playbackSpeedType":0,
     "resourceType":"GMSequence",
     "resourceVersion":"2.0",
@@ -71,6 +73,12 @@
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"df98a3ff-64fc-4a7e-9e87-584790d10364","path":"sprites/spr_tile_casa_madeira/spr_tile_casa_madeira.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"9c231657-a8e3-46ab-9233-8d911dfbd1ca","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"d6c49b1f-8f3f-442b-b964-d4b4e0d505cd","path":"sprites/spr_tile_casa_madeira/spr_tile_casa_madeira.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"ea68b244-6a41-4d04-9d91-9057bae18bbb","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"cd52816f-76c9-4e76-b9c3-c160c7123a42","path":"sprites/spr_tile_casa_madeira/spr_tile_casa_madeira.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"1c3a55e5-a829-4fdf-ab57-b9af106df3dc","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

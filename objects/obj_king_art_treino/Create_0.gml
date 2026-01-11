@@ -1,3 +1,2 @@
 depth = -y;
 nome = "Texto treino";
-//MUDA ESSA SPRITE HORRIVELKKKKKKKKKKKKKKKKKKK

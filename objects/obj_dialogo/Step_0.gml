@@ -131,6 +131,10 @@ if (caractere < string_length(texto_grid[# Infosnpc.Texto, pagina])) {
     } else {
         if (opcao_numero != 0) opcao_draw = true;
         else if (keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(global.controle, gp_face1)) {
+            if (instance_exists(npc_ref)) {
+                npc_ref.terminou_dialogo = true;
+                    }
+
             instance_destroy();
             global.pause = false;
             global.dialogo_acontecendo = !global.dialogo_acontecendo;

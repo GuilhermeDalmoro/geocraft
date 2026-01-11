@@ -18,8 +18,8 @@
   "name":"obj_sdash",
   "overriddenProperties":[],
   "parent":{
-    "name":"canon",
-    "path":"folders/Objetos/Personagens/principais/canon.yy",
+    "name":"principais",
+    "path":"folders/Objetos/Personagens/principais.yy",
   },
   "parentObjectId":null,
   "persistent":true,

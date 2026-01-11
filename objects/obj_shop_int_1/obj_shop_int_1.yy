@@ -10,8 +10,8 @@
   "name":"obj_shop_int_1",
   "overriddenProperties":[],
   "parent":{
-    "name":"Configurações",
-    "path":"folders/Objetos/Configurações.yy",
+    "name":"Efeitos",
+    "path":"folders/Objetos/Configurações/Efeitos.yy",
   },
   "parentObjectId":null,
   "persistent":false,
