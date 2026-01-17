@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":10,
   "conversionMode":0,
-  "duration":9.456327,
+  "duration":9.413292,
   "exportDir":"",
   "name":"snd_minion_andrius_morte",
   "parent":{

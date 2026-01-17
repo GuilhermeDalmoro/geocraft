@@ -109,7 +109,23 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
         global.area_1 = true;
 		break;
 		
-			
+		
+        case "missao1_king_arts":
+        ds_grid_add_text("Sdash vamos ir até o almudeão.", spr_ret_king_arts_normal, 1, "King of Art's")    
+        ds_grid_add_text("Logo depois vamos ir até o ...", spr_ret_king_arts_normal, 1, "King of Art's")  
+        
+    	break;
+    
+        case "missao1_king_arts1":
+            
+         repeat (28) {instance_create_layer(695 , 126, "Instances", obj_gmd)}  
+        ds_grid_add_text("SDASH, PUTA QUE O PARIU, ALGUNS GMDS APARECERAM", spr_ret_king_arts_bravo, 1, "King of Art's")    
+        ds_grid_add_text("APERTE O BOTÃO ESQUERDO DO MOUSE PARA ATACAR", spr_ret_king_arts_bravo, 1, "King of Art's" )
+        var _revolver = instance_create_layer(0, 0, "Instances", obj_revolver)
+        _revolver.image_xscale = 4;
+        _revolver.image_yscale = 4;
+    	break;
+            
 		case "Texto treino":
 		ds_grid_add_text("Bom sdash, vamos só.... treinar um pouquinho", spr_ret_king_arts_normal,1,"King of Art's")
 		ds_grid_add_text("Certo mano!! oque eu tenho que fazer?", spr_ret_sdash_normal,0,"Sdash")
@@ -219,8 +235,9 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		
 			case"nome faz1":
 			ds_grid_add_text("Comer o tomate recupera 8 de vida, ja a batata te da mais 4 de gordura corporal!",spr_ret_dona_petunia_feliz,1,"Dona petunia")
-			ds_grid_add_text("toma!",spr_ret_dona_petunia_feliz,1,"Dona petunia")
-			instance_create_layer(x+6,y-12, "Instances", obj_farinacio_trigo)
+			ds_grid_add_text("toma!",spr_ret_dona_petunia_feliz,1,"Dona petunia") 
+            var _inst_trigo = instance_create_layer(x + 8, y - 9, "Instances", obj_item) 
+            _inst_trigo.item = global.itens[| ITENS.trigo]
 			break;
 			case"nome faz2":
 			ds_grid_add_text("Tudo bem então!",spr_ret_dona_petunia_feliz,1,"Dona petunia")

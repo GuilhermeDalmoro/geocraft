@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":12.826083,
+  "duration":12.826122,
   "exportDir":"",
   "name":"snd_music_theme_game_over",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_music_theme_game_over.mp3",
-  "volume":1.0,
+  "volume":0.08,
 }

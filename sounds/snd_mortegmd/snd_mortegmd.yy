@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":10,
   "conversionMode":0,
-  "duration":2.246531,
+  "duration":2.205896,
   "exportDir":"",
   "name":"snd_mortegmd",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":48000,
   "soundFile":"snd_mortegmd.mp3",
-  "volume":1.0,
+  "volume":0.1,
 }

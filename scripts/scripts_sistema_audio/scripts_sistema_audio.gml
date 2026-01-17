@@ -1,8 +1,5 @@
-#macro AU_TIPO_SFX					"SFX"
-#macro AU_TIPO_MUSICA			"MUSICA"
-
-
-
+#macro AU_TIPO_SFX		   "SFX"
+#macro AU_TIPO_MUSICA	   "MUSICA"
 
 function audio_controle(_str_sfx, _str_musica, _str_mestre) constructor{
 	global.audio_controller = self;
@@ -23,6 +20,7 @@ function audio_controle(_str_sfx, _str_musica, _str_mestre) constructor{
 		}
 	}
 }
+
 
 function audio_elemento() constructor {
 		controle = global.audio_controller;
@@ -64,7 +62,6 @@ function tocar_audio_unico(_sound_id, _tipo, _offset = 1) : audio_elemento() con
 }
 
 
-
 function tocar_audio_loop(_sound_id, _tipo, _mili_segundos, _offset = 1) : audio_elemento() constructor{
 		som_id = _sound_id;
 		tipo = _tipo;
@@ -99,10 +96,3 @@ function tocar_audio_loop(_sound_id, _tipo, _mili_segundos, _offset = 1) : audio
 		}
 	
 }
-
-
-
-
-
-
-

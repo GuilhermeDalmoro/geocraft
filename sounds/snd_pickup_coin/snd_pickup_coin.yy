@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.306236,
+  "duration":0.30623582,
   "exportDir":"",
   "name":"snd_pickup_coin",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_pickup_coin.wav",
-  "volume":1.0,
+  "volume":0.1,
 }

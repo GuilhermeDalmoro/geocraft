@@ -123,6 +123,13 @@ dano_alfa = -1;
 
 arma = 0;
 
+
+//fade in da transicao
+
+fade_alpha = 0;        
+fade_estado = 0;       
+fade_vel = 0.03;         
+
 //XP
 xp = 0;
 insignia = 0;

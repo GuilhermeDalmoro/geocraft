@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.060794,
+  "duration":0.06079365,
   "exportDir":"",
   "name":"snd_blip_2",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_blip_2.wav",
-  "volume":1.0,
+  "volume":0.02,
 }

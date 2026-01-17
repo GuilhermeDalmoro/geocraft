@@ -3,12 +3,15 @@ function cria_materiais(_item, _qtd) constructor {
     item = _item;
     qtd = _qtd;
 }
+
+
 // Estrutura de construção
 function cria_estrutura(_nome, _desc, _materiais) constructor {
     nome = _nome;
     desc = _desc;
     mat = _materiais;
     // Método pra desenhar as informações da estrutura
+    
  desenha_info = function(_x, _y) {
     // Pegando mais informações do material dele
     var _itens = mat.item;

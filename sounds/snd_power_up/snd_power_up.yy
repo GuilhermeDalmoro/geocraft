@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.393061,
+  "duration":0.39306122,
   "exportDir":"",
   "name":"snd_power_up",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_power_up.wav",
-  "volume":1.0,
+  "volume":0.1,
 }

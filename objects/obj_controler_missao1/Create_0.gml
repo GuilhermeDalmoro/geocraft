@@ -1,1 +1,1 @@
-gmd_count = 0;
+missao_comecou = false;

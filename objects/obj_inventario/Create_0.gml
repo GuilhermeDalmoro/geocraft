@@ -1,10 +1,15 @@
 #region variaveis
+
 //criando a dsgrid do inventario
 global.inventario_slots = ds_grid_create(8,4); //largura, altura da grid
+
 //limpando a ds grid pra nao acumular lixo na memoria
 ds_grid_clear(global.inventario_slots, 0);  // 0 = vazio
+
 //me dando um item (agora com structs {id, quantity})
+
 #region Preenchendo slots
+
 global.inventario_slots[# 0, 0] = { id: ITENS.reia, quantity:  1};
 global.inventario_slots[# 1, 0] = { id: ITENS.espadalv1, quantity: 1 };
 //global.inventario_slots[# 2, 0] = { id: ITENS.arco, quantity: 1 };
@@ -14,29 +19,44 @@ global.inventario_slots[# 1, 0] = { id: ITENS.espadalv1, quantity: 1 };
 //global.inventario_slots[# 6, 0] = { id: ITENS.pocaogeleia, quantity: 8 };
 //global.inventario_slots[# 7, 0] = { id: ITENS.moedaenferrujada, quantity: 1 };
 //global.inventario_slots[# 0, 1] = { id: ITENS.orb, quantity: 1 };
+
 #endregion
+
 //variavel que indica se o inventario vai ou nao estar aberto
 inventario = false;
+
 //variavel que sera a escala da imagem
 escala = 3;
+
 //começo dos slots do inventario
 comeco_x = 15 * escala;
 comeco_y = 20 * escala;
+
 //quantos slots existem na horizontal e vertical do inventario
 slot_h = 8;
 slot_v = 4;
+
 //total de slots no inventario
 total = slot_h * slot_v;
+
 //tamanho do slot
 tamanho_slot = 16 * escala;
+
 //buffer é a divisoria entre slots que nao faz nada so separa mesmo
 buffer = 1 * escala;
+
 //pegando as medidas da sprite do inventario
 inventario_a = sprite_get_width(spr_inventario) * escala;
+
 inventario_l = sprite_get_height(spr_inventario) * escala;
+
 global.item_mouse = noone;  // Agora é {id, quantity} ou noone
+
 #endregion
+
 #region funcoes
+
+
 //para encontrar o item no inventario
 encontra_item = function(_x, _y) {
     return global.inventario_slots[# _x, _y];
@@ -359,7 +379,5 @@ desenha_itens_construcao = function(_x_inicio, _y_inicio, _array, _spr = spr_bot
         draw_set_colour(1);
     }
 };
-
-
 
 #endregion

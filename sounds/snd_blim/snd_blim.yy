@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.731429,
+  "duration":0.68750566,
   "exportDir":"",
   "name":"snd_blim",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_blim.mp3",
-  "volume":1.0,
+  "volume":0.09,
 }

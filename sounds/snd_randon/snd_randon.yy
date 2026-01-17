@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":4.128,
+  "duration":4.1280046,
   "exportDir":"",
   "name":"snd_randon",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_randon.mp3",
-  "volume":1.0,
+  "volume":0.1,
 }

@@ -41,7 +41,6 @@ function cria_brilho(_x, _y, _cor) {
     return _inst;
 }
 	
-
 function drop_moedas(_x, _y, _min, _max) {
     var num_moedas = irandom_range(_min, _max);
 
@@ -251,7 +250,6 @@ function tremer_objeto(_intensidade, _duracao) {
 			    }
 }
 	
-
 function draw_glow_effect(_sprite, _subimg, _x, _y, _xscale, _yscale, _rot, _color, _intensity, _radius, _pulse) {
 	/// @function draw_glow_effect(sprite, subimg, x, y, xscale, yscale, rot, color, intensity, radius, pulse)
 /// @description Desenha uma aura de glow luminosa ao redor de um sprite. Use no evento Draw de objetos.
@@ -396,7 +394,6 @@ function desenha_sombra(_escala = .5){
 	var _y = y - sprite_yoffset + sprite_height;
 	draw_sprite_ext(spr_sombra_item, 0, x - 6, _y, _escala, _escala, 0, c_white, .5);
 }
-	
 
 #endregion
 

@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":8.04,
+  "duration":7.992154,
   "exportDir":"",
   "name":"snd_andrius_defeat",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_andrius_defeat.mp3",
-  "volume":1.0,
+  "volume":0.2,
 }

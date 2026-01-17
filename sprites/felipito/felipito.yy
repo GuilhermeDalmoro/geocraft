@@ -19,6 +19,7 @@
   "height":213,
   "HTile":false,
   "layers":[
+    {"$GMImageLayer":"","%Name":"60b316ca-a0af-488f-96df-0addeebb8bdb","blendMode":0,"displayName":"Layer 1","isLocked":false,"name":"60b316ca-a0af-488f-96df-0addeebb8bdb","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":false,},
     {"$GMImageLayer":"","%Name":"aa0b7ee3-40c3-4664-9864-0c673ce6c29c","blendMode":0,"displayName":"default","isLocked":false,"name":"aa0b7ee3-40c3-4664-9864-0c673ce6c29c","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"felipito",

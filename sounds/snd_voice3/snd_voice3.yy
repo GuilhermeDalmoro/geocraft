@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.208969,
+  "duration":0.20897959,
   "exportDir":"",
   "name":"snd_voice3",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_voice3.mp3",
-  "volume":1.0,
+  "volume":0.02,
 }

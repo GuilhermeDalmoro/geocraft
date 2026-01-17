@@ -1,3 +1,3 @@
-sala = -1;
-sdashx = -1;
-sdashy = -1;
+sala     = -1;      
+sdashx   = -1;        
+sdashy   = -1;        

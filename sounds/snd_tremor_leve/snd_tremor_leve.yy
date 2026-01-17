@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.200136,
+  "duration":0.20013605,
   "exportDir":"",
   "name":"snd_tremor_leve",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_tremor_leve.wav",
-  "volume":1.0,
+  "volume":0.01,
 }

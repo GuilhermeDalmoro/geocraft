@@ -208,9 +208,9 @@ ds_list_destroy(push_list);
  //XP 
 // xp++;
  
- if keyboard_check_pressed(vk_space){
-	 xp += 100;
- }	
+ //if keyboard_check_pressed(vk_space){
+	 //xp += 100;
+ //}	
  
  if xp >= max_xp[insignia]{
 	xp = xp - max_xp[insignia];
@@ -219,5 +219,25 @@ ds_list_destroy(push_list);
  
  #endregion
  
+
+// Fade de transição simples – roda todo frame se tiver ativo
+if (fade_estado == 1) {  // Fechando
+    fade_alpha += fade_vel;
+    if (fade_alpha >= 1) {
+        fade_alpha = 1;
+        room_goto(target_sala);
+        x = target_x;
+        y = target_y;
+        fade_estado = 2;  // agora abre na nova sala
+    }
+}
+
+if (fade_estado == 2) {  // Abrindo
+    fade_alpha -= fade_vel * 1.2;  // abre um pouco mais rápido
+    if (fade_alpha <= 0) {
+        fade_alpha = 0;
+        fade_estado = 0;
+    }
+}
  
 	 

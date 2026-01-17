@@ -1,38 +1,79 @@
-// Enum para estados do menu
-enum menu_estado {
+//// Enum pros estados do menu (principal > mundos/opcoes)
+//enum menu_estado {
+    //principal,
+    //mundos,
+    //opcoes
+//}
+//
+//// Estado inicial: Menu principal
+//estado = menu_estado.principal;
+//
+//// Posições CÚBICAS (centro da tela, ajusta auto!)
+//op_y_inicio = room_height * 0.28;
+//op_espaco = 64;
+//
+//// VOLUME MESTRE GLOBAL (salva e usa no jogo todo!)
+//global.volume_mestre = 1 // Pega atual ou default 1.0
+//volume_visual = global.volume_mestre;
+//
+//// Slider fofo (barra rosa Sdash!)
+//slider_x_inicio = room_width * 0.28;
+//slider_x_fim = room_width * 0.72;
+//slider_comprimento = slider_x_fim - slider_x_inicio;
+//slider_y = op_y_inicio + 35;
+//
+//// Configs do Sdash
+//fullscreen = window_get_fullscreen();
+//global.dificuldade = 1; // 0=Fácil, 1=Normal, 2=Difícil (usa no jogo!)
+//vibracao = true; // Futuro: gamepad rumble cúbico
+//
+//// Animações vibrantes (fade + escala pro carisma!)
+//alpha_menu = 0;
+//escala_menu = 0.9;
+//hover = -1; // Reset hover
+
+
+//================ ENUM DE ESTADOS ================
+enum MENU_ESTADO {
     principal,
     mundos,
     opcoes
 }
 
-// Vars iniciais
-estado = menu_estado.principal; // Começa no principal
+estado = MENU_ESTADO.principal;
+estado_desejado = estado;
 
-// Posições fixas para opções (centro da tela, ajuste se room mudar)
-op_y_inicio = room_height / 2 - 100; // Y inicial para opções
-op_espaco = 60; // Espaço entre opções
+//================ LAYOUT =========================
+op_y_inicio = room_height * 0.28;
+op_espaco   = 64;
 
-// Para submenu de opções
-volume = audio_master_gain(1); // Volume inicial (0-1)
-fullscreen = window_get_fullscreen(); // Estado atual da tela
-global.dificuldade = 1; // 0=fácil, 1=normal, 2=hard (inicial normal)
-vibracao = true; // Exemplo de outra config (global.vibracao = true; se quiser global)
+//================ ANIMAÇÕES ======================
+alpha_menu  = 0;
+escala_menu = 0.9;
 
-// Para submenu de mundos: posições dos sprites (lado a lado)
-mundo_x1 = room_width / 2 - 200;
-mundo_x2 = room_width / 2;
-mundo_x3 = room_width / 2 + 200;
-mundo_y = room_height / 2;
+//================ HOVER ==========================
+hover = -1;
+hover_antigo = -1;
 
-// Vars para hover/clique (índice da opção selecionada)
-hover = -1; // Nenhuma hover
+//================ ESCALAS INDIVIDUAIS ============
+menu_scale = array_create(20, 1);
+
+//================ AUDIO / CONFIG =================
+global.volume_mestre = 1
+fullscreen           = false
+global.dificuldade   = 1
 
 
-////menu
-//menu = ["Jogar", "Opções", "Mundos","Sair"]
-////menu = ["Play", "Options","Worlds","Leave"]
+audio_master_gain(global.volume_mestre);
+window_set_fullscreen(fullscreen);
 
-////variavel pra eu saber o indice atual
-//atual = 0;
+volume_visual = global.volume_mestre;
 
-//escala = 1;
+//================ SLIDER =========================
+slider_x_inicio = room_width * 0.28;
+slider_x_fim    = room_width * 0.72;
+slider_comprimento = slider_x_fim - slider_x_inicio;
+slider_y = op_y_inicio + 35;
+
+//================ CURSOR =========================
+//window_set_cursor(cr_none);

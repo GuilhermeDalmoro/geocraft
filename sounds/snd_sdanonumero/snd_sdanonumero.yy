@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":4.153469,
+  "duration":4.109932,
   "exportDir":"",
   "name":"snd_sdanonumero",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_sdanonumero.mp3",
-  "volume":1.0,
+  "volume":0.1,
 }

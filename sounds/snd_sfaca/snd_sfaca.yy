@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":3.239184,
+  "duration":3.2043538,
   "exportDir":"",
   "name":"snd_sfaca",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_sfaca.mp3",
-  "volume":1.0,
+  "volume":0.1,
 }

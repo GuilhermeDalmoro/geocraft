@@ -21,3 +21,4 @@ cam_w_atual = lerp(cam_w_atual, cam_w_alvo, vel_lerp_cam)
 cam_h_atual = lerp(cam_h_atual, cam_h_alvo, vel_lerp_cam)
 
 camera_set_view_size(cam, cam_w_atual, cam_h_atual)
+

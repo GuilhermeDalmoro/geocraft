@@ -1,5 +1,6 @@
 #region Cria os itens
 ///@function cria_item
+/// 
 function cria_item(_meu_id, _nome, _desc, _spr, _frame, _dano, _cura, _atributo, _rar, _vel, _tipo, _max_stack = 1) constructor {
     id = _meu_id;
     
@@ -26,6 +27,7 @@ function cria_item(_meu_id, _nome, _desc, _spr, _frame, _dano, _cura, _atributo,
     }
     
 }
+
 function procura_item_inventario(_id_item) {
     var _qtd_atual = 0;
     var _colunas = ds_grid_width(global.inventario_slots);
@@ -40,6 +42,7 @@ function procura_item_inventario(_id_item) {
     }
     return _qtd_atual; // Retorna a quantidade total do item no inventário (0 se não tem)
 }
+
 enum ITENS {
     reia,
     arco,
@@ -57,8 +60,10 @@ enum ITENS {
     bloco_pedra,
     bloco_madeira,
     terra,
-    tomate
+    tomate,
+    trigo
 }
+
 enum TIPO_ITENS{
     consumivel,
     material,
@@ -71,6 +76,7 @@ enum LISTA_CONSTRUCAO{
     agro,
     total
 }
+
 enum LISTA_FORGE{
     fornalha,
     mesa,
@@ -78,6 +84,7 @@ enum LISTA_FORGE{
     extrator
     
 }
+
 global.menu_construcao = LISTA_CONSTRUCAO.fechado;
 
 var _materiais_fornalha = new cria_materiais([ITENS.pedra, ITENS.madeira], [10, 5])
@@ -105,10 +112,12 @@ global.itens_construcao = [[], _forge, _agro]
 //criando a minha lista de itens
 global.itens = ds_list_create();
 global.item_player = noone;
+
 #endregion
 
 #region Itens
 //criando um item
+
 var _reia = new cria_item(ITENS.reia, "dejeto", "Um pequeno pedaço de dejeto alienigena fresquinho", spr_item_reia, 0, 0, 1, "Deixa vc mais feliz", "Comum", 0, TIPO_ITENS.consumivel);
                                     
 var _arco = new cria_item(ITENS.arco, "arco", "Um arco que destroi tudo pela frente", spr_arco, 0, 10, 1, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.armamento);
@@ -142,6 +151,9 @@ var _bloco_madeira = new cria_item(ITENS.bloco_madeira, "Bloco de madeira", "Uma
 var _terra	= new cria_item(ITENS.terra, "Terra", "Um pouco de terra", spr_drop, 6, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material, 64);
                                                                                             
 var _tomate = new cria_item(ITENS.tomate, "Tomate", "Um tomatinho", spr_tomate, 0, 0, 2, "nenhum", "Comum", 0, TIPO_ITENS.consumivel, 6);
+
+var _trigo = new cria_item(ITENS.trigo, "Trigo", "farinha de trigo", spr_farinacios, 1, 0, 1, 1, 1, 2, TIPO_ITENS.consumivel, 6)
+
 #endregion
 
 #region Funcionalidades dos itens consumiveis
@@ -216,7 +228,7 @@ _arco.usa_arma = function(){
 
 #region Salvando os meus itens na minha lista de itens
 
-ds_list_add(global.itens, _reia, _arco, _gd, _cura, _espadalv1, _neve, _orb, _moeda_enferrujada, _pocao_geleia, _pedra, _madeira, _cerca, _flor, _bloco_pedra, _bloco_madeira, _terra, _tomate);
+ds_list_add(global.itens, _reia, _arco, _gd, _cura, _espadalv1, _neve, _orb, _moeda_enferrujada, _pocao_geleia, _pedra, _madeira, _cerca, _flor, _bloco_pedra, _bloco_madeira, _terra, _tomate, _trigo);
 
 ///@function adiciona_ao_inventario
 /// 
@@ -256,4 +268,5 @@ function adiciona_ao_inventario(_item_id, _qtd) {
     }
     return false;  // Inventário cheio
 }
+
 #endregion

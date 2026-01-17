@@ -1,1 +1,1 @@
-obj_som.msc_theme_room1.play = true;
+obj_som.msc_theme_summer.play = true;

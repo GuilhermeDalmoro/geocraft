@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":125.5706,
+  "duration":125.57061,
   "exportDir":"",
   "name":"snd_andrius_batalha",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_andrius_batalha.mp3",
-  "volume":1.0,
+  "volume":0.07,
 }

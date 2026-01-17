@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.417982,
+  "duration":0.41798186,
   "exportDir":"",
   "name":"snd_explosion",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_explosion.wav",
-  "volume":1.0,
+  "volume":0.05,
 }

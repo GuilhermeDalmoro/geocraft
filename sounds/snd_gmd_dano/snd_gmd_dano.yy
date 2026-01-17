@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":3.787755,
+  "duration":3.7384126,
   "exportDir":"",
   "name":"snd_gmd_dano",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_gmd_dano.mp3",
-  "volume":1.0,
+  "volume":0.1,
 }

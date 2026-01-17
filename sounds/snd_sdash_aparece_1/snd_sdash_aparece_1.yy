@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_sdash_aparece_1.ogg",
-  "volume":0.72,
+  "volume":0.07,
 }

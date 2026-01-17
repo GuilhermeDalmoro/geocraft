@@ -1,0 +1,1 @@
+if (surface_exists(surface_trans)) surface_free(surface_trans);
