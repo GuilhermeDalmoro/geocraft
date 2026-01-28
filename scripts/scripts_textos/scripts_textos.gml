@@ -3,6 +3,13 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 	
     switch npc_nome{ //dentro do switch case vai estar qual texto de qual personagem e o texto que ele vai exibir
 		 
+            
+        case "fonte_agua":
+          ds_grid_add_text("acho que seria legal eu fazer algum desejo...", spr_ret_sdash_emotivo, 0, "Sdash")  
+          ds_grid_add_text("Oque você deseja? :D", spr_fonte_agua, 1, "Fonte de agua"); 
+          ds_grid_add_text(" [cor=azul] CARALHO QUE PORRA É ESSA  [/cor] [semefeito]", spr_ret_sdash_levando_vantagi, 0, "Sdash");
+        break;    
+        
 		  case "teste_inicio":
             ds_grid_add_text("[tremor]Eu sou o Teste, o monstro cúbico![/tremor]", spr_portrait_teste, 0, "Teste");
             ds_grid_add_text("Acha que pode com esse chapéu de cowboy?", spr_portrait_teste, 0, "Teste");
@@ -116,14 +123,24 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
         
     	break;
     
+        case "missao1_king_arts2":
+        ds_grid_add_text("Me encontre perto do estabulo", spr_ret_king_arts_normal, 1, "King of Art's")    
+        resetar_camera();
+    	break;
+    
+    
         case "missao1_king_arts1":
-            
-         repeat (28) {instance_create_layer(695 , 126, "Instances", obj_gmd)}  
         ds_grid_add_text("SDASH, PUTA QUE O PARIU, ALGUNS GMDS APARECERAM", spr_ret_king_arts_bravo, 1, "King of Art's")    
         ds_grid_add_text("APERTE O BOTÃO ESQUERDO DO MOUSE PARA ATACAR", spr_ret_king_arts_bravo, 1, "King of Art's" )
+            
+        repeat (9) {
+           instance_create_layer(784, 167, "Instances", obj_gmd);
+         }
+                
         var _revolver = instance_create_layer(0, 0, "Instances", obj_revolver)
-        _revolver.image_xscale = 4;
-        _revolver.image_yscale = 4;
+        _revolver.image_xscale = 2;
+        _revolver.image_yscale = 2;
+            
     	break;
             
 		case "Texto treino":
@@ -189,11 +206,7 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		break;
 						
 			case "resp1cav":
-			global.missions[1].status = "active";
 		    ds_grid_add_text("otimo", spr_almudeao_frente, 1, "Almudeao");
-			global.tem_magia[2] = true;
-			global.tem_magia[3] = true;
-			global.tem_magia[4] = true;
 			break;
     
 	

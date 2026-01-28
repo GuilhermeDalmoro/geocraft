@@ -5,7 +5,7 @@ if (instance_exists(obj_sdash)) {
             inventario = !inventario;
             global.pause = inventario;
             global.pause_por_inventario = inventario;
-            tocar_som_efeito(snd_blip_2, 8, 1)
+            tocar_som_efeito(snd_blip_2, 1, 1)
         }
 } else {
     inventario = false;

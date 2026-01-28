@@ -9,8 +9,8 @@
   "name":"obj_controler_missao1",
   "overriddenProperties":[],
   "parent":{
-    "name":"controler missao dialogo",
-    "path":"folders/Objetos/Configurações/controler missao dialogo.yy",
+    "name":"controler missao",
+    "path":"folders/Objetos/Configurações/controler missao.yy",
   },
   "parentObjectId":null,
   "persistent":false,

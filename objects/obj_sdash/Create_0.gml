@@ -130,49 +130,13 @@ fade_alpha = 0;
 fade_estado = 0;       
 fade_vel = 0.03;         
 
-//XP
-xp = 0;
-insignia = 0;
-max_xp[1] = 100;
-max_xp[2] = 110;
-max_xp[3] = 120;
-max_xp[4] = 130;
-max_xp[5] = 140;
-max_xp[6] = 150;
-max_xp[7] = 160;
-max_xp[8] = 170;
-max_xp[9] = 180;
-max_xp[10] = 200;
-max_xp[11] = 230;
-max_xp[12] = 260;
-max_xp[13] = 280;
-max_xp[14] = 300;
-max_xp[15] = 320;
-max_xp[16] = 340;
-max_xp[17] = 380;
-max_xp[18] = 400;
-max_xp[19] = 410;
-max_xp[20] = 420;
-max_xp[21] = 430;
-max_xp[22] = 440;
-max_xp[23] = 450;
-max_xp[24] = 460;
-max_xp[25] = 480;
-max_xp[26] = 500;
-
-//raio
-raio_range   = 100;   // alcance pra procurar inimigos
-raio_cd_max  = 30;    // 30 frames ~ 0.5s a 60fps
-raio_cd      = 0;     // contador do cooldown
-raio_dano    = 2;     // dano do raio
-
-// efeito visual simples do raio
-ray_fx_timer = 0;
-ray_fx_x1 = 0; ray_fx_y1 = 0; // origem (Sdash)
-ray_fx_x2 = 0; ray_fx_y2 = 0; // destino (inimigo)
-
-raio_ligado = true; // deixa true pra já ficar ativo quando selecionado
-
+//cavalos
+montado = false;
+meu_cavalo = noone;
 
 
 #endregion
+
+//JUKEBOX
+//o sdash é um listener
+audio_listener_orientation(0, 0, 1, 0, -1, 0);

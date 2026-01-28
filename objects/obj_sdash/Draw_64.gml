@@ -1,4 +1,3 @@
-// Draw GUI do obj_sdash – desenha o fade preto por cima de tudo
 if (fade_alpha > 0) {
     var gw = display_get_gui_width();
     var gh = display_get_gui_height();

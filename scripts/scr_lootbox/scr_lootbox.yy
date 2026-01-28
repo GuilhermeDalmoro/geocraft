@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_lootbox",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_lootbox",
+  "parent":{
+    "name":"Lootbox",
+    "path":"folders/Scripts/Configurações/inventario/Lootbox.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

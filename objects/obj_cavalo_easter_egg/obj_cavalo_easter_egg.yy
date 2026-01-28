@@ -34,12 +34,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_cavalos",
-    "path":"sprites/spr_cavalos/spr_cavalos.yy",
+    "name":"spr_cavalo_parado",
+    "path":"sprites/spr_cavalo_parado/spr_cavalo_parado.yy",
   },
   "spriteMaskId":{
-    "name":"spr_cavalos",
-    "path":"sprites/spr_cavalos/spr_cavalos.yy",
+    "name":"spr_cavalo_parado",
+    "path":"sprites/spr_cavalo_parado/spr_cavalo_parado.yy",
   },
   "visible":true,
 }

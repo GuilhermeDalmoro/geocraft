@@ -26,7 +26,7 @@
   "origin":4,
   "parent":{
     "name":"easter eggs",
-    "path":"folders/Sprites/Cenario/Tiles/easter eggs.yy",
+    "path":"folders/Sprites/Cenario/Decoracao e tiles/easter eggs.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

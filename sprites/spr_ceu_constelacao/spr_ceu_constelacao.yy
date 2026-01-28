@@ -26,7 +26,7 @@
   "origin":4,
   "parent":{
     "name":"ceu",
-    "path":"folders/Sprites/Cenario/Tiles/ceu.yy",
+    "path":"folders/Sprites/Cenario/Decoracao e tiles/ceu.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_blip_select.wav",
-  "volume":0.01,
+  "volume":0.001,
 }

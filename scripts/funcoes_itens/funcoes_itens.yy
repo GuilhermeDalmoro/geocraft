@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"funcoes_itens",
   "parent":{
-    "name":"inventario",
-    "path":"folders/Scripts/Configurações/inventario.yy",
+    "name":"geral",
+    "path":"folders/Scripts/Configurações/inventario/geral.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

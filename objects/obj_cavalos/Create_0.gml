@@ -1,8 +1,13 @@
-//nome = "Cavalos texto"
+montado = false;
+cavaleiro = noone;
 
-image_index = random(2)
+vel = 2;
 
-alarm[0] = room_speed * 5; 
+hveloc = 0;
+vveloc = 0;
 
-image_xscale = 1; // Começa com a escala normal
+sprite_idle = spr_cavalo_parado;
+sprite_run  = spr_cavalo_correndo;
 
+image_speed = 1;
+image_xscale = 1;

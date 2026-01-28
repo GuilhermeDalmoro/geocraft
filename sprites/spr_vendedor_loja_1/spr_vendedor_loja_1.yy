@@ -26,7 +26,7 @@
   "origin":4,
   "parent":{
     "name":"lojas",
-    "path":"folders/Sprites/Cenario/Tiles/lojas.yy",
+    "path":"folders/Sprites/Cenario/Decoracao e tiles/lojas.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

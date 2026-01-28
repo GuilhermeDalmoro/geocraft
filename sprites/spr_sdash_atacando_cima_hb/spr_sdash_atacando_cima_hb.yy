@@ -120,7 +120,7 @@
     },
     "name":"spr_sdash_atacando_cima_hb",
     "playback":1,
-    "playbackSpeed":50.0,
+    "playbackSpeed":70.0,
     "playbackSpeedType":0,
     "resourceType":"GMSequence",
     "resourceVersion":"2.0",

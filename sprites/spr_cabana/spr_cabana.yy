@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"Tiles",
-    "path":"folders/Sprites/Cenario/Tiles.yy",
+    "name":"Decoracao e tiles",
+    "path":"folders/Sprites/Cenario/Decoracao e tiles.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

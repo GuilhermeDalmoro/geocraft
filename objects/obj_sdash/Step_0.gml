@@ -1,4 +1,6 @@
 if !active exit
+if (montado) exit;
+
 script_execute (estado);
 
 depth = -y;
@@ -69,7 +71,7 @@ if (keyboard_check_pressed(ord("Z"))) { // exemplo, tecla Z pra usar magia
         break;
 
         case 2: //raio
-		   raio_ligado = !raio_ligado;
+		   
 
         break;
 
@@ -83,45 +85,6 @@ if (keyboard_check_pressed(ord("Z"))) { // exemplo, tecla Z pra usar magia
 
     }
 }
-
-// cooldown do raio
-if (raio_cd > 0) raio_cd--;
-
-// MAGIA DE RAIO: ativa automaticamente se estiver selecionada
-if (global.magia_selecionada == 2 && global.tem_magia[2] /* && raio_ligado */) {
-
-    if (raio_cd <= 0) {
-        // acha o inimigo mais próximo
-        var alvo = instance_nearest(x, y, obj_par_inimigos);
-
-        if (instance_exists(alvo)) {
-            if (point_distance(x, y, alvo.x, alvo.y) <= raio_range) {
-                // dano no alvo
-                if (variable_instance_exists(alvo, "vida")) {
-                    alvo.vida -= raio_dano;
-                }
-
-                // (opcional) stun
-                if (!variable_instance_exists(alvo, "stun_timer")) alvo.stun_timer = 0;
-                alvo.stun_timer = max(alvo.stun_timer, 10); // ~0.16s
-
-                // registra pontos pro efeito visual (desenha no Draw)
-                ray_fx_timer = 50; // dura 50 frames
-                ray_fx_x1 = x;    
-				ray_fx_y1 = y;
-                ray_fx_x2 = alvo.x;
-				ray_fx_y2 = alvo.y;
-
-                // zera/renova cooldown
-                raio_cd = raio_cd_max;
-            }
-        }
-    }
-}
-
-// diminui o timer do efeito visual
-if (ray_fx_timer > 0) ray_fx_timer--;
-
 
 
 #endregion
@@ -203,8 +166,7 @@ ds_list_destroy(push_list);
  
  #endregion
  
- 
- #region Outros
+#region Outros
  //XP 
 // xp++;
  
@@ -212,14 +174,18 @@ ds_list_destroy(push_list);
 	 //xp += 100;
  //}	
  
- if xp >= max_xp[insignia]{
-	xp = xp - max_xp[insignia];
-	insignia += 1;
+ //if xp >= max_xp[insignia]{
+	//xp = xp - max_xp[insignia];
+	//insignia += 1;
+ //}
+ 
+if keyboard_check_pressed(ord("O")){
+    instance_create_layer(x ,y, "Instances", obj_lootbox)
  }
- 
- #endregion
- 
 
+ #endregion
+
+#region fade
 // Fade de transição simples – roda todo frame se tiver ativo
 if (fade_estado == 1) {  // Fechando
     fade_alpha += fade_vel;
@@ -239,5 +205,48 @@ if (fade_estado == 2) {  // Abrindo
         fade_estado = 0;
     }
 }
- 
-	 
+
+#endregion
+
+#region cavalos
+
+// montar
+if (!montado) {
+    var cav = instance_place(x, y, obj_cavalos);
+       if (cav != noone && keyboard_check_pressed(ord("R"))) {
+           montado = true;
+           meu_cavalo = cav;
+   
+           cav.montado = true;
+           cav.cavaleiro = id;
+       }
+}
+
+// desmontar
+if (montado && keyboard_check_pressed(ord("Q"))) {
+    montado = false;
+
+    visible = true;
+
+    x = meu_cavalo.x + 16;
+    y = meu_cavalo.y;
+
+    meu_cavalo.montado = false;
+    meu_cavalo.cavaleiro = noone;
+
+    meu_cavalo = noone;
+}
+
+
+if keyboard_check_pressed(vk_right){
+    room_goto(Room_dentro_masmorra);
+}
+
+#endregion
+
+#region Jukebox
+
+audio_listener_position(x, y, 0);
+
+
+#endregion

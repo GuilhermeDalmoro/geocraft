@@ -16,13 +16,13 @@ if (inicializar) {
         }
         
         if (_char != "." && _char != "," && _char != "-") {
-            var _snd = _is_abalo ? snd_tremor_leve : choose(snd_blip_2, snd_voice3, snd_pickup_coin_1);
+            var _snd = _is_abalo ? snd_tremor_leve : choose(snd_voice3, snd_pickup_coin_1, snd_voice1, snd_voice2);
             audio_play_sound(_snd, 1, 0);
             caractere++;
             alarm[0] = 1;
         } else {
             alarm[0] = 15;
-            var _snd = _is_abalo ? snd_tremor_leve : choose(snd_blip_2, snd_voice3, snd_pickup_coin_1);
+            var _snd = _is_abalo ? snd_tremor_leve : choose(snd_voice3, snd_pickup_coin_1, snd_voice1, snd_voice2);
             audio_play_sound(_snd, 1, 0);
             caractere++;
         }

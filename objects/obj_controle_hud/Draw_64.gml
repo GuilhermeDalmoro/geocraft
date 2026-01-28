@@ -8,9 +8,6 @@ var _vida= obj_sdash.vida;
 var _maxvida = obj_sdash.max_vida;
 var _estamina = obj_sdash.estamina;
 var _maxestamina = obj_sdash.max_estamina;
-var _insignia_img = obj_sdash.insignia;
-var _xp = obj_sdash.xp
-var _max_xp = obj_sdash.max_xp[obj_sdash.insignia];
 
 
 //BARRA DE VIDA DO BOSS
@@ -27,19 +24,8 @@ draw_sprite_ext(spr_hud_barra_vida, 0, 0, _huda, (_vida/_maxvida) * _escala, _es
 //BARRA DA ESTAMINA
 draw_sprite_ext(spr_hud_barra_estamina, 0, 0, _huda + 24,(_estamina/_maxestamina) * _escala, _escala, 0, c_white, 1)
 
-// BARRA DA INSIGNIA
-draw_sprite_ext(spr_insignia_1, _insignia_img, 1300, _huda + 32, 2,2,0,c_white,1)
-
 //HUD
 draw_sprite_ext(spr_hud_vida, 0, 0, _huda, _escala, _escala, 0, c_white, 1);
-
-//XP
-draw_sprite_ext(spr_hud_barra_xp, 0, 867,  _huda + 9 + 24,(_xp/100) * _escala, _escala, 0, c_white, 1)
-
-//draw_text(90,90, _max_xp)
-
-//XP HUD
-draw_sprite_ext(spr_hud_xp, 0, 860, _huda + 24, _escala, _escala, 0, c_white, 1);
 
 //MOEDAS
 draw_sprite_ext(spr_moeda, 0, 20, _huda + 58, .9, .9, 0, c_white, 1);

@@ -3,7 +3,6 @@
   "%Name":"obj_cavalos",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":2,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
@@ -30,14 +29,14 @@
   "properties":[],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
-  "solid":false,
+  "solid":true,
   "spriteId":{
-    "name":"spr_cavalos",
-    "path":"sprites/spr_cavalos/spr_cavalos.yy",
+    "name":"spr_cavalo_parado",
+    "path":"sprites/spr_cavalo_parado/spr_cavalo_parado.yy",
   },
   "spriteMaskId":{
-    "name":"spr_cavalos",
-    "path":"sprites/spr_cavalos/spr_cavalos.yy",
+    "name":"spr_cavalo_parado",
+    "path":"sprites/spr_cavalo_parado/spr_cavalo_parado.yy",
   },
   "visible":true,
 }
