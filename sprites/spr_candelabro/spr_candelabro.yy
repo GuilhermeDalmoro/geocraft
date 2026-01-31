@@ -31,7 +31,7 @@
   ],
   "name":"spr_candelabro",
   "nineSlice":null,
-  "origin":4,
+  "origin":9,
   "parent":{
     "name":"Decoracao e tiles",
     "path":"folders/Sprites/Cenario/Decoracao e tiles.yy",
@@ -105,7 +105,7 @@
     "visibleRange":null,
     "volume":1.0,
     "xorigin":32,
-    "yorigin":32,
+    "yorigin":49,
   },
   "swatchColours":null,
   "swfPrecision":0.5,
