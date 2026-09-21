@@ -24,6 +24,12 @@ var _blocking_ui =
     || (
         variable_global_exists("game_state")
         && is_struct(global.game_state)
+        && variable_struct_exists(global.game_state.runtime, "modal_ui")
+        && string_length(global.game_state.runtime.modal_ui) > 0
+    )
+    || (
+        variable_global_exists("game_state")
+        && is_struct(global.game_state)
         && global.game_state.runtime.quest_journal_open
     );
 
