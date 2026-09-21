@@ -210,6 +210,7 @@ global.carrega_jogo = function() {
         _sdash.x = _sx;
         _sdash.y = _sy;
         gc_world_room_entered(room_get_name(room));
+        gc_world_restore_room(room_get_name(room));
     }
 
     gc_quest_toast("Jogo carregado", 100);
