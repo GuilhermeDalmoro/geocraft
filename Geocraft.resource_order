@@ -429,6 +429,8 @@
     {"name":"scribble","order":12,"path":"scripts/scribble/scribble.yy",},
     {"name":"scripts_config_personagens","order":4,"path":"scripts/scripts_config_personagens/scripts_config_personagens.yy",},
     {"name":"scripts_construcao","order":1,"path":"scripts/scripts_construcao/scripts_construcao.yy",},
+    {"name":"scr_game_state","order":0,"path":"scripts/scr_game_state/scr_game_state.yy",},
+    {"name":"scr_quest_system","order":1,"path":"scripts/scr_quest_system/scr_quest_system.yy",},
     {"name":"scripts_m_database","order":4,"path":"scripts/scripts_m_database/scripts_m_database.yy",},
     {"name":"scripts_m_iniciar","order":6,"path":"scripts/scripts_m_iniciar/scripts_m_iniciar.yy",},
     {"name":"scripts_m_manager","order":3,"path":"scripts/scripts_m_manager/scripts_m_manager.yy",},
