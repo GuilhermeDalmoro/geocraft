@@ -400,6 +400,7 @@ function gc_world_restore_room(_room_name) {
 
     for (var _i = 0; _i < array_length(_list); _i++) {
         var _s = _list[_i];
+
         if (!is_struct(_s)) continue;
         if (_s.room_name != _room_name) continue;
         if (gc_world_structure_exists_here(_s.kind, _s.x, _s.y)) continue;
@@ -408,6 +409,21 @@ function gc_world_restore_room(_room_name) {
             case "fornalha":
                 instance_create_depth(_s.x, _s.y, -_s.y, obj_fornalha);
             break;
+        }
+    }
+
+    // Depois de load, instancias que ja existiam na room precisam apontar
+    // para os structs do GameState recem-importado.
+    for (var _fi = 0; _fi < instance_number(obj_fornalha); _fi++) {
+        var _furnace_inst = instance_find(obj_fornalha, _fi);
+
+        if (_furnace_inst != noone) {
+            _furnace_inst.fornalha_state = gc_world_furnace_get(
+                _room_name,
+                _furnace_inst.x,
+                _furnace_inst.y,
+                true
+            );
         }
     }
 }
