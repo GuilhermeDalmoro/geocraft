@@ -2,8 +2,10 @@ if (!is_struct(fornalha_state)) {
     fornalha_state = gc_world_furnace_get(room_get_name(room), x, y, true);
 }
 
-// Processamento continua mesmo com a interface aberta.
-if (fornalha_state.active) {
+// A fornalha trabalha com a interface aberta, mas respeita o pause real.
+var _can_process = !global.pause || instance_exists(obj_fornalha_ui);
+
+if (fornalha_state.active && _can_process) {
     fornalha_state.progress++;
 
     sprite_index = spr_fornalha;
