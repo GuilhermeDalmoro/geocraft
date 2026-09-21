@@ -51,6 +51,7 @@ function scr_textos_en() {
             ds_grid_add_text("Well.... I kinda ate some of it, now I feel... weird [pulsar][cor=vermelho] I guess..", spr_ret_sdash_normal, 0, "Sdash");
             ds_grid_add_text("Sdash... YOU DUMMY, MEET ME AT THE STABLE, I’M TELLING [cor=amarelo] ALMUDEAO [/cor][semefeito] ABOUT THIS! [/semefeito]", spr_ret_king_arts_bravo, 0, "King of Art's");
             gc_state_area_set(1, true);
+        gc_quest_start("m001_almudeao");
             break;
 			
         case "Texto treino":
