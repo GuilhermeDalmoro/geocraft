@@ -37,6 +37,19 @@ function gc_quest_database() {
         ),
 
         gc_quest_make(
+            "m001_almudeao",
+            "Comunique Almudeao",
+            "Conte ao Almudeao o que aconteceu depois do contato com o dejeto.",
+            [
+                gc_quest_objective("falar", "Missao Cavalos", 1, "Fale com Almudeao")
+            ],
+            [
+                { type : "moedas", amount : 10 }
+            ],
+            true
+        ),
+
+        gc_quest_make(
             "treino_gmd",
             "Treino geometrico",
             "King of Art's quer ver se o cowboy cubico sabe se defender.",
