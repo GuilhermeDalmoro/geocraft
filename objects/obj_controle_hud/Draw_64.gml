@@ -13,9 +13,11 @@ var _maxestamina = obj_sdash.max_estamina;
 //BARRA DE VIDA DO BOSS
 var _gl = display_get_gui_width();
 if (instance_exists(obj_boss_andrius)){
-	var _sprw = sprite_get_width(spr_boss_hud) * _escala;
-	draw_sprite_ext(spr_boss_hud,0,_gl/2 - _sprw/2,100,_escala,_escala,0,c_white,1);
-	draw_sprite_ext(spr_boss_vida,0,_gl/2 - _sprw/2 + 6,100,obj_boss_andrius.vida/obj_boss_andrius.max_vida * _escala,_escala,0,c_white,1);
+    if obj_boss_andrius.comecou_luta{
+    var _sprw = sprite_get_width(spr_boss_hud) * _escala;
+   	draw_sprite_ext(spr_boss_hud,0,_gl/2 - _sprw/2,100,_escala,_escala,0,c_white,1);
+   	draw_sprite_ext(spr_boss_vida,0,_gl/2 - _sprw/2 + 6,100,obj_boss_andrius.vida/obj_boss_andrius.max_vida * _escala,_escala,0,c_white,1);
+    }
 }
 
 //BARRA DA VIDA 

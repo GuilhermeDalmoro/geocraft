@@ -1,3 +1,3 @@
 sala = Room5;
-sdashx = 10;
+sdashx = 23;
 sdashy = 350;

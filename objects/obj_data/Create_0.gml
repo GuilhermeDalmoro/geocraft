@@ -31,7 +31,6 @@ global.salva_jogo = function() {
 	    file_text_write_string(_file, _string);
 	    file_text_close(_file);
     
-	    show_debug_message("Save completo! Sdash tá seguro em CúbicLand."); // Mensagem fofa pro debug
 }
 
 

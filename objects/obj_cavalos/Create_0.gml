@@ -11,3 +11,5 @@ sprite_run  = spr_cavalo_correndo;
 
 image_speed = 1;
 image_xscale = 1;
+
+

@@ -1,5 +1,5 @@
 function scr_boss_escolher_ataque(){
-	if alarm[0] <= 0{
+	if alarm[0] <= 0 and obj_boss_andrius.comecou_luta{
 		var _ataque = choose(scr_boss_ataque1,scr_boss_ataque2,scr_boss_ataque3,scr_boss_ataque4); //o boss vai escolher qual ataque lançar
 		estado = _ataque;
 		alarm[0] = 100;

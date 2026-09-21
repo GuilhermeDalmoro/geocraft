@@ -26,8 +26,8 @@
   },
   "name":"sq_sdash_morte",
   "parent":{
-    "name":"animações batalha",
-    "path":"folders/Sequências/capitulo 1/animações batalha.yy",
+    "name":"ANDRIUS",
+    "path":"folders/Sequências/capitulo 1/ANDRIUS.yy",
   },
   "playback":0,
   "playbackSpeed":30.0,

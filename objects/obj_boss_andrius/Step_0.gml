@@ -2,8 +2,10 @@ if(global.pause == false){
 	script_execute(estado);
 	image_xscale = 0.5;
 	image_yscale = 0.5;
-	scr_movimento_senoidal(room_width / 2, room_height / 2, 35, 0.05);
-
+	//scr_movimento_senoidal(room_width / 2, room_height / 2, 35, 0.05);
+    
+    comecou_luta = true;
+    
 if vida <= 0{
 	   global.inimigos_mortos += 1;
 	   instance_destroy();

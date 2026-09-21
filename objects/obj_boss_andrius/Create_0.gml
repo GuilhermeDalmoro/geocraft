@@ -5,7 +5,9 @@ max_vida = 100;
 vida = max_vida;
 empurrar_dir = 0;
 empurrar_veloc = 0;
-hit = false;
+hit = false
+
+comecou_luta = false
 // Variáveis do andrius
 estado = scr_boss_escolher_ataque;  // Estado inicial do boss
 //vida = 100; // Vida do boss

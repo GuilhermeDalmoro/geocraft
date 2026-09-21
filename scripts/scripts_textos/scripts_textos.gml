@@ -3,12 +3,26 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 	
     switch npc_nome{ //dentro do switch case vai estar qual texto de qual personagem e o texto que ele vai exibir
 		 
-            
+        case "igreja":
+            ds_grid_add_text("Deseja rezar um pai nosso e uma Ave-Maria?", spr_ret_reia, 0, "Santuario")
+            add_op("Sim", "rezar")
+            add_op("Não", "nrezar")
+        break;
+    
+        case "rezar":
+            ds_grid_add_text("Reza concluida :D", spr_ret_sdash_contente, 1, "Sdash")
+        break;    
+        
+        case "nrezar":
+            ds_grid_add_text("Vou sair daqui", spr_ret_sdash_normal, 1, "Sdash")
+        break;
+        
         case "fonte_agua":
           ds_grid_add_text("acho que seria legal eu fazer algum desejo...", spr_ret_sdash_emotivo, 0, "Sdash")  
           ds_grid_add_text("Oque você deseja? :D", spr_fonte_agua, 1, "Fonte de agua"); 
           ds_grid_add_text(" [cor=azul] CARALHO QUE PORRA É ESSA  [/cor] [semefeito]", spr_ret_sdash_levando_vantagi, 0, "Sdash");
-        break;    
+        break;   
+    
         
 		  case "teste_inicio":
             ds_grid_add_text("[tremor]Eu sou o Teste, o monstro cúbico![/tremor]", spr_portrait_teste, 0, "Teste");
@@ -119,7 +133,7 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		
         case "missao1_king_arts":
         ds_grid_add_text("Sdash vamos ir até o almudeão.", spr_ret_king_arts_normal, 1, "King of Art's")    
-        ds_grid_add_text("Logo depois vamos ir até o ...", spr_ret_king_arts_normal, 1, "King of Art's")  
+        ds_grid_add_text("Logo depois vamos ir até o centro da cidade.", spr_ret_king_arts_normal, 1, "King of Art's")  
         
     	break;
     
@@ -199,9 +213,8 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 	    ds_grid_add_text("Olá sdash, eu preciso te dizer uma coisa...", spr_almudeao_frente, 1, "Almudeao");
 	    ds_grid_add_text("O - oque... ;--;", spr_ret_sdash_normal, 0, "Sdash");
 	    ds_grid_add_text("Não é algo muito grave né?", spr_ret_sdash_emotivo, 0, "Sdash");
-	    ds_grid_add_text("Não,  é so que.. no caminho eu tive um [flutuar]imprevisto[/flutuar]...", spr_almudeao_frente, 1, "Almudeao");
-	    ds_grid_add_text("Eu ja te conto, antes colete alguns capins e alimente os cavalos e escolha um deles e solte a corda", spr_almudeao_frente, 1, "Almudeao");
-	    ds_grid_add_text("[cor=amarelo] [flutuar] [bounce] Pra alimentar eles carregue o trigo ate a caixa e aperte I", spr_ret_reia, 1, "Placa");
+	    ds_grid_add_text("Não,  é so que.. no caminho eu ouvi [flutuar] um barulho [/flutuar]...", spr_almudeao_frente, 1, "Almudeao");
+	    ds_grid_add_text("Vamos indo ate o centro da cidade, pegue um cavalo e vamos nessa", spr_almudeao_frente, 1, "Almudeao");
 	    add_op("Ok to indo", "resp1cav");
 		break;
 						
@@ -213,6 +226,14 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 	case "Almudeao_Bloqueado":
     ds_grid_add_text("Ei, Sdash! Antes de ajudar os cavalos, derrote aqueles inimigos geométricos na Room 2, vai! [fim]", spr_ret_sdash_normal, 0, "Sdash");
     break;
+
+    
+        case "andrius_entrada":
+          ds_grid_add_text("Nós vamos até aonde mesmo almudeão?", spr_ret_sdash_preocupado, 0, "Sdash")  
+          ds_grid_add_text("Nós vamos até..", spr_ret_almudeao, 1, "Almudeao"); 
+          ds_grid_add_text(" [cor=azul] CARALHO QUE PORRA É ESSA  [/cor] [semefeito]", spr_ret_sdash_irritado, 0, "Sdash");
+          ds_grid_add_text("SDASH SE PREPARA CARALHO", spr_ret_almudeao, 1, "Almudeao")  
+        break;    
 		 
 		
 		case"Sir gritado":

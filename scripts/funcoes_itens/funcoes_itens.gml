@@ -1,6 +1,6 @@
 #region Cria os itens
 ///@function cria_item
-/// 
+///
 function cria_item(_meu_id, _nome, _desc, _spr, _frame, _dano, _cura, _atributo, _rar, _vel, _tipo, _max_stack = 1) constructor {
     id = _meu_id;
     
@@ -27,7 +27,6 @@ function cria_item(_meu_id, _nome, _desc, _spr, _frame, _dano, _cura, _atributo,
     }
     
 }
-
 function procura_item_inventario(_id_item) {
     var _qtd_atual = 0;
     var _colunas = ds_grid_width(global.inventario_slots);
@@ -42,7 +41,6 @@ function procura_item_inventario(_id_item) {
     }
     return _qtd_atual; // Retorna a quantidade total do item no inventário (0 se não tem)
 }
-
 enum ITENS {
     reia,
     arco,
@@ -61,9 +59,10 @@ enum ITENS {
     bloco_madeira,
     terra,
     tomate,
-    trigo
+    trigo,
+    vara_pesca,
+    cogumelo
 }
-
 enum TIPO_ITENS{
     consumivel,
     material,
@@ -76,7 +75,6 @@ enum LISTA_CONSTRUCAO{
     agro,
     total
 }
-
 enum LISTA_FORGE{
     fornalha,
     mesa,
@@ -88,19 +86,15 @@ enum LISTA_FORGE{
 global.menu_construcao = LISTA_CONSTRUCAO.fechado;
 
 var _materiais_fornalha = new cria_materiais([ITENS.pedra, ITENS.madeira], [10, 5])
-
 var _fornalha = new cria_estrutura("Fornalha", "Cria outras construcoes", _materiais_fornalha)
 
 var _materiais_mesa = new cria_materiais([ITENS.madeira], [5])
-
 var _mesa = new cria_estrutura("Mesa", "Uma mesa de trabalho", _materiais_mesa)
 
 var _materiais_bigorna = new cria_materiais([ITENS.bloco_pedra, ITENS.madeira], [3, 4])
-
 var _bigorna = new cria_estrutura("Bigorna", "Serve pra martelar espadas", _materiais_bigorna)
 
 var _materiais_extrator = new cria_materiais([ITENS.bloco_pedra], [3])
-
 var _extrator = new cria_estrutura("Extrator", "Serve pra cavar", _materiais_extrator)
 
 var _forge = [_fornalha, _mesa, _bigorna, _extrator]
@@ -117,10 +111,9 @@ global.item_player = noone;
 
 #region Itens
 //criando um item
-
 var _reia = new cria_item(ITENS.reia, "dejeto", "Um pequeno pedaço de dejeto alienigena fresquinho", spr_item_reia, 0, 0, 1, "Deixa vc mais feliz", "Comum", 0, TIPO_ITENS.consumivel);
                                     
-var _arco = new cria_item(ITENS.arco, "arco", "Um arco que destroi tudo pela frente", spr_arco, 0, 10, 1, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.armamento);
+var _arco = new cria_item(ITENS.arco, "Arco", "Um arco que destroi tudo pela frente", spr_arco, 0, 10, 1, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.armamento);
                                     
 var _gd = new cria_item(ITENS.gd, "gd", "Um cubinho que é sapeca", spr_item_gd, 0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
                                     
@@ -140,7 +133,7 @@ var _pedra = new cria_item(ITENS.pedra, "Pedra", "Pedregulho de pedra", spr_drop
                                                                                             
 var _madeira = new cria_item(ITENS.madeira, "Madeira", "Um pedaço de madeira", spr_drop, 1, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material, 64);
                                                                                             
-var _cerca	= new cria_item(ITENS.cerca, "Cerca", "Estacas de madeira para cercar lugares", spr_drop, 2, 1, 0, "nenhum", "Padrao", 0, TIPO_ITENS.material, 64);
+var _cerca = new cria_item(ITENS.cerca, "Cerca", "Estacas de madeira para cercar lugares", spr_drop, 2, 1, 0, "nenhum", "Padrao", 0, TIPO_ITENS.material, 64);
                                                                                             
 var _flor = new cria_item(ITENS.flor, "Flor", "Uma simples flor", spr_drop, 3, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material, 64);
                                                                                             
@@ -148,11 +141,15 @@ var _bloco_pedra = new cria_item(ITENS.bloco_pedra, "Bloco de pedra", "Uma caral
                                                                                             
 var _bloco_madeira = new cria_item(ITENS.bloco_madeira, "Bloco de madeira", "Uma caralhada de madeira", spr_drop, 5, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material, 64);
                                                                                             
-var _terra	= new cria_item(ITENS.terra, "Terra", "Um pouco de terra", spr_drop, 6, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material, 64);
+var _terra = new cria_item(ITENS.terra, "Terra", "Um pouco de terra", spr_drop, 6, 1, 0, "nenhum", "Comum", 0, TIPO_ITENS.material, 64);
                                                                                             
 var _tomate = new cria_item(ITENS.tomate, "Tomate", "Um tomatinho", spr_tomate, 0, 0, 2, "nenhum", "Comum", 0, TIPO_ITENS.consumivel, 6);
 
 var _trigo = new cria_item(ITENS.trigo, "Trigo", "farinha de trigo", spr_farinacios, 1, 0, 1, 1, 1, 2, TIPO_ITENS.consumivel, 6)
+
+var _vara_pesca = new cria_item(ITENS.vara_pesca, "Vara de pesca", "Uma vara de pesca", spr_vara_pesca, 0, 0, 1, "Serve para pescar", "Padrao", 1, TIPO_ITENS.armamento);
+
+var _cogumelo = new cria_item(ITENS.cogumelo, "Cogumelo", "Um cogumelo q te deixa doidão", spr_cogumelo, 0, 0, 1, "deixa vc diferente", "Padrao", 1, TIPO_ITENS.consumivel);
 
 #endregion
 
@@ -164,37 +161,37 @@ _reia.usa_item = function() {
         instance_create_depth(x, y, depth - 10, obj_brilho);
     }
 };
-
 _gd.usa_item = function(){
     with(obj_sdash){
         dano = 8
         cria_brilho(x, y, c_yellow)
     }
 }
-
 _cura.usa_item = function(){
-    with(obj_sdash)	{
+    with(obj_sdash) {
         vida = min(vida + 4, max_vida);
         cria_brilho(x, y, c_purple)
     }
 }
-
 _orb.usa_item = function(){
-    with(obj_sdash)	{
+    with(obj_sdash) {
         vida = min(vida +1 , max_vida)
     }
 }
-
 _pocao_geleia.usa_item = function(){
-    with(obj_sdash)	{
+    with(obj_sdash) {
         vida = min(vida + 10, max_vida);
         cria_brilho(x, y, c_red)
     }
 }
-
 _tomate.usa_item = function(){
     with(obj_sdash){
         vida = min(vida + 2, max_vida);
+    }
+}
+_cogumelo.usa_item = function(){
+    with(obj_sdash){
+        //instance_create_layer(x, y, )
     }
 }
 
@@ -224,14 +221,34 @@ _arco.usa_arma = function(){
     }
 }
 
+_vara_pesca.usa_arma = function(){
+            if instance_exists(obj_sdash) {
+        with (obj_sdash) {
+            //pode_andar = false;
+            //visible = false
+            //fazer a porra da vara funcionar
+        }
+    }
+}
+
+/*
+ * como spwanar um item na room?
+ * metodo 1: utilizar dentro de um outro objeto pra spawnar usando esse codigo como ex
+ * var _inst_exemplo = instance_create_layer(x, y, "Instances", obj_item)  
+ * _inst_exemplo.item = global.itens[| ITENS.exemplo]
+ * 
+ * metodo 2: colocar um obj item na room e mudar a variavel de objeto do
+ * obj item
+ * 
+ */
+
 #endregion
 
 #region Salvando os meus itens na minha lista de itens
 
-ds_list_add(global.itens, _reia, _arco, _gd, _cura, _espadalv1, _neve, _orb, _moeda_enferrujada, _pocao_geleia, _pedra, _madeira, _cerca, _flor, _bloco_pedra, _bloco_madeira, _terra, _tomate, _trigo);
-
+ds_list_add(global.itens, _reia, _arco, _gd, _cura, _espadalv1, _neve, _orb, _moeda_enferrujada, _pocao_geleia, _pedra, _madeira, _cerca, _flor, _bloco_pedra, _bloco_madeira, _terra, _tomate, _trigo, _vara_pesca, _cogumelo);
 ///@function adiciona_ao_inventario
-/// 
+///
 function adiciona_ao_inventario(_item_id, _qtd) {
     var _item = global.itens[| _item_id];
     var _colunas = ds_grid_width(global.inventario_slots);
@@ -266,7 +283,51 @@ function adiciona_ao_inventario(_item_id, _qtd) {
             }
         }
     }
-    return false;  // Inventário cheio
+    return false; // Inventário cheio
+}
+
+
+// Função pra checar se tem materiais suficientes (escalável pra qualquer receita)
+function tem_materiais(_estrutura) {
+    var _itens = _estrutura.mat.item;
+    var _qtds = _estrutura.mat.qtd;
+    var _qtd = array_length(_itens);
+    for (var _i = 0; _i < _qtd; _i++) {
+        var _atual = _itens[_i];
+        var _qtd_req = _qtds[_i];
+        var _qtd_atual = procura_item_inventario(_atual);
+        if (_qtd_atual < _qtd_req) return false; // Não tem suficiente, tipo Sdash sem tomate pra uma poção épica
+    }
+    return true; // Tem tudo, pronto pra craftar!
+}
+
+// Função pra consumir materiais (remove do inventário, stack a stack)
+function consome_materiais(_estrutura) {
+    var _itens = _estrutura.mat.item;
+    var _qtds = _estrutura.mat.qtd;
+    var _qtd = array_length(_itens);
+    for (var _i = 0; _i < _qtd; _i++) {
+        var _atual = _itens[_i];
+        var _qtd_req = _qtds[_i];
+        var _linhas = ds_grid_height(global.inventario_slots);
+        var _colunas = ds_grid_width(global.inventario_slots);
+        for (var _yy = 0; _yy < _linhas; _yy++) {
+            for (var _xx = 0; _xx < _colunas; _xx++) {
+                var _slot = global.inventario_slots[# _xx, _yy];
+                if (is_struct(_slot) && _slot.id == _atual) {
+                    if (_slot.quantity > _qtd_req) {
+                        _slot.quantity -= _qtd_req;
+                        _qtd_req = 0;
+                    } else {
+                        _qtd_req -= _slot.quantity;
+                        global.inventario_slots[# _xx, _yy] = noone; // Remove slot vazio
+                    }
+                    if (_qtd_req <= 0) break;
+                }
+            }
+            if (_qtd_req <= 0) break;
+        }
+    }
 }
 
 #endregion

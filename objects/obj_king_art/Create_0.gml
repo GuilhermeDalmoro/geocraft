@@ -8,3 +8,5 @@ terminou_dialogo = false
 pos_dialogo = false;
 
 king_foi = false;
+
+sons = [snd_summer, snd_explosion, snd_dash]

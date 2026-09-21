@@ -1,3 +1,4 @@
+#region movimentacao do cavalo
 if (!montado) {
     sprite_index = sprite_idle;
     image_speed = 1;
@@ -52,3 +53,12 @@ else {
         if (h < 0) cavaleiro.sprite_index = spr_sdash_parado_esquerda;
     }
 }
+
+#endregion
+
+//if chegou_portao{
+	//instance_destroy();
+    //
+    ////montado = false;
+    ////obj_sdash.active = true;
+//}

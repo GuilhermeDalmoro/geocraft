@@ -2,11 +2,24 @@ if (!inicializar) {
     // Chama o script correto baseado no idioma
     if (global.lingua == "pt-br") script_execute(scr_textos);
     else script_execute(scr_textos_en);
+    
     inicializar = true;
     alarm[0] = 1;
     global.pause = true;
-    
-    // Parsear texto e criar palavras com efeitos (restante do código mantém igual)
+   
+    //// =============================================
+    //// NOVO: Sdash tem som padrão EXCLUSIVO dele automaticamente!
+    //// (porque ele não é NPC, é o herói que chama o diálogo)
+    //// =============================================
+    //if (ds_grid_height(texto_grid) > 0) {
+        //var _speaker = texto_grid[# Infosnpc.Nome, 0];  // pega o nome da primeira página do diálogo
+        //
+        //if (string_lower(_speaker) == "Sdash" || string_pos("Sdash", string_lower(_speaker)) == 1) {
+            //sons = global.sdash_sons;  // usa os sons rosa bebê do cowboy!
+        //}
+    //}
+   
+    // Parsear texto e criar palavras com efeitos (seu código original)
     var _texto = texto_grid[# Infosnpc.Texto, pagina];
     palavras = [];
     efeitos = [];
@@ -14,7 +27,7 @@ if (!inicializar) {
     var _efeito = { tipo: "nenhum", cor: c_white };
     var _in_tag = false;
     var _tag = "";
-    
+   
     for (var i = 1; i <= string_length(_texto); i++) {
         var _char = string_char_at(_texto, i);
         if (_char == "[") {
@@ -62,7 +75,6 @@ if (!inicializar) {
         } else _current += _char;
     }
 }
-
 // Resto do código (páginas, opções) mantém igual
 if (caractere < string_length(texto_grid[# Infosnpc.Texto, pagina])) {
     if (keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(global.controle, gp_face1)) {
@@ -133,19 +145,17 @@ if (caractere < string_length(texto_grid[# Infosnpc.Texto, pagina])) {
         else if (keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(global.controle, gp_face1)) {
             if (instance_exists(npc_ref)) {
                 npc_ref.terminou_dialogo = true;
-                    }
-
+            }
             instance_destroy();
             global.pause = false;
             global.dialogo_acontecendo = !global.dialogo_acontecendo;
-		//		if (global.comeca_batalha) {
-	   //             if (global.turno == 0) {
-	      //              global.batalha_menu = 0; // Ativa menu após diálogo do jogador
-	         //       } else if (global.turno == 1) {
-	            //        global.batalha_menu = -1; // Mantém desativado pro ataque do inimigo
-	             // }
-	            //}
+            // if (global.comeca_batalha) {
+            // if (global.turno == 0) {
+            // global.batalha_menu = 0; // Ativa menu após diálogo do jogador
+            // } else if (global.turno == 1) {
+            // global.batalha_menu = -1; // Mantém desativado pro ataque do inimigo
+            // }
+            //}
         }
     }
 }
-

@@ -1,1 +1,1 @@
-ds_list_destroy(inimigos_atingidos);
+ds_list_destroy(inimigos_atingidos);     

@@ -1,67 +1,47 @@
 #region variaveis
-
 //criando a dsgrid do inventario
 global.inventario_slots = ds_grid_create(8,4); //largura, altura da grid
-
 //limpando a ds grid pra nao acumular lixo na memoria
-ds_grid_clear(global.inventario_slots, 0);  // 0 = vazio
-
+ds_grid_clear(global.inventario_slots, 0); // 0 = vazio
 //me dando um item (agora com structs {id, quantity})
-
 #region Preenchendo slots
-
-global.inventario_slots[# 0, 0] = { id: ITENS.reia, quantity:  1};
+global.inventario_slots[# 0, 0] = { id: ITENS.reia, quantity: 1};
 global.inventario_slots[# 1, 0] = { id: ITENS.espadalv1, quantity: 1 };
-//global.inventario_slots[# 2, 0] = { id: ITENS.arco, quantity: 1 };
-//global.inventario_slots[# 3, 0] = { id: ITENS.boladeneve, quantity: 1 };
-//global.inventario_slots[# 4, 0] = { id: ITENS.cura, quantity: 1 };
+global.inventario_slots[# 2, 0] = { id: ITENS.madeira, quantity: 64 };
+global.inventario_slots[# 3, 0] = { id: ITENS.pedra, quantity: 64 };
+global.inventario_slots[# 4, 0] = { id: ITENS.vara_pesca, quantity: 1 };
+global.inventario_slots[# 5, 0] = { id: ITENS.cogumelo, quantity: 64 };
 //global.inventario_slots[# 5, 0] = { id: ITENS.gd, quantity: 1 };
 //global.inventario_slots[# 6, 0] = { id: ITENS.pocaogeleia, quantity: 8 };
 //global.inventario_slots[# 7, 0] = { id: ITENS.moedaenferrujada, quantity: 1 };
 //global.inventario_slots[# 0, 1] = { id: ITENS.orb, quantity: 1 };
-
 #endregion
-
 //variavel que indica se o inventario vai ou nao estar aberto
 inventario = false;
-
 //variavel que sera a escala da imagem
 escala = 3;
-
 //começo dos slots do inventario
 comeco_x = 15 * escala;
 comeco_y = 20 * escala;
-
 //quantos slots existem na horizontal e vertical do inventario
 slot_h = 8;
 slot_v = 4;
-
 //total de slots no inventario
 total = slot_h * slot_v;
-
 //tamanho do slot
 tamanho_slot = 16 * escala;
-
 //buffer é a divisoria entre slots que nao faz nada so separa mesmo
 buffer = 1 * escala;
-
 //pegando as medidas da sprite do inventario
 inventario_a = sprite_get_width(spr_inventario) * escala;
-
 inventario_l = sprite_get_height(spr_inventario) * escala;
-
-global.item_mouse = noone;  // Agora é {id, quantity} ou noone
-
+global.item_mouse = noone; // Agora é {id, quantity} ou noone
 #endregion
-
 #region funcoes
-
-
 //para encontrar o item no inventario
 encontra_item = function(_x, _y) {
     return global.inventario_slots[# _x, _y];
 }
-
 troca_item = function(_x, _y, _item_struct) {
     var _item_guardado = global.inventario_slots[# _x, _y];
     if (_item_struct && _item_guardado && _item_struct.id == _item_guardado.id) {
@@ -70,21 +50,20 @@ troca_item = function(_x, _y, _item_struct) {
             var _espaco = _item.max_stack - _item_guardado.quantity;
             if (_item_struct.quantity <= _espaco) {
                 _item_guardado.quantity += _item_struct.quantity;
-                return noone;  // Juntou tudo
+                return noone; // Juntou tudo
             } else {
                 _item_guardado.quantity = _item.max_stack;
                 _item_struct.quantity -= _espaco;
-                return _item_struct;  // Retorna excesso
+                return _item_struct; // Retorna excesso
             }
         }
     }
     global.inventario_slots[# _x, _y] = _item_struct;
     return _item_guardado;
 }
-
 split_item = function(_x, _y) {
     var _slot = global.inventario_slots[# _x, _y];
-    if (_slot  && _slot.quantity > 1) {
+    if (_slot && _slot.quantity > 1) {
         var _item = global.itens[| _slot.id];
         if (_item.max_stack > 1) {
             var _metade = floor(_slot.quantity / 2);
@@ -94,7 +73,6 @@ split_item = function(_x, _y) {
     }
     return noone;
 }
-
 desenha_inventario = function(){
             //se ele n tiver ativo ent n desenha
         //if !obj_sdash.active exit
@@ -130,16 +108,16 @@ if (global.item_player) {
     }
             //// Desenhar item equipado e checar clique para desequipar
             //if (global.item_player) {
-            //    draw_sprite_ext(global.item_player.spr, global.item_player.frames, 1016, 582, 2, 2, 0, c_white, 1);
-            //    // Checar clique na área do item equipado (tamanho aprox. 32x32 com escala=2)
-            //    if point_in_rectangle(_mx, _my, 1016, 582, 1016 + 32, 582 + 32) {
-            //        if mouse_check_button_released(mb_left) && !global.item_mouse {
-            //            // Tenta adicionar o item equipado de volta ao inventário
-            //            if (adiciona_ao_inventario(global.item_player.id, 1)) {
-            //                global.item_player = noone; // Desequipa
-            //            }
-            //        }
-            //    }
+            // draw_sprite_ext(global.item_player.spr, global.item_player.frames, 1016, 582, 2, 2, 0, c_white, 1);
+            // // Checar clique na área do item equipado (tamanho aprox. 32x32 com escala=2)
+            // if point_in_rectangle(_mx, _my, 1016, 582, 1016 + 32, 582 + 32) {
+            // if mouse_check_button_released(mb_left) && !global.item_mouse {
+            // // Tenta adicionar o item equipado de volta ao inventário
+            // if (adiciona_ao_inventario(global.item_player.id, 1)) {
+            // global.item_player = noone; // Desequipa
+            // }
+            // }
+            // }
             //}
             // Criando um loop for para definir os slots
             var ix = 0; // Essas variáveis servem para qualquer slot no x e no y do inventário começarem no ponto 0
@@ -169,7 +147,7 @@ if (global.item_player) {
             
                     // Desenhe a quantidade se >1 (no canto inferior direito do slot)
                     if (_slot.quantity > 1) {
-                        draw_set_font(fnt_dialogo_small);  // Use uma font pequena se necessário
+                        draw_set_font(fnt_dialogo_small); // Use uma font pequena se necessário
                         draw_set_color(c_white);
                         draw_text(_item_atual_x + tamanho_slot - 16, _item_atual_y + tamanho_slot - 16, string(_slot.quantity));
                         draw_set_font(-1);
@@ -199,11 +177,11 @@ if (global.item_player) {
                 // Interações com mouse
                 if point_in_rectangle(_mx, _my, _slotsx, _slotsy, _slotsx + tamanho_slot, _slotsy + tamanho_slot) {
                     var _slot = encontra_item(ix, iy);
-                    if mouse_check_button_released(mb_right) && !global.item_mouse {  // Só split se mouse vazio
+                    if mouse_check_button_released(mb_right) && !global.item_mouse { // Só split se mouse vazio
                         if (_slot) {
                             var _item = global.itens[| _slot.id];
                             if (_slot.quantity > 1 && _item.max_stack > 1) {
-                                global.item_mouse = split_item(ix, iy);  // Split metade
+                                global.item_mouse = split_item(ix, iy); // Split metade
                             } else {
                                 if (_item.tipo == TIPO_ITENS.armamento) {
                                     // Desequipar o atual se houver
@@ -211,7 +189,7 @@ if (global.item_player) {
                                         adiciona_ao_inventario(global.item_player.id, 1);
                                         global.item_player = noone;
                                     }
-                                    _item.usa_item();  // Equipa o novo
+                                    _item.usa_item(); // Equipa o novo
                                     // Remove do slot (já que armamento max_stack=1)
                                     global.inventario_slots[# ix, iy] = 0;
                                 } else if (_item.tipo == TIPO_ITENS.consumivel) {
@@ -228,7 +206,7 @@ if (global.item_player) {
                         }
                     }
                     if mouse_check_button_released(mb_left) {
-                        global.item_mouse = troca_item(ix, iy, global.item_mouse);  // Troca ou junta
+                        global.item_mouse = troca_item(ix, iy, global.item_mouse); // Troca ou junta
                     }
                 }
         // Drop com "D" só se não estiver equipado
@@ -266,7 +244,6 @@ if (global.item_player) {
             }
         }
 }
-
 desenha_menu_construcao = function() {
     if (inventario) {
         var _guil = display_get_gui_width();
@@ -327,57 +304,49 @@ desenha_menu_construcao = function() {
         }
     }
 };
-
 desenha_itens_construcao = function(_x_inicio, _y_inicio, _array, _spr = spr_botao_construcao2) {
-    var _qtd = array_length(_array);
-    var _esc = 1.7;
-    var _spr_w = sprite_get_width(_spr) * _esc;
-    var _spr_h = sprite_get_height(_spr) * _esc;
-    var _mx = device_mouse_x_to_gui(0);
-    var _my = device_mouse_y_to_gui(0);
-    var _mouse_click = mouse_check_button_pressed(mb_left);
-    
-    var _esp = 5;
-    for (var _i = 0; _i < _qtd; _i++) {
-        
-        var _atual = _array[_i]
-        var _txt = "???";
-        
-        if (is_struct(_atual)){
-            _txt = _atual.nome;
-        }
-        
-        var _x = _x_inicio;
-        var _y = _y_inicio + _i * (_spr_h + _esp) + _esp;
-        var _x2 = _x + _spr_w;
-        var _y2 = _y + _spr_h;
-        // COR tem que ser definida aqui, item por item
-        var _cor = c_white;
-        if(point_in_rectangle(_mx, _my, _x, _y, _x2, _y2)){
-            
-            if(is_struct(_atual)){
-                    _atual.desenha_info(_x, _y2);
-            }
-            
-            _cor = c_aqua;
-            if(_mouse_click){
-                    switch(_i){
-                            case LISTA_FORGE.fornalha :
-                            //instance_create_layer(mouse_x, mouse_y, "Instances", obj_place);
-                            break;
-                    }
-            }
-        }
-        draw_sprite_ext(_spr, 0, _x, _y, _esc, _esc, 0, _cor, 1);
-        // Texto
-        draw_set_font(fnt_dialogo_small);
-        draw_set_color(c_black);
-        var tw = string_width(_txt);
-        var th = string_height(_txt);
-        draw_text(_x + (_spr_w - tw)/2,_y + (_spr_h - th)/2 - 4,_txt);
-        draw_set_font(-1);
-        draw_set_colour(1);
-    }
+    var _qtd = array_length(_array);
+    var _esc = 1.7;
+    var _spr_w = sprite_get_width(_spr) * _esc;
+    var _spr_h = sprite_get_height(_spr) * _esc;
+    var _mx = device_mouse_x_to_gui(0);
+    var _my = device_mouse_y_to_gui(0);
+    var _mouse_click = mouse_check_button_pressed(mb_left);
+    var _esp = 5;
+    for (var _i = 0; _i < _qtd; _i++) {
+        var _atual = _array[_i];
+        var _txt = is_struct(_atual) ? _atual.nome : "???";
+        var _x = _x_inicio;
+        var _y = _y_inicio + _i * (_spr_h + _esp) + _esp;
+        var _x2 = _x + _spr_w;
+        var _y2 = _y + _spr_h;
+        var _cor = point_in_rectangle(_mx, _my, _x, _y, _x2, _y2) ? c_aqua : c_white;
+        if (_cor == c_aqua) {
+            if (is_struct(_atual)) _atual.desenha_info(_x, _y2);
+            if (_mouse_click && tem_materiais(_atual)) { // Checa materiais antes de craftar
+                switch (_i) {
+                    case LISTA_FORGE.fornalha:
+                        consome_materiais(_atual); // Consome os materiais agora!
+                        instance_create_layer(mouse_x, mouse_y, "Instances", obj_place);
+                        instance_create_depth(obj_sdash.x, obj_sdash.y, depth-10, obj_brilho);
+                        tocar_som_efeito(snd_blip_2, 8, 1);
+                        inventario = false;
+                        break;
+                    
+                    case LISTA_FORGE.mesa:
+                        consome_materiais(_atual); // Consome os materiais agora!
+                        instance_create_layer(mouse_x, mouse_y, "Instances", obj_place);
+                        instance_create_depth(obj_sdash.x, obj_sdash.y, depth-10, obj_brilho);
+                        tocar_som_efeito(snd_blip_2, 8, 1);
+                        inventario = false;
+                        break;
+                }
+           }
+        }
+        draw_sprite_ext(_spr, 0, _x, _y, _esc, _esc, 0, _cor, 1);
+        var tw = string_width(_txt);
+        var th = string_height(_txt);
+        draw_text(_x + (_spr_w - tw)/2, _y + (_spr_h - th)/2 - 4, _txt);
+    }
 };
-
 #endregion
