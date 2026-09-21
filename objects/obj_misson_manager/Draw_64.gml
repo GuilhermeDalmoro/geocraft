@@ -207,6 +207,31 @@ if (global.game_state.runtime.debug_open) {
     draw_text(_dx + 12, _dy + 174, "F9 DEV MODE");
 }
 
+
+// Painel do DEV MODE: F9 liga/desliga.
+if (global.game_state.runtime.dev_mode) {
+    var _dev_x = 18;
+    var _dev_y = _gh - 178;
+    var _dev_w = 390;
+    var _dev_h = 160;
+
+    draw_set_alpha(0.88);
+    draw_set_color(c_black);
+    draw_rectangle(_dev_x, _dev_y, _dev_x + _dev_w, _dev_y + _dev_h, false);
+    draw_set_alpha(1);
+
+    draw_set_color(c_fuchsia);
+    draw_text(_dev_x + 12, _dev_y + 8, "DEV MODE ON");
+
+    draw_set_color(c_white);
+    draw_text(_dev_x + 12, _dev_y + 30, "F1  +100 moedas");
+    draw_text(_dev_x + 12, _dev_y + 50, "F2  +materiais para testes");
+    draw_text(_dev_x + 12, _dev_y + 70, "F3  cura + estamina");
+    draw_text(_dev_x + 12, _dev_y + 90, "F4  desbloquear magias");
+    draw_text(_dev_x + 12, _dev_y + 110, "F6  concluir missao rastreada");
+    draw_text(_dev_x + 12, _dev_y + 130, "F8  salvar | setas E/D: teleportes antigos");
+}
+
 draw_set_alpha(1);
 draw_set_color(c_white);
 draw_set_halign(fa_left);
