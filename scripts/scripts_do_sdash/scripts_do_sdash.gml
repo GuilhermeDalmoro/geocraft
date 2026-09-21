@@ -126,17 +126,26 @@ function scr_sdash_atacando() {
             if (ds_list_find_index(inimigos_atingidos, _inimigoID) == -1) {
                 ds_list_add(inimigos_atingidos, _inimigoID);
                 with (_inimigoID) {
-                    vida -= obj_sdash.dano;
-                    var _dir = point_direction(obj_sdash.x, obj_sdash.y, x, y);
-                    empurrar_dir = _dir;
-                    empurrar_veloc = 6;
-                    estado = scr_art_hit;
-                    alarm[1] = 5;
-                    hit = true;
-                    var _inst = instance_create_layer(x, y, "Instances", obj_dano_highlight);
-                    _inst.alvo = other;
-                    _inst.dano = obj_sdash.dano;
-                    scr_screen_shake(15,5);
+                    var _damage = other.dano;
+                    vida -= _damage;
+
+                    var _dir_hit = point_direction(other.x, other.y, x, y);
+                    empurrar_dir = _dir_hit;
+                    empurrar_veloc = 6;
+                    hit = true;
+
+                    // Inimigos comuns usam o estado de hit.
+                    // Bosses mantem a state machine propria para a luta nao travar.
+                    if (object_index != obj_boss_andrius) {
+                        estado = scr_art_hit;
+                        alarm[1] = 5;
+                    }
+
+                    var _highlight = instance_create_layer(x, y, "Instances", obj_dano_highlight);
+                    _highlight.alvo = id;
+                    _highlight.dano = _damage;
+
+                    scr_screen_shake(object_index == obj_boss_andrius ? 6 : 15, 5);
                 }
             }
         }
