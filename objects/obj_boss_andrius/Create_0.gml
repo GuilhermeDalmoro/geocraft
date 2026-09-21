@@ -1,4 +1,10 @@
 event_inherited();
+
+if (gc_state_flag_get("andrius_derrotado", false)) {
+    instance_destroy();
+    exit;
+}
+
 nome_inimigo = "Andrius"
 
 max_vida = 100;
