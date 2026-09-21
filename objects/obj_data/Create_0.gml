@@ -1,8 +1,26 @@
-/// Save/Load v4 - Sdash + inventario + GameState + missoes + backup.
+/// Save/Load v5 - 3 slots + backup + GameState + migracao de saves antigos.
 
 if (instance_number(obj_data) > 1) {
     instance_destroy();
     exit;
+}
+
+if (!variable_global_exists("save_slot")) {
+    global.save_slot = 1;
+}
+
+function gc_save_slot_clamp(_slot) {
+    return clamp(round(_slot), 1, 3);
+}
+
+function gc_save_path(_slot) {
+    _slot = gc_save_slot_clamp(_slot);
+    return "save_slot_" + string(_slot) + ".json";
+}
+
+function gc_save_backup_path(_slot) {
+    _slot = gc_save_slot_clamp(_slot);
+    return "save_slot_" + string(_slot) + "_backup.json";
 }
 
 function gc_save_item_id() {
@@ -63,7 +81,170 @@ function gc_save_parse_safe(_text) {
     }
 }
 
-global.salva_jogo = function() {
+function gc_session_cleanup() {
+    // Mantem obj_data vivo porque ele e o save manager do menu.
+    with (obj_dialogo) instance_destroy();
+    with (obj_fornalha_ui) instance_destroy();
+    with (obj_shop_int_1) instance_destroy();
+    with (obj_transition) instance_destroy();
+
+    with (obj_sdash) instance_destroy();
+    with (obj_inventario) instance_destroy();
+    with (obj_controle_hud) instance_destroy();
+    with (obj_slot_magia) instance_destroy();
+    with (obj_minimap) instance_destroy();
+    with (obj_misson_manager) instance_destroy();
+    with (obj_pause) instance_destroy();
+
+    global.pause = false;
+    global.pause_por_inventario = false;
+    global.dialogo_acontecendo = false;
+}
+
+function gc_session_bootstrap_for_load() {
+    // Carregar diretamente para uma room avancada precisa dos objetos persistentes
+    // que normalmente nasceriam em Room1.
+    if (!instance_exists(obj_inventario)) {
+        instance_create_layer(0, 0, "Instances", obj_inventario);
+    }
+
+    if (!instance_exists(obj_misson_manager)) {
+        instance_create_layer(0, 0, "Instances", obj_misson_manager);
+    }
+
+    if (!instance_exists(obj_pause)) {
+        instance_create_layer(0, 0, "Instances", obj_pause);
+    }
+
+    if (!instance_exists(obj_controle_hud)) {
+        instance_create_layer(0, 0, "Instances", obj_controle_hud);
+    }
+
+    if (!instance_exists(obj_slot_magia)) {
+        instance_create_layer(0, 0, "Instances", obj_slot_magia);
+    }
+
+    if (!instance_exists(obj_minimap)) {
+        instance_create_layer(0, 0, "Instances", obj_minimap);
+    }
+}
+
+global.save_slot_exists = function(_slot) {
+    _slot = gc_save_slot_clamp(_slot);
+
+    if (file_exists(gc_save_path(_slot))) return true;
+
+    // Migracao do save unico antigo para o slot 1.
+    if (_slot == 1 && file_exists("save.json")) return true;
+
+    return false;
+};
+
+global.save_slot_meta = function(_slot) {
+    _slot = gc_save_slot_clamp(_slot);
+
+    var _path = gc_save_path(_slot);
+
+    if (!file_exists(_path) && _slot == 1 && file_exists("save.json")) {
+        _path = "save.json";
+    }
+
+    var _data = gc_save_parse_safe(gc_save_read_raw(_path));
+
+    if (_data == noone || !variable_struct_exists(_data, "sdash")) {
+        return {
+            exists : false,
+            slot : _slot,
+            room_name : "",
+            moedas : 0,
+            vida : 0,
+            max_vida : 0,
+            stage : ""
+        };
+    }
+
+    var _room_name = variable_struct_exists(_data.sdash, "room_name")
+        ? string(_data.sdash.room_name)
+        : "Save antigo";
+
+    var _vida = variable_struct_exists(_data.sdash, "vida") ? _data.sdash.vida : 0;
+    var _max_vida = variable_struct_exists(_data.sdash, "max_vida")
+        ? _data.sdash.max_vida
+        : (variable_struct_exists(_data.sdash, "mvida") ? _data.sdash.mvida : 0);
+
+    var _coins = 0;
+    var _stage = "";
+
+    if (variable_struct_exists(_data, "game_state") && is_struct(_data.game_state)) {
+        var _gs = _data.game_state;
+
+        if (variable_struct_exists(_gs, "campaign") && is_struct(_gs.campaign)) {
+            if (variable_struct_exists(_gs.campaign, "stage")) {
+                _stage = string(_gs.campaign.stage);
+            }
+
+            if (variable_struct_exists(_gs.campaign, "economy")
+            && is_struct(_gs.campaign.economy)
+            && variable_struct_exists(_gs.campaign.economy, "moedas")) {
+                _coins = _gs.campaign.economy.moedas;
+            }
+        }
+    }
+    else if (variable_struct_exists(_data.sdash, "moedas")) {
+        _coins = _data.sdash.moedas;
+    }
+
+    return {
+        exists : true,
+        slot : _slot,
+        room_name : _room_name,
+        moedas : _coins,
+        vida : _vida,
+        max_vida : _max_vida,
+        stage : _stage
+    };
+};
+
+global.delete_save_slot = function(_slot) {
+    _slot = gc_save_slot_clamp(_slot);
+
+    var _path = gc_save_path(_slot);
+    var _backup = gc_save_backup_path(_slot);
+
+    if (file_exists(_path)) file_delete(_path);
+    if (file_exists(_backup)) file_delete(_backup);
+
+    // Se o usuario explicitamente apagar o slot 1, remove o save legado tambem.
+    if (_slot == 1 && file_exists("save.json")) {
+        file_delete("save.json");
+    }
+
+    return true;
+};
+
+global.novo_jogo = function(_slot) {
+    _slot = gc_save_slot_clamp(_slot);
+    global.save_slot = _slot;
+
+    gc_session_cleanup();
+    global.delete_save_slot(_slot);
+    gc_game_state_new_run();
+
+    // Room_intro leva ao fluxo normal do jogo, onde os controladores sao criados.
+    room_goto(Room_intro);
+    return true;
+};
+
+global.voltar_menu = function() {
+    gc_session_cleanup();
+    room_goto(room_menu);
+    return true;
+};
+
+global.salva_jogo = function(_slot = global.save_slot) {
+    _slot = gc_save_slot_clamp(_slot);
+    global.save_slot = _slot;
+
     if (!instance_exists(obj_sdash)) {
         show_debug_message("[SAVE] Cancelado: Sdash nao existe.");
         return false;
@@ -86,7 +267,8 @@ global.salva_jogo = function() {
     }
 
     var _dados = {
-        save_version : 4,
+        save_version : 5,
+        save_slot : _slot,
 
         sdash : {
             x : _sdash.x,
@@ -108,35 +290,45 @@ global.salva_jogo = function() {
     };
 
     var _string = json_stringify(_dados);
+    var _path = gc_save_path(_slot);
+    var _backup = gc_save_backup_path(_slot);
 
-    // O ultimo save valido vira backup antes de sobrescrever o principal.
-    if (file_exists("save.json")) {
-        var _old_save = gc_save_read_raw("save.json");
+    if (file_exists(_path)) {
+        var _old_save = gc_save_read_raw(_path);
 
         if (string_length(_old_save) > 0) {
-            gc_save_write_raw("save_backup.json", _old_save);
+            gc_save_write_raw(_backup, _old_save);
         }
     }
 
-    if (!gc_save_write_raw("save.json", _string)) {
-        show_debug_message("[SAVE] Falha ao gravar save.json.");
+    if (!gc_save_write_raw(_path, _string)) {
+        show_debug_message("[SAVE] Falha ao gravar " + _path);
         return false;
     }
 
-    gc_quest_toast("Jogo salvo", 90);
-    show_debug_message("[SAVE] Save v4 concluido.");
+    gc_quest_toast("Jogo salvo no Slot " + string(_slot), 90);
+    show_debug_message("[SAVE] Slot " + string(_slot) + " salvo.");
     return true;
 };
 
-global.carrega_jogo = function() {
-    gc_ensure_inventory_grid();
+global.carrega_jogo = function(_slot = global.save_slot) {
+    _slot = gc_save_slot_clamp(_slot);
+    global.save_slot = _slot;
 
-    var _string = gc_save_read_raw("save.json");
+    var _path = gc_save_path(_slot);
+    var _backup_path = gc_save_backup_path(_slot);
+
+    // Slot 1 importa o save unico antigo automaticamente.
+    if (!file_exists(_path) && _slot == 1 && file_exists("save.json")) {
+        _path = "save.json";
+    }
+
+    var _string = gc_save_read_raw(_path);
     var _dados = gc_save_parse_safe(_string);
     var _using_backup = false;
 
     if (_dados == noone) {
-        var _backup = gc_save_read_raw("save_backup.json");
+        var _backup = gc_save_read_raw(_backup_path);
         _dados = gc_save_parse_safe(_backup);
 
         if (_dados != noone) {
@@ -146,12 +338,14 @@ global.carrega_jogo = function() {
     }
 
     if (_dados == noone || !variable_struct_exists(_dados, "sdash")) {
-        show_debug_message("[LOAD] Nenhum save valido encontrado.");
-        gc_quest_toast("Nao foi possivel carregar o save", 120);
+        show_debug_message("[LOAD] Nenhum save valido no slot " + string(_slot));
         return false;
     }
 
-    // Estado novo. Saves antigos continuam tendo fallback.
+    gc_session_cleanup();
+    gc_session_bootstrap_for_load();
+    gc_ensure_inventory_grid();
+
     if (variable_struct_exists(_dados, "game_state") && is_struct(_dados.game_state)) {
         gc_game_state_import(_dados.game_state);
         gc_quest_repair_progression();
@@ -169,23 +363,21 @@ global.carrega_jogo = function() {
         gc_game_state_sync_from_legacy();
     }
 
-    // Inventario.
     if (variable_struct_exists(_dados, "inventario") && is_array(_dados.inventario)) {
-        var _w = ds_grid_width(global.inventario_slots);
-        var _h = ds_grid_height(global.inventario_slots);
+        var _iw = ds_grid_width(global.inventario_slots);
+        var _ih = ds_grid_height(global.inventario_slots);
 
         ds_grid_clear(global.inventario_slots, 0);
 
-        for (var _x = 0; _x < min(_w, array_length(_dados.inventario)); _x++) {
-            if (!is_array(_dados.inventario[_x])) continue;
+        for (var _ix = 0; _ix < min(_iw, array_length(_dados.inventario)); _ix++) {
+            if (!is_array(_dados.inventario[_ix])) continue;
 
-            for (var _y = 0; _y < min(_h, array_length(_dados.inventario[_x])); _y++) {
-                global.inventario_slots[# _x, _y] = _dados.inventario[_x][_y];
+            for (var _iy = 0; _iy < min(_ih, array_length(_dados.inventario[_ix])); _iy++) {
+                global.inventario_slots[# _ix, _iy] = _dados.inventario[_ix][_iy];
             }
         }
     }
 
-    // Item equipado: saves atuais usam ID; antigos tentam recuperar o ID do struct.
     var _item_id = -1;
 
     if (variable_struct_exists(_dados.sdash, "item_id")) {
@@ -199,58 +391,38 @@ global.carrega_jogo = function() {
 
     global.item_player = gc_load_item_from_id(_item_id);
 
-    // Compatibilidade com nomes de campos antigos.
-    var _sx = 0;
-    var _sy = 0;
-    var _vida = 10;
-    var _max_vida = 10;
-    var _estamina = 120;
-    var _max_estamina = 120;
+    var _sx = variable_struct_exists(_dados.sdash, "x")
+        ? _dados.sdash.x
+        : (variable_struct_exists(_dados.sdash, "meux") ? _dados.sdash.meux : 0);
 
-    if (variable_struct_exists(_dados.sdash, "x")) _sx = _dados.sdash.x;
-    else if (variable_struct_exists(_dados.sdash, "meux")) _sx = _dados.sdash.meux;
+    var _sy = variable_struct_exists(_dados.sdash, "y")
+        ? _dados.sdash.y
+        : (variable_struct_exists(_dados.sdash, "meuy") ? _dados.sdash.meuy : 0);
 
-    if (variable_struct_exists(_dados.sdash, "y")) _sy = _dados.sdash.y;
-    else if (variable_struct_exists(_dados.sdash, "meuy")) _sy = _dados.sdash.meuy;
+    var _vida = variable_struct_exists(_dados.sdash, "vida") ? _dados.sdash.vida : 10;
 
-    if (variable_struct_exists(_dados.sdash, "vida")) _vida = _dados.sdash.vida;
+    var _max_vida = variable_struct_exists(_dados.sdash, "max_vida")
+        ? _dados.sdash.max_vida
+        : (variable_struct_exists(_dados.sdash, "mvida") ? _dados.sdash.mvida : 10);
 
-    if (variable_struct_exists(_dados.sdash, "max_vida")) _max_vida = _dados.sdash.max_vida;
-    else if (variable_struct_exists(_dados.sdash, "mvida")) _max_vida = _dados.sdash.mvida;
-
-    if (variable_struct_exists(_dados.sdash, "estamina")) {
-        _estamina = _dados.sdash.estamina;
-    }
-
-    if (variable_struct_exists(_dados.sdash, "max_estamina")) {
-        _max_estamina = _dados.sdash.max_estamina;
-    }
+    var _estamina = variable_struct_exists(_dados.sdash, "estamina") ? _dados.sdash.estamina : 120;
+    var _max_estamina = variable_struct_exists(_dados.sdash, "max_estamina") ? _dados.sdash.max_estamina : 120;
 
     if (variable_struct_exists(_dados.sdash, "magia_selecionada")) {
         global.magia_selecionada = _dados.sdash.magia_selecionada;
     }
 
-    var _target_room = room;
+    var _target_room = Room1;
 
     if (variable_struct_exists(_dados.sdash, "room_name")) {
         var _room_asset = asset_get_index(_dados.sdash.room_name);
-
-        if (_room_asset != -1) {
-            _target_room = _room_asset;
-        }
+        if (_room_asset != -1) _target_room = _room_asset;
     }
     else if (variable_struct_exists(_dados.sdash, "rm")) {
         _target_room = _dados.sdash.rm;
     }
 
-    var _sdash = noone;
-
-    if (instance_exists(obj_sdash)) {
-        _sdash = instance_find(obj_sdash, 0);
-    }
-    else {
-        _sdash = instance_create_layer(0, 0, "Instances", obj_sdash);
-    }
+    var _sdash = instance_create_layer(0, 0, "Instances", obj_sdash);
 
     _sdash.max_vida = max(1, _max_vida);
     _sdash.vida = clamp(_vida, 0, _sdash.max_vida);
@@ -273,12 +445,7 @@ global.carrega_jogo = function() {
     gc_game_state_sync_from_legacy();
 
     if (room != _target_room) {
-        if (instance_exists(obj_transition)) {
-            with (obj_transition) instance_destroy();
-        }
-
         var _transition = instance_create_layer(0, 0, "Instances", obj_transition);
-
         _transition.target_room = _target_room;
         _transition.target_x = _sx;
         _transition.target_y = _sy;
@@ -292,10 +459,12 @@ global.carrega_jogo = function() {
     }
 
     gc_quest_toast(
-        _using_backup ? "Backup carregado com sucesso" : "Jogo carregado",
+        _using_backup
+            ? "Backup do Slot " + string(_slot) + " carregado"
+            : "Slot " + string(_slot) + " carregado",
         100
     );
 
-    show_debug_message("[LOAD] Save carregado com sucesso.");
+    show_debug_message("[LOAD] Slot " + string(_slot) + " carregado.");
     return true;
 };
