@@ -44,6 +44,7 @@ if (mouse_check_button_pressed(mb_left)) {
             var _fornalha = instance_create_layer(x, y, "Instances", obj_fornalha);
             _fornalha.sprite_index = spr_fornalha;
 
+            gc_world_structure_add("fornalha", room_get_name(room), x, y);
             gc_state_counter_add("construcoes_feitas", 1);
             gc_quest_notify("construir", "fornalha", 1);
 
