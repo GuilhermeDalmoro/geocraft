@@ -12,6 +12,9 @@ function scr_textos_en() {
 		ds_grid_add_text("Don't worry, the game will guide you when you need it.", spr_ret_criador, 0, "Sdash");
 	    ds_grid_add_text("[cor=vermelho] But be careful who you talk to \n He is powerful", spr_ret_criador_puto, 0, "Sdash");
 		global.tutorial = true;
+        if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+            global.game_state.campaign.unlocks.tutorial = true;
+        }
 	    break;
 		
 		
@@ -47,6 +50,7 @@ function scr_textos_en() {
             ds_grid_add_text("Wait...  [zoom]WHAT THE HECK IS THAT?! [/zoom][semefeito]Sdash, you didnt touch that [/semefeito] [cor=roxo] dejeto [semefeito] right? [/semefeito]", spr_ret_king_arts_normal, 1, "King of Art's");
             ds_grid_add_text("Well.... I kinda ate some of it, now I feel... weird [pulsar][cor=vermelho] I guess..", spr_ret_sdash_normal, 0, "Sdash");
             ds_grid_add_text("Sdash... YOU DUMMY, MEET ME AT THE STABLE, I’M TELLING [cor=amarelo] ALMUDEAO [/cor][semefeito] ABOUT THIS! [/semefeito]", spr_ret_king_arts_bravo, 0, "King of Art's");
+            gc_state_area_set(1, true);
             break;
 			
         case "Texto treino":
@@ -59,19 +63,28 @@ function scr_textos_en() {
             break;
 			
         case "rsp 1":
-            global.missions[0].status = "active";
+            gc_quest_start("treino_gmd");
             ds_grid_add_text("Let's go then!", spr_ret_king_arts_bravo, 1, "King of Art's");
+            ds_grid_add_text("Before that, take this magic and bow.", spr_ret_king_arts_bravo, 1, "King of Art's");
+
+            var _inst = instance_create_layer(x + 8, y - 9, "Instances", obj_item);
+            _inst.item = global.itens[| ITENS.arco];
+
+            gc_state_magic_set(0, true);
             ds_grid_add_text("[cor=amarelo] [flutuar] To open missions, hit M", spr_ret_reia, 0, "Notice");
-            global.lealdade -= 3;
+            gc_state_reputation_add("lealdade", -3);
             break;
 			
         case "rsp 2":
             ds_grid_add_text("Alrighty then", spr_ret_king_arts_bravo, 0, "King of Art's");
-            global.lealdade -= 1;
+            gc_state_reputation_add("lealdade", -1);
             break;
 			
         case "Texto treino pag 2":
             ds_grid_add_text("AWESOME JOB SDASH, YOU DID IT!!", spr_ret_king_arts_orgulhoso, 1, "King of Art's");
+            gc_state_magic_set(1, true);
+            gc_quest_complete("treino_gmd");
+            gc_quest_start("alimentar_cavalos");
             ds_grid_add_text("Youre all set now, Sdash. Wait for me at the stable, well go feed Almudeao’s horses:", spr_ret_king_arts_orgulhoso, 1, "King of Art's");
             break;
 			
@@ -98,12 +111,12 @@ function scr_textos_en() {
             ds_grid_add_text("Its not serious, right?", spr_ret_sdash_emotivo, 0, "Sdash");
             ds_grid_add_text("Nah, just a lil [flutuar]unexpected situation[/flutuar]...", spr_almudeao_frente, 1, "Almudeao");
             ds_grid_add_text("I'll explain later, first go grab some grass, feed the horses, pick one and untie it", spr_almudeao_frente, 1, "Almudeao");
-            ds_grid_add_text("[cor=amarelo] [flutuar] [bounce] To feed em, carry wheat to the box and press I", spr_ret_reia, 1, "Sign");
+            ds_grid_add_text("[cor=amarelo] [flutuar] [bounce] Get close to a horse and press Control to feed it", spr_ret_reia, 1, "Sign");
             add_op("Ok Im going", "resp1cav");
             break;
 			
         case "resp1cav":
-            global.missions[1].status = "active";
+            gc_quest_start("alimentar_cavalos");
             ds_grid_add_text("Nice!", spr_almudeao_frente, 1, "Almudeao");
             break;
 			
