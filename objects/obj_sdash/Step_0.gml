@@ -1,8 +1,34 @@
-if !active exit
+if (!active) exit;
+
+// Enquanto montado, o cavalo controla o movimento. R desmonta com seguranca.
+if (montado) {
+    if (!instance_exists(meu_cavalo)) {
+        montado = false;
+        meu_cavalo = noone;
+    }
+    else {
+        if (keyboard_check_pressed(ord("R"))) {
+            var _horse = meu_cavalo;
+
+            montado = false;
+            meu_cavalo = noone;
+
+            _horse.montado = false;
+            _horse.cavaleiro = noone;
+
+            x = clamp(_horse.x + 18, 0, room_width);
+            y = clamp(_horse.y, 0, room_height);
+
+            gc_quest_toast("Sdash desmontou", 55);
+        }
+        else {
+            audio_listener_position(x, y, 0);
+            exit;
+        }
+    }
+}
     
-if (montado) exit;
-    
-script_execute (estado);
+script_execute(estado);
 
 depth = -y;
 
@@ -65,12 +91,12 @@ if (!global.pause && keyboard_check_pressed(ord("Z"))) {
 #region Morte
 
 if (vida <= 0) {
-    obj_sdash.hspeed = -2;
-    obj_sdash.image_angle += 2;
-    instance_destroy(obj_sdash);
-    room_goto(Room_game_over);
-active = false
+    active = false;
+    instance_destroy();
+    room_goto(Room_game_over);
+    exit;
 }
+
 #endregion
 #region trocar arma
 //if keyboard_check_pressed(ord("R")){
