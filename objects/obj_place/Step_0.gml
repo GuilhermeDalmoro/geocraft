@@ -71,7 +71,7 @@ if (mouse_check_button_pressed(mb_left)) {
 
             instance_create_depth(x, y, depth - 10, obj_brilho);
             tocar_som_efeito(snd_blip_2, 8, 1);
-            gc_quest_toast("Fornalha construida!", 100);
+            gc_quest_toast("Fornalha construida! Chegue perto e aperte F para usar.", 150);
 
             instance_destroy();
         break;
