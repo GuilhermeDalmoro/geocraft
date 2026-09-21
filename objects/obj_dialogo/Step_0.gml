@@ -102,23 +102,45 @@ if (caractere < string_length(texto_grid[# Infosnpc.Texto, pagina])) {
                 }
                 if (_char == "]" && _in_tag) {
                     _in_tag = false;
-                    if (_tag == "semefeito") _efeito = { tipo: "nenhum", cor: c_white };
-                    else if (string_pos("tremor", _tag) == 1) _efeito.tipo = string_pos("/tremor", _tag) == 0 ? "tremor" : "nenhum";
-                    else if (string_pos("bounce", _tag) == 1) _efeito.tipo = string_pos("/bounce", _tag) == 0 ? "bounce" : "nenhum";
-                    else if (string_pos("pulsar", _tag) == 1) _efeito.tipo = string_pos("/pulsar", _tag) == 0 ? "pulsar" : "nenhum";
-                    else if (string_pos("onda", _tag) == 1) _efeito.tipo = string_pos("/onda", _tag) == 0 ? "onda" : "nenhum";
-                    else if (string_pos("abalo", _tag) == 1) _efeito.tipo = string_pos("/abalo", _tag) == 0 ? "abalo" : "nenhum";
-                    else if (string_pos("flutuar", _tag) == 1) _efeito.tipo = string_pos("/flutuar", _tag) == 0 ? "flutuar" : "nenhum";
-                    else if (string_pos("zoom", _tag) == 1) _efeito.tipo = string_pos("/zoom", _tag) == 0 ? "zoom" : "nenhum";
-                    else if (string_pos("cor=", _tag) == 1) {
-                        var _cor = string_replace(_tag, "cor=", "");
-                        if (_cor == "vermelho") _efeito.cor = c_red;
-                        else if (_cor == "azul") _efeito.cor = c_blue;
-                        else if (_cor == "amarelo") _efeito.cor = c_yellow;
-                        else if (_cor == "roxo") _efeito.cor = c_purple;
-                        else if (_cor == "laranja") _efeito.cor = c_orange;
-                        else if (_cor == "verde") _efeito.cor = c_green;
-                        else if (_cor == "/cor") _efeito.cor = c_white;
+                    if (_tag == "semefeito" || _tag == "noeffect") {
+                        _efeito = { tipo: "nenhum", cor: c_white };
+                    }
+                    else if (string_pos("tremor", _tag) == 1 || string_pos("shake", _tag) == 1) {
+                        _efeito.tipo = (string_pos("/tremor", _tag) == 0 && string_pos("/shake", _tag) == 0) ? "tremor" : "nenhum";
+                    }
+                    else if (string_pos("bounce", _tag) == 1) {
+                        _efeito.tipo = string_pos("/bounce", _tag) == 0 ? "bounce" : "nenhum";
+                    }
+                    else if (string_pos("pulsar", _tag) == 1 || string_pos("pulse", _tag) == 1) {
+                        _efeito.tipo = (string_pos("/pulsar", _tag) == 0 && string_pos("/pulse", _tag) == 0) ? "pulsar" : "nenhum";
+                    }
+                    else if (string_pos("onda", _tag) == 1 || string_pos("wave", _tag) == 1) {
+                        _efeito.tipo = (string_pos("/onda", _tag) == 0 && string_pos("/wave", _tag) == 0) ? "onda" : "nenhum";
+                    }
+                    else if (string_pos("abalo", _tag) == 1) {
+                        _efeito.tipo = string_pos("/abalo", _tag) == 0 ? "abalo" : "nenhum";
+                    }
+                    else if (string_pos("flutuar", _tag) == 1 || string_pos("float", _tag) == 1) {
+                        _efeito.tipo = (string_pos("/flutuar", _tag) == 0 && string_pos("/float", _tag) == 0) ? "flutuar" : "nenhum";
+                    }
+                    else if (string_pos("zoom", _tag) == 1) {
+                        _efeito.tipo = string_pos("/zoom", _tag) == 0 ? "zoom" : "nenhum";
+                    }
+                    else if (_tag == "/cor" || _tag == "/color") {
+                        _efeito.cor = c_white;
+                    }
+                    else if (string_pos("cor=", _tag) == 1 || string_pos("color=", _tag) == 1) {
+                        var _cor = _tag;
+                        _cor = string_replace(_cor, "cor=", "");
+                        _cor = string_replace(_cor, "color=", "");
+
+                        if (_cor == "vermelho" || _cor == "red") _efeito.cor = c_red;
+                        else if (_cor == "azul" || _cor == "blue") _efeito.cor = c_blue;
+                        else if (_cor == "amarelo" || _cor == "yellow") _efeito.cor = c_yellow;
+                        else if (_cor == "roxo" || _cor == "purple") _efeito.cor = c_purple;
+                        else if (_cor == "laranja" || _cor == "orange") _efeito.cor = c_orange;
+                        else if (_cor == "verde" || _cor == "green") _efeito.cor = c_green;
+                        else if (_cor == "branco" || _cor == "white") _efeito.cor = c_white;
                     }
                     continue;
                 }
