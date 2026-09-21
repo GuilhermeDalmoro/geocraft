@@ -36,7 +36,7 @@ function gc_game_state_defaults() {
     }
 
     return {
-        schema_version : 2,
+        schema_version : 3,
 
         runtime : {
             pause : global.pause,
@@ -48,6 +48,7 @@ function gc_game_state_defaults() {
             debug_open : false,
             toast_text : "",
             toast_timer : 0,
+            toast_queue : [],
             tracked_quest_id : ""
         },
 
