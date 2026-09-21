@@ -69,8 +69,40 @@ if (global.pause_menu.active && !global.dialogo_acontecendo) {
     var _right = keyboard_check_pressed(ord("D")) || keyboard_check_pressed(vk_right);
     var _confirm = keyboard_check_pressed(vk_enter) || gamepad_button_check_pressed(global.controle, gp_face1);
 
+    var _gw = display_get_gui_width();
+    var _gh = display_get_gui_height();
+    var _mouse_x = device_mouse_x_to_gui(0);
+    var _mouse_y = device_mouse_y_to_gui(0);
+
+    var _panel_w = min(760, _gw - 100);
+    var _panel_h = min(560, _gh - 90);
+    var _panel_x = (_gw - _panel_w) * 0.5;
+    var _panel_y = (_gh - _panel_h) * 0.5;
+
     if (pause_page == 0) {
         var _count = array_length(global.pause_menu.options);
+
+        var _menu_x = _panel_x + 64;
+        var _menu_y = _panel_y + 125;
+
+        for (var _mi = 0; _mi < _count; _mi++) {
+            var _row_y = _menu_y + _mi * 58;
+
+            if (point_in_rectangle(
+                _mouse_x,
+                _mouse_y,
+                _menu_x - 14,
+                _row_y - 12,
+                _panel_x + _panel_w * 0.57,
+                _row_y + 30
+            )) {
+                global.pause_menu.selected = _mi;
+
+                if (mouse_check_button_pressed(mb_left)) {
+                    _confirm = true;
+                }
+            }
+        }
 
         if (_up) {
             global.pause_menu.selected = (global.pause_menu.selected - 1 + _count) mod _count;
@@ -142,6 +174,34 @@ if (global.pause_menu.active && !global.dialogo_acontecendo) {
     else {
         // Pagina de opcoes.
         var _count_opt = 4;
+        var _options_y = _panel_y + 180;
+
+        for (var _oi = 0; _oi < _count_opt; _oi++) {
+            var _option_y = _options_y + _oi * 70;
+
+            if (point_in_rectangle(
+                _mouse_x,
+                _mouse_y,
+                _gw * 0.5 - 260,
+                _option_y - 12,
+                _gw * 0.5 + 260,
+                _option_y + 32
+            )) {
+                option_selected = _oi;
+
+                if (mouse_check_button_pressed(mb_left)) {
+                    if (_oi == 0) {
+                        pause_volume += 0.10;
+                        if (pause_volume > 1) pause_volume = 0;
+                        global.volume_mestre = pause_volume;
+                        audio_master_gain(global.volume_mestre);
+                    }
+                    else {
+                        _confirm = true;
+                    }
+                }
+            }
+        }
 
         if (_up) option_selected = (option_selected - 1 + _count_opt) mod _count_opt;
         if (_down) option_selected = (option_selected + 1) mod _count_opt;
