@@ -13,10 +13,10 @@ var _right = keyboard_check_pressed(ord("D")) || keyboard_check_pressed(vk_right
 var _confirm = keyboard_check_pressed(vk_enter) || gamepad_button_check_pressed(global.controle, gp_face1);
 var _back = keyboard_check_pressed(vk_escape) || gamepad_button_check_pressed(global.controle, gp_face2);
 
-function menu_mouse_over(_x, _y, _w, _h) {
+function menu_mouse_over(_mouse_x, _mouse_y, _x, _y, _w, _h) {
     return point_in_rectangle(
-        _mx,
-        _my,
+        _mouse_x,
+        _mouse_y,
         _x - _w * 0.5,
         _y - _h * 0.5,
         _x + _w * 0.5,
@@ -40,7 +40,7 @@ switch (estado) {
         for (var _i = 0; _i < _count; _i++) {
             var _yy = _by + _i * _gap;
 
-            if (menu_mouse_over(_bx, _yy, _bw, _bh)) {
+            if (menu_mouse_over(_mx, _my, _bx, _yy, _bw, _bh)) {
                 selected_main = _i;
 
                 if (mouse_check_button_pressed(mb_left)) {
@@ -110,7 +110,7 @@ switch (estado) {
         for (var _i = 0; _i < 3; _i++) {
             var _slot_y = _sy + _i * _sgap;
 
-            if (menu_mouse_over(_sx, _slot_y, _sw, _sh)) {
+            if (menu_mouse_over(_mx, _my, _sx, _slot_y, _sw, _sh)) {
                 selected_slot = _i;
 
                 if (mouse_check_button_pressed(mb_left)) {
@@ -168,7 +168,7 @@ switch (estado) {
         for (var _i = 0; _i < 3; _i++) {
             var _cx = _wx + (_i - 1) * _spacing;
 
-            if (menu_mouse_over(_cx, _wy, _card_w, _card_h)) {
+            if (menu_mouse_over(_mx, _my, _cx, _wy, _card_w, _card_h)) {
                 selected_world = _i;
 
                 if (mouse_check_button_pressed(mb_left)) {
@@ -224,7 +224,7 @@ switch (estado) {
         for (var _i = 0; _i < _option_count; _i++) {
             var _row_y = _oy + _i * 78;
 
-            if (menu_mouse_over(_ox, _row_y, _ow, _oh)) {
+            if (menu_mouse_over(_mx, _my, _ox, _row_y, _ow, _oh)) {
                 selected_option = _i;
 
                 if (mouse_check_button_pressed(mb_left)) {
