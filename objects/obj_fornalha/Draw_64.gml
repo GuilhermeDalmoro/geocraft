@@ -195,7 +195,7 @@ for (var _i = 0; _i < array_length(_recipes); _i++) {
     draw_text(
         _list_x1 + 68,
         _card_y + 38,
-        string(round(_r.duracao / room_speed)) + "s  |  madeira x" + string(_r.combustivel)
+        string(round(_r.duracao / max(1, game_get_speed(gamespeed_fps)))) + "s  |  madeira x" + string(_r.combustivel)
     );
 }
 
