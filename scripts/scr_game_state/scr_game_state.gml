@@ -46,6 +46,7 @@ function gc_game_state_defaults() {
             dev_mode : false,
             quest_journal_open : false,
             debug_open : false,
+            modal_ui : "",
             toast_text : "",
             toast_timer : 0,
             toast_queue : [],
