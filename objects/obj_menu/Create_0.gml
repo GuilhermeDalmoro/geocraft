@@ -89,8 +89,6 @@ refresh_saves = function() {
 };
 
 get_continue_slot = function() {
-    refresh_saves();
-
     if (save_meta[last_slot - 1].exists) {
         return last_slot;
     }
