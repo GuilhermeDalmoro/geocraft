@@ -185,8 +185,8 @@ if (global.game_state.runtime.quest_journal_open) {
 
 // Overlay tecnico para desenvolvimento.
 if (global.game_state.runtime.debug_open) {
-    var _dx = _gw - 350;
-    var _dy = 20;
+    var _dx = _gw - 370;
+    var _dy = 205;
 
     draw_set_alpha(0.88);
     draw_set_color(c_black);
@@ -210,7 +210,7 @@ if (global.game_state.runtime.debug_open) {
 
 // Painel do DEV MODE: F9 liga/desliga.
 if (global.game_state.runtime.dev_mode) {
-    var _dev_x = 18;
+    var _dev_x = (_gw - 390) * 0.5;
     var _dev_y = _gh - 178;
     var _dev_w = 390;
     var _dev_h = 160;
