@@ -2,6 +2,15 @@ if (!variable_global_exists("game_state") || !is_struct(global.game_state)) {
     gc_game_state_bootstrap();
 }
 
+// Pequeno lock evita que a mesma tecla abra e feche uma UI no mesmo frame.
+if (!variable_struct_exists(global.game_state.runtime, "interaction_lock")) {
+    global.game_state.runtime.interaction_lock = 0;
+}
+
+if (global.game_state.runtime.interaction_lock > 0) {
+    global.game_state.runtime.interaction_lock--;
+}
+
 // Mantem os sistemas antigos conversando com o estado novo.
 gc_game_state_sync_from_legacy();
 
