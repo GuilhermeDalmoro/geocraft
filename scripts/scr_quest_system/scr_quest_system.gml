@@ -132,6 +132,40 @@ function gc_quest_toast(_text, _frames = 180) {
     global.game_state.runtime.toast_timer = _frames;
 }
 
+function gc_quest_reconcile(_q) {
+    if (!is_struct(_q) || !variable_struct_exists(_q, "objetivos") || !is_array(_q.objetivos)) return;
+
+    gc_game_state_bootstrap();
+
+    for (var _i = 0; _i < array_length(_q.objetivos); _i++) {
+        var _o = _q.objetivos[_i];
+        if (_o.complete) continue;
+
+        if (_o.type == "alimentar" && _o.target == "cavalo") {
+            _o.current = max(_o.current, min(_o.required, global.cabalos_alimentados));
+        }
+        else if (_o.type == "montar" && _o.target == "cavalo") {
+            if (instance_exists(obj_sdash)) {
+                var _s = instance_find(obj_sdash, 0);
+                if (variable_instance_exists(_s, "montado") && _s.montado) {
+                    _o.current = _o.required;
+                }
+            }
+        }
+        else if (_o.type == "visitar") {
+            var _visited = global.game_state.world.visited_rooms;
+            for (var _v = 0; _v < array_length(_visited); _v++) {
+                if (_visited[_v] == _o.target) {
+                    _o.current = _o.required;
+                    break;
+                }
+            }
+        }
+
+        _o.complete = (_o.current >= _o.required);
+    }
+}
+
 function gc_quest_start(_id) {
     gc_game_state_bootstrap();
     var _q = gc_quest_get(_id);
@@ -143,8 +177,20 @@ function gc_quest_start(_id) {
     if (_q.status == "concluida" || _q.status == "ativa" || _q.status == "pronta") return false;
 
     _q.status = "ativa";
+    gc_quest_reconcile(_q);
+
     gc_quest_toast("Nova missao: " + _q.nome, 240);
     show_debug_message("[QUEST] Iniciada: " + _q.id_m);
+
+    if (gc_quest_all_objectives_complete(_q)) {
+        _q.status = "pronta";
+        gc_state_flag_set("quest_" + _q.id_m + "_objetivos", true);
+
+        if (variable_struct_exists(_q, "auto_complete") && _q.auto_complete) {
+            gc_quest_complete(_q.id_m);
+        }
+    }
+
     return true;
 }
 
