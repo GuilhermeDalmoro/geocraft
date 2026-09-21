@@ -83,8 +83,6 @@ desenha_inventario = function(){
         // Coordenadas do mouse na GUI
         var _mx = device_mouse_x_to_gui(0);
         var _my = device_mouse_y_to_gui(0);
-        show_debug_message(_mx)
-        show_debug_message(_my)
         // Desenhando o inventário
         if inventario == true {
             var _invx = _guil / 2 - inventario_l / 2;
@@ -92,7 +90,7 @@ desenha_inventario = function(){
             // Desenhar o sprite do inventário na posição calculada
             draw_sprite_ext(spr_inventario, 0, _invx, _invy, escala, escala, 0, c_white, 1);
     
-if (global.item_player) {
+if (global.item_player != noone && is_struct(global.item_player)) {
         draw_sprite_ext(global.item_player.spr, global.item_player.frames, 1016, 582, 2, 2, 0, c_white, 1);
         // Checar clique na área do item equipado (ajustado pra 64x64 com escala 2, pra caber sprites maiores)
         //draw_rectangle(1000, 564, 1000 + 32, 564 + 32, true)
@@ -225,7 +223,7 @@ if (global.item_player) {
                             _novo_drop.image_index = _item.frames; // Definir frame diretamente
                             _novo_drop.qtd = _slot.quantity;
                             global.inventario_slots[# ix, iy] = 0; // Remove do slot
-                            if _novo_drop == TIPO_ITENS.material{
+                            if (_item.tipo == TIPO_ITENS.material) {
                                 _novo_drop.sprite = _item.spr;
                             }
                         }
