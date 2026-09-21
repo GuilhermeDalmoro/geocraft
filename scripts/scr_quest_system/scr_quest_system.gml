@@ -390,6 +390,16 @@ function gc_quest_reconcile(_q) {
                     min(_o.required, gc_quest_structure_count(_o.target))
                 );
             break;
+
+            case "fundir":
+                _o.current = max(
+                    _o.current,
+                    min(
+                        _o.required,
+                        gc_state_counter_get("fundido_" + string(_o.target), 0)
+                    )
+                );
+            break;
         }
 
         _o.complete = (_o.current >= _o.required);
