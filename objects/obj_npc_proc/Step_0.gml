@@ -1,3 +1,5 @@
+if (global.pause) exit;
+
 var inimigo = instance_nearest(x, y, obj_par_inimigos);
 
 if (inimigo != noone) {
