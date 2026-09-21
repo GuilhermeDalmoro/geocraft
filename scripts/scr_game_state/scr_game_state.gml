@@ -47,7 +47,8 @@ function gc_game_state_defaults() {
             quest_journal_open : false,
             debug_open : false,
             toast_text : "",
-            toast_timer : 0
+            toast_timer : 0,
+            tracked_quest_id : ""
         },
 
         campaign : {
