@@ -113,13 +113,13 @@ global.item_player = noone;
 //criando um item
 var _reia = new cria_item(ITENS.reia, "dejeto", "Um pequeno pedaço de dejeto alienigena fresquinho", spr_item_reia, 0, 0, 1, "Deixa vc mais feliz", "Comum", 0, TIPO_ITENS.consumivel);
                                     
-var _arco = new cria_item(ITENS.arco, "Arco", "Um arco que destroi tudo pela frente", spr_arco, 0, 10, 1, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.armamento);
+var _arco = new cria_item(ITENS.arco, "Arco", "Arco cubico: preciso, simples e bem menos decorativo agora.", spr_arco, 0, 3, 1, "Ataque a distancia", "Padrao", 10, TIPO_ITENS.armamento);
                                     
 var _gd = new cria_item(ITENS.gd, "gd", "Um cubinho que é sapeca", spr_item_gd, 0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
                                     
 var _cura = new cria_item(ITENS.cura, "cura", "Uma poção de cura: +10hp", spr_pocao_cura, 0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
                             
-var _espadalv1 = new cria_item(ITENS.espadalv1, "espada", "Uma espada de agua, em que machuca muito :(", spr_espada, 0, 1, 1, 1, 1, 1, TIPO_ITENS.armamento);
+var _espadalv1 = new cria_item(ITENS.espadalv1, "Espada Cubica", "Uma espada reforcada para combate corpo a corpo.", spr_espada, 0, 3, 1, "Ataque corpo a corpo", "Padrao", 1, TIPO_ITENS.armamento);
                             
 var _neve = new cria_item(ITENS.boladeneve, "Neve", "Isto é uma bolinha de neve, leve ao fim do planeta", spr_particula, 0, 1, 1, 1, 1, 1, TIPO_ITENS.material, 64);
                                                                                     
@@ -199,48 +199,36 @@ _cogumelo.usa_item = function(){
 
 #region Ataques das armas
 
-_espadalv1.usa_arma = function(){
-    if instance_exists(obj_sdash) {
-        with (obj_sdash) {
-            pode_andar = false;
-            visible = false
-            var _layer = layer_create(depth, "ataque_especial");
-            layer_sequence_create(_layer, obj_sdash.x, obj_sdash.y, sq_ataque_especial_sdash1);
-        }
-    }
-}
-    
-_arco.usa_arma = function(){
-            if instance_exists(obj_sdash) {
-        with (obj_sdash) {
-            pode_andar = false;
-            visible = false
-            var _layer = layer_create(depth, "ataque_especial");
-            layer_sequence_create(_layer, x, y, sq_ataque_especial_sdash1);
-        }
-    }
+_espadalv1.usa_arma = function() {
+    if (!instance_exists(obj_sdash)) return;
+
+    with (obj_sdash) {
+        if (global.pause) exit;
+
+        // Usa o combate real do Sdash. A sequence antiga continuava bonita,
+        // mas nao possuia o momento de dano ligado na timeline.
+        scr_sdash_iniciar_corpo_a_corpo(3);
+    }
 }
 
-_vara_pesca.usa_arma = function(){
-            if instance_exists(obj_sdash) {
-        with (obj_sdash) {
-            //pode_andar = false;
-            //visible = false
-            //fazer a porra da vara funcionar
-        }
-    }
+_arco.usa_arma = function() {
+    if (!instance_exists(obj_sdash)) return;
+
+    with (obj_sdash) {
+        if (global.pause) exit;
+
+        arco_dano = 3;
+        image_index = 0;
+        image_speed = 1;
+        estado = scr_sdash_arco;
+    }
 }
 
-/*
- * como spwanar um item na room?
- * metodo 1: utilizar dentro de um outro objeto pra spawnar usando esse codigo como ex
- * var _inst_exemplo = instance_create_layer(x, y, "Instances", obj_item)  
- * _inst_exemplo.item = global.itens[| ITENS.exemplo]
- * 
- * metodo 2: colocar um obj item na room e mudar a variavel de objeto do
- * obj item
- * 
- */
+_vara_pesca.usa_arma = function() {
+    if (instance_exists(obj_sdash)) {
+        gc_quest_toast("A vara de pesca ainda nao aprendeu a pescar. Cubos...", 90);
+    }
+}
 
 #endregion
 
@@ -250,42 +238,117 @@ ds_list_add(global.itens, _reia, _arco, _gd, _cura, _espadalv1, _neve, _orb, _mo
 ///@function adiciona_ao_inventario
 ///
 function adiciona_ao_inventario(_item_id, _qtd) {
-    var _item = global.itens[| _item_id];
-    var _colunas = ds_grid_width(global.inventario_slots);
-    var _linhas = ds_grid_height(global.inventario_slots);
-    
-    // Primeiro, tenta stackar em slots existentes (apenas se stackável)
-    if (_item.max_stack > 1) {
-        for (var _i = 0; _i < _linhas; _i++) {
-            for (var _j = 0; _j < _colunas; _j++) {
-                var _slot = global.inventario_slots[# _j, _i];
-                if (_slot && _slot.id == _item_id && _slot.quantity < _item.max_stack) {
-                    var _espaco = _item.max_stack - _slot.quantity;
-                    if (_qtd <= _espaco) {
-                        _slot.quantity += _qtd;
-                        return true;
-                    } else {
-                        _slot.quantity = _item.max_stack;
-                        _qtd -= _espaco;
-                    }
-                }
-            }
-        }
-    }
-    
-    // Se sobrou qtd, adiciona em slot vazio
-    for (var _i = 0; _i < _linhas; _i++) {
-        for (var _j = 0; _j < _colunas; _j++) {
-            var _slot = global.inventario_slots[# _j, _i];
-            if (!_slot) {
-                global.inventario_slots[# _j, _i] = { id: _item_id, quantity: _qtd };
-                return true;
-            }
-        }
-    }
-    return false; // Inventário cheio
+    if (_qtd <= 0) return true;
+    if (!ds_exists(global.inventario_slots, ds_type_grid)) return false;
+    if (!ds_exists(global.itens, ds_type_list)) return false;
+    if (_item_id < 0 || _item_id >= ds_list_size(global.itens)) return false;
+
+    var _item = global.itens[| _item_id];
+    if (!is_struct(_item)) return false;
+
+    var _colunas = ds_grid_width(global.inventario_slots);
+    var _linhas = ds_grid_height(global.inventario_slots);
+    var _max_stack = max(1, _item.max_stack);
+    var _original_qtd = _qtd;
+
+    // Primeiro calcula capacidade. Assim a funcao nunca altera metade do
+    // inventario e depois retorna false.
+    var _capacidade = 0;
+
+    for (var _y = 0; _y < _linhas; _y++) {
+        for (var _x = 0; _x < _colunas; _x++) {
+            var _slot = global.inventario_slots[# _x, _y];
+
+            if (is_struct(_slot)) {
+                if (_slot.id == _item_id && _slot.quantity < _max_stack) {
+                    _capacidade += _max_stack - _slot.quantity;
+                }
+            }
+            else if (!is_struct(_slot)) {
+                _capacidade += _max_stack;
+            }
+        }
+    }
+
+    if (_capacidade < _qtd) return false;
+
+    // Completa stacks existentes.
+    if (_max_stack > 1) {
+        for (var _y = 0; _y < _linhas && _qtd > 0; _y++) {
+            for (var _x = 0; _x < _colunas && _qtd > 0; _x++) {
+                var _slot = global.inventario_slots[# _x, _y];
+
+                if (is_struct(_slot)
+                && _slot.id == _item_id
+                && _slot.quantity < _max_stack) {
+
+                    var _move = min(_qtd, _max_stack - _slot.quantity);
+                    _slot.quantity += _move;
+                    _qtd -= _move;
+                }
+            }
+        }
+    }
+
+    // Distribui o restante em slots vazios respeitando max_stack.
+    for (var _y = 0; _y < _linhas && _qtd > 0; _y++) {
+        for (var _x = 0; _x < _colunas && _qtd > 0; _x++) {
+            var _slot = global.inventario_slots[# _x, _y];
+
+            if (!is_struct(_slot)) {
+                var _move = min(_qtd, _max_stack);
+                global.inventario_slots[# _x, _y] = {
+                    id : _item_id,
+                    quantity : _move
+                };
+                _qtd -= _move;
+            }
+        }
+    }
+
+    // Eventos de coleta alimentam missoes futuras (livros, pergaminhos etc.).
+    if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+        gc_quest_notify("coletar", string(_item_id), _original_qtd);
+
+        if (variable_struct_exists(_item, "nome")) {
+            gc_quest_notify("coletar", string(_item.nome), _original_qtd);
+        }
+    }
+
+    return true;
 }
 
+
+function remove_do_inventario(_item_id, _qtd) {
+    if (_qtd <= 0) return true;
+    if (!variable_global_exists("inventario_slots")) return false;
+    if (!ds_exists(global.inventario_slots, ds_type_grid)) return false;
+
+    var _total = procura_item_inventario(_item_id);
+    if (_total < _qtd) return false;
+
+    var _faltando = _qtd;
+    var _w = ds_grid_width(global.inventario_slots);
+    var _h = ds_grid_height(global.inventario_slots);
+
+    for (var _y = 0; _y < _h && _faltando > 0; _y++) {
+        for (var _x = 0; _x < _w && _faltando > 0; _x++) {
+            var _slot = global.inventario_slots[# _x, _y];
+
+            if (!is_struct(_slot) || _slot.id != _item_id) continue;
+
+            var _take = min(_faltando, _slot.quantity);
+            _slot.quantity -= _take;
+            _faltando -= _take;
+
+            if (_slot.quantity <= 0) {
+                global.inventario_slots[# _x, _y] = noone;
+            }
+        }
+    }
+
+    return (_faltando <= 0);
+}
 
 // Função pra checar se tem materiais suficientes (escalável pra qualquer receita)
 function tem_materiais(_estrutura) {

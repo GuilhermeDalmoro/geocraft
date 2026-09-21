@@ -1,22 +1,33 @@
 event_inherited();
-nome_inimigo = "Andrius"
 
-max_vida = 100;
+if (gc_state_flag_get("andrius_derrotado", false)) {
+    instance_destroy();
+    exit;
+}
+
+nome_inimigo = "Andrius";
+
+max_vida = 60;
 vida = max_vida;
+
 empurrar_dir = 0;
 empurrar_veloc = 0;
-hit = false
+hit = false;
 
-comecou_luta = false
-// Variáveis do andrius
-estado = scr_boss_escolher_ataque;  // Estado inicial do boss
-//vida = 100; // Vida do boss
-//max_vida = vida;
+comecou_luta = false;
+estado = scr_boss_escolher_ataque;
 
-//// Create Event
-//estado = "INTRO";
-//estado_timer = 0;
-//vida = 100;
-//max_vida = vida;
-//image_xscale = 0.5;
-//image_yscale = 0.5;
+fase_boss = 1;
+vida_anterior = vida;
+hit_flash = 0;
+aviso_luta = false;
+
+// Variaveis herdadas existem, mas garantimos valores validos para magia.
+queimando = false;
+queima_timer = 0;
+queima_accum = 0;
+queima_dps = 0;
+queima_tick = 12;
+stun_timer = 0;
+
+gc_quest_start("andrius");

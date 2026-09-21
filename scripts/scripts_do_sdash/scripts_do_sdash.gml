@@ -113,6 +113,41 @@ scr_sdash_colisao();
 var _inst = instance_create_layer(x, y, "Instances", obj_dash);
 _inst.sprite_index = sprite_index;
 }
+function scr_sdash_iniciar_corpo_a_corpo(_damage = 1) {
+    if (estado != scr_sdash_correndo && estado != scr_sdash_hit) return false;
+
+    dano_ataque_atual = max(1, _damage);
+    ds_list_clear(inimigos_atingidos);
+
+    image_index = 0;
+    image_speed = 1;
+
+    switch (dir) {
+        default:
+            sprite_index = spr_sdash_atacando_direita;
+            mask_index = spr_sdash_atacando_direita_hb;
+        break;
+
+        case 1:
+            sprite_index = spr_sdash_atacando_cima;
+            mask_index = spr_sdash_atacando_cima_hb;
+        break;
+
+        case 2:
+            sprite_index = spr_sdash_atacando_esquerda;
+            mask_index = spr_sdash_atacando_esquerda_hb;
+        break;
+
+        case 3:
+            sprite_index = spr_sdash_atacando_baixo;
+            mask_index = spr_sdash_atacando_baixo_hb;
+        break;
+    }
+
+    estado = scr_sdash_atacando;
+    return true;
+}
+
 function scr_sdash_atacando() {
     if (ferramenta_selecionada) {
         estado = scr_sdash_correndo;
@@ -126,17 +161,28 @@ function scr_sdash_atacando() {
             if (ds_list_find_index(inimigos_atingidos, _inimigoID) == -1) {
                 ds_list_add(inimigos_atingidos, _inimigoID);
                 with (_inimigoID) {
-                    vida -= obj_sdash.dano;
-                    var _dir = point_direction(obj_sdash.x, obj_sdash.y, x, y);
-                    empurrar_dir = _dir;
-                    empurrar_veloc = 6;
-                    estado = scr_art_hit;
-                    alarm[1] = 5;
-                    hit = true;
-                    var _inst = instance_create_layer(x, y, "Instances", obj_dano_highlight);
-                    _inst.alvo = other;
-                    _inst.dano = obj_sdash.dano;
-                    scr_screen_shake(15,5);
+                    var _damage = variable_instance_exists(other, "dano_ataque_atual")
+                        ? other.dano_ataque_atual
+                        : other.dano;
+                    vida -= _damage;
+
+                    var _dir_hit = point_direction(other.x, other.y, x, y);
+                    empurrar_dir = _dir_hit;
+                    empurrar_veloc = 6;
+                    hit = true;
+
+                    // Inimigos comuns usam o estado de hit.
+                    // Bosses mantem a state machine propria para a luta nao travar.
+                    if (object_index != obj_boss_andrius) {
+                        estado = scr_art_hit;
+                        alarm[1] = 5;
+                    }
+
+                    var _highlight = instance_create_layer(x, y, "Instances", obj_dano_highlight);
+                    _highlight.alvo = id;
+                    _highlight.dano = _damage;
+
+                    scr_screen_shake(object_index == obj_boss_andrius ? 6 : 15, 5);
                 }
             }
         }
@@ -144,6 +190,7 @@ function scr_sdash_atacando() {
     ds_list_destroy(_inimigos_na_hitbox);
     if (fim_da_animacao()) {
         mask_index = spr_sdash_correndo_baixo
+        dano_ataque_atual = dano;
         estado = scr_sdash_correndo;
         atacar = false;
     }
@@ -159,48 +206,47 @@ scr_sdash_colisao();
 estado = scr_sdash_correndo;
 }
 }
-function scr_sdash_arco(){
-dir =floor((point_direction(x, y, mouse_x, mouse_y) + 45)/90);
-switch dir{
-//direita
-default:
-sprite_index = spr_sdash_arco_direita;
-break;
-//cima
-case 1:
-sprite_index = spr_sdash_arco_cima;
-break;
-//esquerda
-case 2:
-sprite_index = spr_sdash_arco_esquerda;
-break;
-//baixo
-case 3:
-sprite_index = spr_sdash_arco_baixo;
-break;
+function scr_sdash_arco() {
+    dir = floor((point_direction(x, y, mouse_x, mouse_y) + 45) / 90);
+
+    switch (dir) {
+        default: sprite_index = spr_sdash_arco_direita; break;
+        case 1: sprite_index = spr_sdash_arco_cima; break;
+        case 2: sprite_index = spr_sdash_arco_esquerda; break;
+        case 3: sprite_index = spr_sdash_arco_baixo; break;
+    }
+
+    // Segura a pose final enquanto o jogador mantem o clique.
+    if (fim_da_animacao()) {
+        image_index = max(0, sprite_get_number(sprite_index) - 1);
+        image_speed = 0;
+    }
+
+    if (mouse_check_button_released(mb_left)) {
+        var _dirf = point_direction(x, y, mouse_x, mouse_y);
+        var _xxf = lengthdir_x(8, _dirf);
+        var _yyf = lengthdir_y(8, _dirf);
+
+        var _arrow = instance_create_layer(
+            x + _xxf,
+            y + _yyf,
+            "Instances",
+            obj_flecha
+        );
+
+        _arrow.direction = _dirf;
+        _arrow.image_angle = _dirf;
+        _arrow.speed = 8;
+        _arrow.dano = variable_instance_exists(id, "arco_dano") ? arco_dano : 3;
+
+        tocar_som_efeito(snd_blip_2, 1, 1.15);
+        scr_screen_shake(3, 4);
+
+        image_speed = 1;
+        estado = scr_sdash_correndo;
+    }
 }
-if fim_da_animacao(){
-image_index = 1;
-}
-if mouse_check_button_released(mb_left){
-if image_index >= 2{
-var _dirf = point_direction(x, y, mouse_x, mouse_y);
-var _xxf = lengthdir_x(4, _dirf)
-var _yyf = lengthdir_y(4, _dirf)
-var _instf = instance_create_layer(x +_xxf, y + _yyf, "Instances", obj_flecha);
-_instf.direction = _dirf;
-_instf.image_angle = _dirf;
-_instf.speed = 8;
-//_instf.gravity_direction = .1
-empurrar_dir = point_direction(mouse_x, mouse_y, x, y);
-alarm[2] = 5;
-estado = scr_sdash_hit;
-//estado = scr_sdash_correndo;
-}else{
-estado = scr_sdash_correndo;
-}
-}
-}
+
 function scr_sdash_cajado(){
 // Define a direção baseada no mouse
     dir = floor((point_direction(x, y, mouse_x, mouse_y) + 45) / 90);

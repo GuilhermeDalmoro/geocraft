@@ -1,3 +1,5 @@
+if (global.pause || global.dialogo_acontecendo) exit;
+
 if  instance_exists(obj_sdash) and obj_sdash.active{
 var _escala =3 ;
 var _guia = display_get_gui_height();
@@ -15,8 +17,18 @@ var _gl = display_get_gui_width();
 if (instance_exists(obj_boss_andrius)){
     if obj_boss_andrius.comecou_luta{
     var _sprw = sprite_get_width(spr_boss_hud) * _escala;
-   	draw_sprite_ext(spr_boss_hud,0,_gl/2 - _sprw/2,100,_escala,_escala,0,c_white,1);
-   	draw_sprite_ext(spr_boss_vida,0,_gl/2 - _sprw/2 + 6,100,obj_boss_andrius.vida/obj_boss_andrius.max_vida * _escala,_escala,0,c_white,1);
+    draw_sprite_ext(spr_boss_hud, 0, _gl/2 - _sprw/2, 100, _escala, _escala, 0, c_white, 1);
+    draw_sprite_ext(spr_boss_vida, 0, _gl/2 - _sprw/2 + 6, 100, max(0, obj_boss_andrius.vida)/obj_boss_andrius.max_vida * _escala, _escala, 0, c_white, 1);
+
+    draw_set_font(fnt_dialogo_small);
+    draw_set_halign(fa_center);
+    draw_set_color(c_yellow);
+    draw_text(_gl/2, 72, "ANDRIUS  -  FASE " + string(obj_boss_andrius.fase_boss));
+
+    draw_set_color(c_white);
+    draw_text(_gl/2, 136, "Clique: atacar  |  Z: magia  |  Botao direito: dash");
+    draw_set_halign(fa_left);
+    draw_set_font(-1);
     }
 }
 

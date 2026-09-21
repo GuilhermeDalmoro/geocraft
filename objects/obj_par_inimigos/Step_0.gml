@@ -1,34 +1,45 @@
-/// @description Insert description here
-script_execute(estado);
+/// Controle base dos inimigos.
 
 depth = -y;
 
-if vida <= 0{
-	instance_destroy();
-	global.inimigos_mortos += 1;
+if (global.pause) exit;
+
+// Stun agora realmente interrompe IA/movimento.
+var _stunned = false;
+
+if (stun_timer > 0) {
+    stun_timer--;
+    _stunned = true;
 }
 
+if (!_stunned) {
+    script_execute(estado);
+}
+
+// Queimadura continua causando dano enquanto o jogo roda.
 if (queimando) {
     if (queima_timer > 0) {
         queima_timer--;
         queima_accum++;
 
-        if (queima_accum >= queima_tick) {
+        if (queima_accum >= max(1, queima_tick)) {
             queima_accum = 0;
+
             if (variable_instance_exists(id, "vida")) {
                 vida -= queima_dps;
             }
-            // opcional: partículas de fogo, tremidinha, etc.
-			//create_particle_effect(x,y,"spark",60,c_red,10,90,3,15)
         }
-    } else {
+    }
+    else {
         queimando = false;
     }
 }
 
+if (vida <= 0) {
+    global.inimigos_mortos += 1;
+    gc_game_state_sync_from_legacy();
+    gc_quest_notify("matar", "inimigo", 1);
 
-if (stun_timer > 0) {
-    stun_timer--;
-    // aqui você pode reduzir velocidade ou pular movimentação
-    // ex: velocidade = 0; ou return; (se for script)
+    instance_destroy();
+    exit;
 }

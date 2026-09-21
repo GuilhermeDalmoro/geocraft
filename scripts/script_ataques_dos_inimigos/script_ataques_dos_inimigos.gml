@@ -60,10 +60,9 @@ function scr_ataques_boss(_boss, _ataque_id, _fase, _timer) {
                 if (_timer mod 30 == 0) {
                     var _obstaculo = instance_create_depth(700, 260, -1, obj_projetil_batalha);
                     _obstaculo.dano = 5;
-                   _obstaculo.hspeed = 6;
-                    _obstaculo.sprite_index = spr_espinho_turno; // Cubo com espinhos
-					_obstaculo.direction = obj_sdash_icon;
-					//_obstaculo.
+                    _obstaculo.hspeed = -6;
+                    _obstaculo.direction = 180;
+                    _obstaculo.sprite_index = spr_espinho_turno;
                     _obstaculo.desaparecer = true;
                 }
                 if (_timer >= 180) {
