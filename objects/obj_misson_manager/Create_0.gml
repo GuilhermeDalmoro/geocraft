@@ -5,6 +5,7 @@ if (instance_number(obj_misson_manager) > 1) {
 }
 
 gc_game_state_bootstrap();
+gc_world_restore_room(room_get_name(room));
 
 last_room_seen = room;
 journal_pause_owned = false;
