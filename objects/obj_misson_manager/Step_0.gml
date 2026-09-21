@@ -43,3 +43,13 @@ if (keyboard_check_pressed(ord("M"))
 if (keyboard_check_pressed(vk_f10)) {
     global.game_state.runtime.debug_open = !global.game_state.runtime.debug_open;
 }
+
+
+// F9 liga/desliga atalhos internos de desenvolvimento.
+if (keyboard_check_pressed(vk_f9)) {
+    global.game_state.runtime.dev_mode = !global.game_state.runtime.dev_mode;
+    gc_quest_toast(
+        global.game_state.runtime.dev_mode ? "DEV MODE: ON" : "DEV MODE: OFF",
+        90
+    );
+}
