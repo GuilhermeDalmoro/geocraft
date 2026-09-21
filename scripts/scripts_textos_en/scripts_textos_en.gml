@@ -83,8 +83,7 @@ function scr_textos_en() {
 			
         case "Texto treino pag 2":
             ds_grid_add_text("AWESOME JOB SDASH, YOU DID IT!!", spr_ret_king_arts_orgulhoso, 1, "King of Art's");
-            gc_state_magic_set(1, true);
-            gc_quest_complete("treino_gmd");
+gc_quest_complete("treino_gmd");
             gc_quest_start("alimentar_cavalos");
             ds_grid_add_text("Youre all set now, Sdash. Wait for me at the stable, well go feed Almudeao’s horses:", spr_ret_king_arts_orgulhoso, 1, "King of Art's");
             break;
