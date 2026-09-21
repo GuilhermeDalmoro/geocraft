@@ -1,3 +1,10 @@
+map_surface = -1;
+
+if (instance_number(obj_minimap) > 1) {
+    instance_destroy();
+    exit;
+}
+
 // Minimap cacheado: tiles estaticos sao reconstruidos apenas ao trocar de room
 // ou quando a surface for perdida.
 
