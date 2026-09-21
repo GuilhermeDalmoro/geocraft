@@ -15,6 +15,12 @@ else {
 
 var _player = instance_exists(obj_sdash) ? instance_find(obj_sdash, 0) : noone;
 
+if (global.pause) {
+    hveloc = 0;
+    vveloc = 0;
+    exit;
+}
+
 // Interacoes usam distancia, nao colisao exata.
 if (!montado && instance_exists(_player)) {
     var _dist = point_distance(x, y, _player.x, _player.y);
