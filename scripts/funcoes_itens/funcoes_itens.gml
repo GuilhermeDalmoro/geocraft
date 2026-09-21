@@ -113,13 +113,13 @@ global.item_player = noone;
 //criando um item
 var _reia = new cria_item(ITENS.reia, "dejeto", "Um pequeno pedaço de dejeto alienigena fresquinho", spr_item_reia, 0, 0, 1, "Deixa vc mais feliz", "Comum", 0, TIPO_ITENS.consumivel);
                                     
-var _arco = new cria_item(ITENS.arco, "Arco", "Um arco que destroi tudo pela frente", spr_arco, 0, 10, 1, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.armamento);
+var _arco = new cria_item(ITENS.arco, "Arco", "Arco cubico: preciso, simples e bem menos decorativo agora.", spr_arco, 0, 3, 1, "Ataque a distancia", "Padrao", 10, TIPO_ITENS.armamento);
                                     
 var _gd = new cria_item(ITENS.gd, "gd", "Um cubinho que é sapeca", spr_item_gd, 0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
                                     
 var _cura = new cria_item(ITENS.cura, "cura", "Uma poção de cura: +10hp", spr_pocao_cura, 0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
                             
-var _espadalv1 = new cria_item(ITENS.espadalv1, "espada", "Uma espada de agua, em que machuca muito :(", spr_espada, 0, 1, 1, 1, 1, 1, TIPO_ITENS.armamento);
+var _espadalv1 = new cria_item(ITENS.espadalv1, "Espada Cubica", "Uma espada reforcada para combate corpo a corpo.", spr_espada, 0, 3, 1, "Ataque corpo a corpo", "Padrao", 1, TIPO_ITENS.armamento);
                             
 var _neve = new cria_item(ITENS.boladeneve, "Neve", "Isto é uma bolinha de neve, leve ao fim do planeta", spr_particula, 0, 1, 1, 1, 1, 1, TIPO_ITENS.material, 64);
                                                                                     
