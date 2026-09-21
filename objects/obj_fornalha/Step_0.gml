@@ -340,6 +340,8 @@ if (ui_open) {
             && global.game_state.runtime.modal_ui == "fornalha") {
                 global.game_state.runtime.modal_ui = "";
             }
+
+            global.game_state.runtime.interaction_lock = 3;
         }
 
         tocar_som_efeito(snd_blip_select, 1, 0.95);
@@ -353,7 +355,16 @@ if (ui_open) {
 // ABRIR INTERFACE
 // =====================================================
 
+var _interaction_ready = true;
+
+if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+    if (variable_struct_exists(global.game_state.runtime, "interaction_lock")) {
+        _interaction_ready = (global.game_state.runtime.interaction_lock <= 0);
+    }
+}
+
 if (_dist <= 58
+&& _interaction_ready
 && !global.pause
 && !global.dialogo_acontecendo
 && (keyboard_check_pressed(ord("F"))
