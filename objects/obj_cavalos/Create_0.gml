@@ -18,3 +18,5 @@ image_xscale = 1;
 feed_key = "cavalo_" + room_get_name(room) + "_" + string(round(x)) + "_" + string(round(y));
 alimentado = gc_state_flag_get(feed_key, false);
 feed_flash = 0;
+
+mount_cooldown = 0;
