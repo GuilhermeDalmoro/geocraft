@@ -97,6 +97,8 @@ draw_set_halign(fa_left);
 // Janela do mundo em torno do jogador.
 var _player = instance_find(obj_sdash, 0);
 
+if (variable_instance_exists(_player, "active") && !_player.active) exit;
+
 var _view_world_w = _draw_expanded
     ? min(room_width, 1500)
     : min(room_width, 720);
