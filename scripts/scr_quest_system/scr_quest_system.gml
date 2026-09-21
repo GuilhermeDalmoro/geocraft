@@ -177,6 +177,10 @@ function gc_quest_complete(_id) {
     _q.status = "concluida";
     gc_quest_apply_rewards(_q);
     gc_state_flag_set("quest_" + _q.id_m + "_concluida", true);
+
+    if (_q.id_m == "treino_gmd") global.missao1_terminou = true;
+    if (_q.id_m == "alimentar_cavalos") global.missao2_terminou = true;
+
     gc_quest_toast("Missao concluida: " + _q.nome, 240);
     show_debug_message("[QUEST] Concluida: " + _q.id_m);
 
@@ -222,6 +226,11 @@ function gc_quest_notify(_type, _target, _amount = 1) {
 
         if (_quest_changed && gc_quest_all_objectives_complete(_q)) {
             _q.status = "pronta";
+            gc_state_flag_set("quest_" + _q.id_m + "_objetivos", true);
+
+            // Ponte com controllers antigos de missao/cutscene.
+            if (_q.id_m == "treino_gmd") global.missao1_terminou = true;
+
             gc_quest_toast("Objetivos completos: " + _q.nome, 200);
 
             if (variable_struct_exists(_q, "auto_complete") && _q.auto_complete) {
