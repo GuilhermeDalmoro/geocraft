@@ -110,6 +110,14 @@ function gc_session_cleanup() {
     global.pause = false;
     global.pause_por_inventario = false;
     global.dialogo_acontecendo = false;
+
+    if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+        global.game_state.runtime.pause = false;
+        global.game_state.runtime.pause_por_inventario = false;
+        global.game_state.runtime.dialogo_acontecendo = false;
+        global.game_state.runtime.modal_ui = "";
+        global.game_state.runtime.interaction_lock = 0;
+    }
 }
 
 function gc_session_bootstrap_for_load() {
