@@ -28,23 +28,37 @@ var _blocking_ui =
     );
 
 if (keyboard_check_pressed(vk_escape) && !_blocking_ui) {
-    global.pause_menu.active = !global.pause_menu.active;
-    pause_page = 0;
+    if (global.pause_menu.active && pause_page == 1) {
+        // ESC dentro de Opcoes volta para o menu de pause, nao fecha o pause inteiro.
+        ini_open("config.ini");
+        ini_write_real("audio", "volume", global.volume_mestre);
+        ini_write_real("video", "fullscreen", pause_fullscreen ? 1 : 0);
+        ini_write_real("game", "dificuldade", global.dificuldade);
+        ini_write_real("save", "last_slot", global.save_slot);
+        ini_close();
 
-    global.pause = global.pause_menu.active;
-    global.pause_por_inventario = false;
-
-    if (variable_global_exists("game_state") && is_struct(global.game_state)) {
-        global.game_state.runtime.pause = global.pause;
-    }
-
-    if (global.pause) {
-        pause_volume = global.volume_mestre;
-        pause_fullscreen = window_get_fullscreen();
+        pause_page = 0;
         audio_pause_all();
     }
     else {
-        audio_resume_all();
+        global.pause_menu.active = !global.pause_menu.active;
+        pause_page = 0;
+
+        global.pause = global.pause_menu.active;
+        global.pause_por_inventario = false;
+
+        if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+            global.game_state.runtime.pause = global.pause;
+        }
+
+        if (global.pause) {
+            pause_volume = global.volume_mestre;
+            pause_fullscreen = window_get_fullscreen();
+            audio_pause_all();
+        }
+        else {
+            audio_resume_all();
+        }
     }
 }
 
