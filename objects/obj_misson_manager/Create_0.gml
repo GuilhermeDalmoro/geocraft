@@ -1,16 +1,22 @@
-//show_message("Gerenciador de missões iniciado");
+/// Bootstrap central da campanha.
+/// Este objeto ja era persistente e aparece em mais de uma room.
+/// Se uma room tentar criar uma segunda copia, mantemos apenas o singleton antigo.
+if (instance_number(obj_misson_manager) > 1) {
+    instance_destroy();
+    exit;
+}
 
-global.missoes = scr_missoes_banco();
+gc_game_state_bootstrap();
 
-//show_message("Missões carregadas:");
-//show_message(global.missoes[0].id_m);
+// Compatibilidade: global.missoes aponta para os mesmos structs guardados no GameState.
+global.missoes = global.game_state.missions;
 
+// Mantem a intencao do prototipo antigo: a missao de teste comeca ativa.
+// Agora passamos o ID correto (antes era passado o struct inteiro por engano).
 var _m = scr_missoes_pegar("teste");
+if (_m != noone && _m.status == "bloqueada") {
+    scr_missoes_iniciar("teste");
+}
 
-scr_missoes_iniciar(_m);
-
-if (_m != noone) {
-    //show_message("Missão encontrada: " + _m.nome);
-} else {
-    //show_message("Missão NÃO encontrada");
-    }
+gc_game_state_sync_from_legacy();
+gc_game_state_debug_print();
