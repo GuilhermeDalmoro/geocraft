@@ -16,7 +16,7 @@ function gc_game_state_make_defaults() {
     gc_global_ensure("dialogo_acontecendo", false);
     gc_global_ensure("modo_construcao", false);
     gc_global_ensure("tutorial", true);
-    gc_global_ensure("tem_magia", false);
+    gc_global_ensure("tem_magia", array_create(5, false));
     gc_global_ensure("moedas", 0);
     gc_global_ensure("inimigos_mortos", 0);
     gc_global_ensure("cabalos_alimentados", 0);
@@ -118,7 +118,7 @@ function gc_game_state_sync_from_legacy() {
     _s.campaign.economy.moedas               = gc_global_ensure("moedas", 0);
 
     _s.campaign.unlocks.tutorial  = gc_global_ensure("tutorial", true);
-    _s.campaign.unlocks.tem_magia = gc_global_ensure("tem_magia", false);
+    _s.campaign.unlocks.tem_magia = gc_global_ensure("tem_magia", array_create(5, false));
 
     for (var _i = 0; _i < 6; _i++) {
         _s.campaign.areas[_i] = gc_global_ensure("area_" + string(_i + 1), false);
@@ -260,10 +260,21 @@ function gc_state_area_set(_area_index, _unlocked = true) {
     return _unlocked;
 }
 
-function gc_state_magic_set(_unlocked = true) {
+function gc_state_magic_set(_slot, _unlocked = true) {
     gc_game_state_bootstrap();
-    global.game_state.campaign.unlocks.tem_magia = _unlocked;
-    global.tem_magia = _unlocked;
+
+    if (!is_array(global.game_state.campaign.unlocks.tem_magia)) {
+        global.game_state.campaign.unlocks.tem_magia = array_create(5, false);
+    }
+
+    var _index = clamp(_slot, 0, array_length(global.game_state.campaign.unlocks.tem_magia) - 1);
+    global.game_state.campaign.unlocks.tem_magia[_index] = _unlocked;
+
+    if (!is_array(global.tem_magia)) {
+        global.tem_magia = array_create(5, false);
+    }
+    global.tem_magia[_index] = _unlocked;
+
     return _unlocked;
 }
 
