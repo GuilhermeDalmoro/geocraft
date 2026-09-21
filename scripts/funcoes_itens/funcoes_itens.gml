@@ -199,48 +199,36 @@ _cogumelo.usa_item = function(){
 
 #region Ataques das armas
 
-_espadalv1.usa_arma = function(){
-    if instance_exists(obj_sdash) {
-        with (obj_sdash) {
-            pode_andar = false;
-            visible = false
-            var _layer = layer_create(depth, "ataque_especial");
-            layer_sequence_create(_layer, obj_sdash.x, obj_sdash.y, sq_ataque_especial_sdash1);
-        }
-    }
-}
-    
-_arco.usa_arma = function(){
-            if instance_exists(obj_sdash) {
-        with (obj_sdash) {
-            pode_andar = false;
-            visible = false
-            var _layer = layer_create(depth, "ataque_especial");
-            layer_sequence_create(_layer, x, y, sq_ataque_especial_sdash1);
-        }
-    }
+_espadalv1.usa_arma = function() {
+    if (!instance_exists(obj_sdash)) return;
+
+    with (obj_sdash) {
+        if (global.pause) exit;
+
+        // Usa o combate real do Sdash. A sequence antiga continuava bonita,
+        // mas nao possuia o momento de dano ligado na timeline.
+        scr_sdash_iniciar_corpo_a_corpo(3);
+    }
 }
 
-_vara_pesca.usa_arma = function(){
-            if instance_exists(obj_sdash) {
-        with (obj_sdash) {
-            //pode_andar = false;
-            //visible = false
-            //fazer a porra da vara funcionar
-        }
-    }
+_arco.usa_arma = function() {
+    if (!instance_exists(obj_sdash)) return;
+
+    with (obj_sdash) {
+        if (global.pause) exit;
+
+        arco_dano = 3;
+        image_index = 0;
+        image_speed = 1;
+        estado = scr_sdash_arco;
+    }
 }
 
-/*
- * como spwanar um item na room?
- * metodo 1: utilizar dentro de um outro objeto pra spawnar usando esse codigo como ex
- * var _inst_exemplo = instance_create_layer(x, y, "Instances", obj_item)  
- * _inst_exemplo.item = global.itens[| ITENS.exemplo]
- * 
- * metodo 2: colocar um obj item na room e mudar a variavel de objeto do
- * obj item
- * 
- */
+_vara_pesca.usa_arma = function() {
+    if (instance_exists(obj_sdash)) {
+        gc_quest_toast("A vara de pesca ainda nao aprendeu a pescar. Cubos...", 90);
+    }
+}
 
 #endregion
 
