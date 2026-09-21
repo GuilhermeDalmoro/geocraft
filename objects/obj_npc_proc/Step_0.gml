@@ -4,6 +4,7 @@ if (inimigo != noone) {
     var d = point_distance(x, y, inimigo.x, inimigo.y);
 
     if (d < 50 && bravery < 60) {
+        flee_from = inimigo;
         state = NPC_STATE.FLEE;
     }
 
@@ -22,12 +23,32 @@ if (state == NPC_STATE.IDLE) {
 
     // Quer conversar
     if (need_social > 70 && sociable > 50) {
-        var outro = instance_nearest(x, y, obj_npc_proc);
-        if (outro != noone && outro != id && point_distance(x,y,outro.x,outro.y) < 40) {
+        var outro = noone;
+        var _best_dist = 999999;
+
+        for (var _ni = 0; _ni < instance_number(obj_npc_proc); _ni++) {
+            var _candidate = instance_find(obj_npc_proc, _ni);
+            if (_candidate == noone || _candidate == id) continue;
+
+            var _d_npc = point_distance(x, y, _candidate.x, _candidate.y);
+            if (_d_npc < _best_dist) {
+                _best_dist = _d_npc;
+                outro = _candidate;
+            }
+        }
+
+        if (outro != noone && _best_dist < 40) {
             state = NPC_STATE.TALK;
             talk_target = outro;
-            need_social -= 40;
+            talk_timer = 0;
+            need_social = max(0, need_social - 40);
         }
+    }
+
+    // Descanso simples: permanece parado por mais tempo e reduz a necessidade.
+    else if (need_rest > 80) {
+        need_rest = max(0, need_rest - 55);
+        wait_time = irandom_range(120, 240);
     }
 
     // Quer andar

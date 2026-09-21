@@ -3,7 +3,9 @@ need_social   = irandom_range(30, 100);
 need_rest     = irandom_range(30, 100);
 need_wander   = irandom_range(30, 100);
 
-flee_from = noone
+flee_from = noone;
+talk_target = noone;
+talk_timer = 0;
 
 // ---- PERSONALIDADE ----
 bravery = irandom_range(20, 80); // coragem
@@ -36,7 +38,7 @@ target_y = y;
 wait_time = irandom_range(60, 200);
 
 image_xscale = choose(-1, 1);
-image_yscale = choose(-1, 1);
+image_yscale = 1;
 
 visual_y_offset = irandom_range(-1, 2);
 

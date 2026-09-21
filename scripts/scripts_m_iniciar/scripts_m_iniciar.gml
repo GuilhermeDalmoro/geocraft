@@ -1,11 +1,10 @@
-function scr_missoes_iniciar(id) {
-    
-    //show_message("scr_missoes_iniciar CHAMADO")
-    
-    var _m = scr_missoes_pegar(id);
-    if (_m == noone) return;
+function scr_missoes_iniciar(_missao_ou_id) {
+    var _id = _missao_ou_id;
 
-    _m.status = "ativa";
-    //show_message("Missão ativada: " + _m.id_m);
+    if (is_struct(_missao_ou_id)) {
+        if (!variable_struct_exists(_missao_ou_id, "id_m")) return false;
+        _id = _missao_ou_id.id_m;
+    }
+
+    return gc_quest_start(_id);
 }
-

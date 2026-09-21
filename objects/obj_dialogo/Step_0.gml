@@ -1,7 +1,27 @@
 if (!inicializar) {
-    // Chama o script correto baseado no idioma
-    if (global.lingua == "pt-br") script_execute(scr_textos);
-    else script_execute(scr_textos_en);
+    // Chama o script correto baseado no idioma.
+    if (global.lingua == "pt-br") {
+        script_execute(scr_textos);
+    }
+    else {
+        script_execute(scr_textos_en);
+
+        // A traducao em ingles ainda nao cobre todos os dialogos.
+        // Em vez de quebrar o jogo com uma grid vazia, usa PT-BR como fallback.
+        if (ds_grid_height(texto_grid) <= 0) {
+            show_debug_message("[DIALOGO] Fallback PT-BR para: " + string(npc_nome));
+            script_execute(scr_textos);
+        }
+    }
+
+    // Dialogo desconhecido nao pode acessar linha 0 de uma grid vazia.
+    if (ds_grid_height(texto_grid) <= 0) {
+        show_debug_message("[DIALOGO] Nenhum texto encontrado para: " + string(npc_nome));
+        global.pause = false;
+        global.dialogo_acontecendo = false;
+        instance_destroy();
+        exit;
+    }
     
     inicializar = true;
     alarm[0] = 1;
@@ -37,23 +57,45 @@ if (!inicializar) {
         }
         if (_char == "]" && _in_tag) {
             _in_tag = false;
-            if (_tag == "semefeito") _efeito = { tipo: "nenhum", cor: c_white };
-            else if (string_pos("tremor", _tag) == 1) _efeito.tipo = string_pos("/tremor", _tag) == 0 ? "tremor" : "nenhum";
-            else if (string_pos("bounce", _tag) == 1) _efeito.tipo = string_pos("/bounce", _tag) == 0 ? "bounce" : "nenhum";
-            else if (string_pos("pulsar", _tag) == 1) _efeito.tipo = string_pos("/pulsar", _tag) == 0 ? "pulsar" : "nenhum";
-            else if (string_pos("onda", _tag) == 1) _efeito.tipo = string_pos("/onda", _tag) == 0 ? "onda" : "nenhum";
-            else if (string_pos("abalo", _tag) == 1) _efeito.tipo = string_pos("/abalo", _tag) == 0 ? "abalo" : "nenhum";
-            else if (string_pos("flutuar", _tag) == 1) _efeito.tipo = string_pos("/flutuar", _tag) == 0 ? "flutuar" : "nenhum";
-            else if (string_pos("zoom", _tag) == 1) _efeito.tipo = string_pos("/zoom", _tag) == 0 ? "zoom" : "nenhum";
-            else if (string_pos("cor=", _tag) == 1) {
-                var _cor = string_replace(_tag, "cor=", "");
-                if (_cor == "vermelho") _efeito.cor = c_red;
-                else if (_cor == "azul") _efeito.cor = c_blue;
-                else if (_cor == "amarelo") _efeito.cor = c_yellow;
-                else if (_cor == "roxo") _efeito.cor = c_purple;
-                else if (_cor == "laranja") _efeito.cor = c_orange;
-                else if (_cor == "verde") _efeito.cor = c_green;
-                else if (_cor == "/cor") _efeito.cor = c_white;
+            if (_tag == "semefeito" || _tag == "noeffect") {
+                _efeito = { tipo: "nenhum", cor: c_white };
+            }
+            else if (string_pos("tremor", _tag) == 1 || string_pos("shake", _tag) == 1) {
+                _efeito.tipo = (string_pos("/tremor", _tag) == 0 && string_pos("/shake", _tag) == 0) ? "tremor" : "nenhum";
+            }
+            else if (string_pos("bounce", _tag) == 1) {
+                _efeito.tipo = string_pos("/bounce", _tag) == 0 ? "bounce" : "nenhum";
+            }
+            else if (string_pos("pulsar", _tag) == 1 || string_pos("pulse", _tag) == 1) {
+                _efeito.tipo = (string_pos("/pulsar", _tag) == 0 && string_pos("/pulse", _tag) == 0) ? "pulsar" : "nenhum";
+            }
+            else if (string_pos("onda", _tag) == 1 || string_pos("wave", _tag) == 1) {
+                _efeito.tipo = (string_pos("/onda", _tag) == 0 && string_pos("/wave", _tag) == 0) ? "onda" : "nenhum";
+            }
+            else if (string_pos("abalo", _tag) == 1) {
+                _efeito.tipo = string_pos("/abalo", _tag) == 0 ? "abalo" : "nenhum";
+            }
+            else if (string_pos("flutuar", _tag) == 1 || string_pos("float", _tag) == 1) {
+                _efeito.tipo = (string_pos("/flutuar", _tag) == 0 && string_pos("/float", _tag) == 0) ? "flutuar" : "nenhum";
+            }
+            else if (string_pos("zoom", _tag) == 1) {
+                _efeito.tipo = string_pos("/zoom", _tag) == 0 ? "zoom" : "nenhum";
+            }
+            else if (_tag == "/cor" || _tag == "/color") {
+                _efeito.cor = c_white;
+            }
+            else if (string_pos("cor=", _tag) == 1 || string_pos("color=", _tag) == 1) {
+                var _cor = _tag;
+                _cor = string_replace(_cor, "cor=", "");
+                _cor = string_replace(_cor, "color=", "");
+
+                if (_cor == "vermelho" || _cor == "red") _efeito.cor = c_red;
+                else if (_cor == "azul" || _cor == "blue") _efeito.cor = c_blue;
+                else if (_cor == "amarelo" || _cor == "yellow") _efeito.cor = c_yellow;
+                else if (_cor == "roxo" || _cor == "purple") _efeito.cor = c_purple;
+                else if (_cor == "laranja" || _cor == "orange") _efeito.cor = c_orange;
+                else if (_cor == "verde" || _cor == "green") _efeito.cor = c_green;
+                else if (_cor == "branco" || _cor == "white") _efeito.cor = c_white;
             }
             continue;
         }
@@ -102,23 +144,45 @@ if (caractere < string_length(texto_grid[# Infosnpc.Texto, pagina])) {
                 }
                 if (_char == "]" && _in_tag) {
                     _in_tag = false;
-                    if (_tag == "semefeito") _efeito = { tipo: "nenhum", cor: c_white };
-                    else if (string_pos("tremor", _tag) == 1) _efeito.tipo = string_pos("/tremor", _tag) == 0 ? "tremor" : "nenhum";
-                    else if (string_pos("bounce", _tag) == 1) _efeito.tipo = string_pos("/bounce", _tag) == 0 ? "bounce" : "nenhum";
-                    else if (string_pos("pulsar", _tag) == 1) _efeito.tipo = string_pos("/pulsar", _tag) == 0 ? "pulsar" : "nenhum";
-                    else if (string_pos("onda", _tag) == 1) _efeito.tipo = string_pos("/onda", _tag) == 0 ? "onda" : "nenhum";
-                    else if (string_pos("abalo", _tag) == 1) _efeito.tipo = string_pos("/abalo", _tag) == 0 ? "abalo" : "nenhum";
-                    else if (string_pos("flutuar", _tag) == 1) _efeito.tipo = string_pos("/flutuar", _tag) == 0 ? "flutuar" : "nenhum";
-                    else if (string_pos("zoom", _tag) == 1) _efeito.tipo = string_pos("/zoom", _tag) == 0 ? "zoom" : "nenhum";
-                    else if (string_pos("cor=", _tag) == 1) {
-                        var _cor = string_replace(_tag, "cor=", "");
-                        if (_cor == "vermelho") _efeito.cor = c_red;
-                        else if (_cor == "azul") _efeito.cor = c_blue;
-                        else if (_cor == "amarelo") _efeito.cor = c_yellow;
-                        else if (_cor == "roxo") _efeito.cor = c_purple;
-                        else if (_cor == "laranja") _efeito.cor = c_orange;
-                        else if (_cor == "verde") _efeito.cor = c_green;
-                        else if (_cor == "/cor") _efeito.cor = c_white;
+                    if (_tag == "semefeito" || _tag == "noeffect") {
+                        _efeito = { tipo: "nenhum", cor: c_white };
+                    }
+                    else if (string_pos("tremor", _tag) == 1 || string_pos("shake", _tag) == 1) {
+                        _efeito.tipo = (string_pos("/tremor", _tag) == 0 && string_pos("/shake", _tag) == 0) ? "tremor" : "nenhum";
+                    }
+                    else if (string_pos("bounce", _tag) == 1) {
+                        _efeito.tipo = string_pos("/bounce", _tag) == 0 ? "bounce" : "nenhum";
+                    }
+                    else if (string_pos("pulsar", _tag) == 1 || string_pos("pulse", _tag) == 1) {
+                        _efeito.tipo = (string_pos("/pulsar", _tag) == 0 && string_pos("/pulse", _tag) == 0) ? "pulsar" : "nenhum";
+                    }
+                    else if (string_pos("onda", _tag) == 1 || string_pos("wave", _tag) == 1) {
+                        _efeito.tipo = (string_pos("/onda", _tag) == 0 && string_pos("/wave", _tag) == 0) ? "onda" : "nenhum";
+                    }
+                    else if (string_pos("abalo", _tag) == 1) {
+                        _efeito.tipo = string_pos("/abalo", _tag) == 0 ? "abalo" : "nenhum";
+                    }
+                    else if (string_pos("flutuar", _tag) == 1 || string_pos("float", _tag) == 1) {
+                        _efeito.tipo = (string_pos("/flutuar", _tag) == 0 && string_pos("/float", _tag) == 0) ? "flutuar" : "nenhum";
+                    }
+                    else if (string_pos("zoom", _tag) == 1) {
+                        _efeito.tipo = string_pos("/zoom", _tag) == 0 ? "zoom" : "nenhum";
+                    }
+                    else if (_tag == "/cor" || _tag == "/color") {
+                        _efeito.cor = c_white;
+                    }
+                    else if (string_pos("cor=", _tag) == 1 || string_pos("color=", _tag) == 1) {
+                        var _cor = _tag;
+                        _cor = string_replace(_cor, "cor=", "");
+                        _cor = string_replace(_cor, "color=", "");
+
+                        if (_cor == "vermelho" || _cor == "red") _efeito.cor = c_red;
+                        else if (_cor == "azul" || _cor == "blue") _efeito.cor = c_blue;
+                        else if (_cor == "amarelo" || _cor == "yellow") _efeito.cor = c_yellow;
+                        else if (_cor == "roxo" || _cor == "purple") _efeito.cor = c_purple;
+                        else if (_cor == "laranja" || _cor == "orange") _efeito.cor = c_orange;
+                        else if (_cor == "verde" || _cor == "green") _efeito.cor = c_green;
+                        else if (_cor == "branco" || _cor == "white") _efeito.cor = c_white;
                     }
                     continue;
                 }
@@ -143,12 +207,22 @@ if (caractere < string_length(texto_grid[# Infosnpc.Texto, pagina])) {
     } else {
         if (opcao_numero != 0) opcao_draw = true;
         else if (keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(global.controle, gp_face1)) {
+            // Dialogos agora emitem eventos para missoes antes de fechar.
+            gc_quest_notify("falar", npc_nome, 1);
+
             if (instance_exists(npc_ref)) {
                 npc_ref.terminou_dialogo = true;
+
+                if (variable_instance_exists(npc_ref, "nome")) {
+                    if (string(npc_ref.nome) != string(npc_nome)) {
+                        gc_quest_notify("falar", string(npc_ref.nome), 1);
+                    }
+                }
             }
-            instance_destroy();
+
             global.pause = false;
-            global.dialogo_acontecendo = !global.dialogo_acontecendo;
+            global.dialogo_acontecendo = false;
+            instance_destroy();
             // if (global.comeca_batalha) {
             // if (global.turno == 0) {
             // global.batalha_menu = 0; // Ativa menu após diálogo do jogador

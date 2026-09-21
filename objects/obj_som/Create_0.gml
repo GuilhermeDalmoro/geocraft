@@ -1,7 +1,15 @@
 /// @description Iniciando as variaveis
-global.volume_sfx = 1;
-global.volume_musica = 1;
-global.volume_mestre = 1;
+if (!variable_global_exists("volume_sfx")) global.volume_sfx = 1;
+if (!variable_global_exists("volume_musica")) global.volume_musica = 1;
+if (!variable_global_exists("volume_mestre")) global.volume_mestre = 1;
+
+if (file_exists("config.ini")) {
+    ini_open("config.ini");
+    global.volume_mestre = clamp(ini_read_real("audio", "volume", global.volume_mestre), 0, 1);
+    ini_close();
+}
+
+audio_master_gain(global.volume_mestre);
 
 
 audio_controller = new audio_controle("volume_sfx", "volume_musica", "volume_mestre");
