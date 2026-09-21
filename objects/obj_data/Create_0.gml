@@ -23,6 +23,14 @@ function gc_save_backup_path(_slot) {
     return "save_slot_" + string(_slot) + "_backup.json";
 }
 
+function gc_save_remember_slot(_slot) {
+    _slot = gc_save_slot_clamp(_slot);
+
+    ini_open("config.ini");
+    ini_write_real("save", "last_slot", _slot);
+    ini_close();
+}
+
 function gc_save_item_id() {
     if (!variable_global_exists("item_player")) return -1;
     if (global.item_player == noone || !is_struct(global.item_player)) return -1;
@@ -225,6 +233,7 @@ global.delete_save_slot = function(_slot) {
 global.novo_jogo = function(_slot) {
     _slot = gc_save_slot_clamp(_slot);
     global.save_slot = _slot;
+    gc_save_remember_slot(_slot);
 
     gc_session_cleanup();
     global.delete_save_slot(_slot);
@@ -244,6 +253,7 @@ global.voltar_menu = function() {
 global.salva_jogo = function(_slot = global.save_slot) {
     _slot = gc_save_slot_clamp(_slot);
     global.save_slot = _slot;
+    gc_save_remember_slot(_slot);
 
     if (!instance_exists(obj_sdash)) {
         show_debug_message("[SAVE] Cancelado: Sdash nao existe.");
@@ -314,6 +324,7 @@ global.salva_jogo = function(_slot = global.save_slot) {
 global.carrega_jogo = function(_slot = global.save_slot) {
     _slot = gc_save_slot_clamp(_slot);
     global.save_slot = _slot;
+    gc_save_remember_slot(_slot);
 
     var _path = gc_save_path(_slot);
     var _backup_path = gc_save_backup_path(_slot);
