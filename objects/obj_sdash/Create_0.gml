@@ -106,6 +106,9 @@ dano_alfa = -1;
 //armas do sdash
 arma = 0;
 
+//Magias
+magia_cooldown = 0;
+
 //fade in da transicao
 fade_alpha = 0;
 fade_estado = 0;
