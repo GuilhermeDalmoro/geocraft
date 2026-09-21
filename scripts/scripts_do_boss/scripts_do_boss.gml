@@ -1,8 +1,15 @@
 function scr_boss_escolher_ataque(){
 	if alarm[0] <= 0 and obj_boss_andrius.comecou_luta{
-		var _ataque = choose(scr_boss_ataque1,scr_boss_ataque2,scr_boss_ataque3,scr_boss_ataque4); //o boss vai escolher qual ataque lançar
-		estado = _ataque;
-		alarm[0] = 100;
+        var _ataque = choose(scr_boss_ataque1, scr_boss_ataque2, scr_boss_ataque3, scr_boss_ataque4);
+        estado = _ataque;
+
+        var _delay = 100;
+        if (variable_instance_exists(id, "fase_boss")) {
+            if (fase_boss == 2) _delay = 75;
+            if (fase_boss >= 3) _delay = 50;
+        }
+
+        alarm[0] = _delay;
 	}
 }
 
@@ -29,8 +36,8 @@ function scr_boss_ataque1(){//bonequinho do geometry dash
 	repeat(12){  // cria 12 vezes o projetil do andrin
 			var _inst = instance_create_layer(x, y, "Instances", obj_boss_andrius_projetil);
 			_inst.speed = 4 //velocidade do projetil
-			_inst.direction = _dir; //direção do projetil
-			_dir1 +=  45; //faz com que o projetil va nas 4 direções 
+			_inst.direction = _dir1; //direcao radial correta
+			_dir1 += 30; //faz com que o projetil va nas 4 direções 
 	}
 	estado = scr_boss_escolher_ataque;
 }
@@ -103,8 +110,8 @@ function scr_boss_ataque4(){//ataque numerico
 		var _inst = instance_create_layer(x, y, "Instances", obj_numeros);
 				_inst.sprite_index = choose(spr_numeros);
 				_inst.speed = 1 //velocidade do projetil
-				_inst.direction = _dir1; //direção do projetil
-				_dir +=  45; //faz com que o projetil va nas 4 direções 
+				_inst.direction = _dir1; //direcao radial correta
+				_dir1 += 45; //faz com que o projetil va nas 4 direções 
 				_inst.image_xscale = 0.5; // Reduz a escala no eixo X (50% do tamanho original)
                 _inst.image_yscale = 0.5; // Reduz a escala no eixo Y (50% do tamanho original)
 			//_inst.image_alpha = 0.5; //alfa da imagem
