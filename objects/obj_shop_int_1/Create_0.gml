@@ -11,4 +11,9 @@ fechando = false;
 
 global.pause = true;
 
+if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+    global.game_state.runtime.pause = true;
+    global.game_state.runtime.modal_ui = "loja";
+}
+
 gc_quest_toast("Loja aberta", 45);
