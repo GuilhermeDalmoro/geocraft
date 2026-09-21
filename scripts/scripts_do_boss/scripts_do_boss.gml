@@ -1,121 +1,129 @@
-function scr_boss_escolher_ataque(){
-	if alarm[0] <= 0 and obj_boss_andrius.comecou_luta{
-        var _ataque = choose(scr_boss_ataque1, scr_boss_ataque2, scr_boss_ataque3, scr_boss_ataque4);
-        estado = _ataque;
+function scr_boss_escolher_ataque() {
+    if (alarm[0] <= 0 && comecou_luta) {
+        estado = choose(
+            scr_boss_ataque1,
+            scr_boss_ataque2,
+            scr_boss_ataque3,
+            scr_boss_ataque4
+        );
 
         var _delay = 100;
+
         if (variable_instance_exists(id, "fase_boss")) {
             if (fase_boss == 2) _delay = 75;
             if (fase_boss >= 3) _delay = 50;
         }
 
         alarm[0] = _delay;
-	}
+    }
 }
 
-function scr_boss_ataque1(){//bonequinho do geometry dash
-	
-	   var _dir = 0; // direção do ataque
-    var _repeticao = irandom_range(2,6);
-    repeat(_repeticao) { // cria diferentes quantidades de miniosn em diferentes direções
-		obj_boss_andrius.image_index = spr_andrius_estado_minions;
-        var _inst = instance_create_layer(x, y, "Instances", obj_minion_andrius_1);
-        
-        _inst.speed				     = 1; // velocidade do projétil
-        _inst.direction		     = _dir; // direção do projétil
-        _inst.image_xscale     = 0.5; // Reduz a escala no eixo X (50% do tamanho original)
-        _inst.image_yscale     = 0.5; // Reduz a escala no eixo Y (50% do tamanho original)
+function scr_boss_ataque1() {
+    // ANEL GEOMETRICO: projeteis em 360 graus.
+    sprite_index = spr_andrius_boss;
 
-        _dir += 45; // faz com que o projétil vá nas 4 direções
+    var _count = 8 + (fase_boss - 1) * 4;
+    var _step = 360 / _count;
+
+    for (var _i = 0; _i < _count; _i++) {
+        var _proj = instance_create_layer(
+            x,
+            y,
+            "Instances",
+            obj_boss_andrius_projetil
+        );
+
+        _proj.speed = 3.3 + fase_boss * 0.35;
+        _proj.direction = _i * _step;
     }
+
     estado = scr_boss_escolher_ataque;
-	obj_boss_andrius.image_index = spr_andrius_boss
-	
-		var _dir1 = 0; //direção do ataque
-   		
-	repeat(12){  // cria 12 vezes o projetil do andrin
-			var _inst = instance_create_layer(x, y, "Instances", obj_boss_andrius_projetil);
-			_inst.speed = 4 //velocidade do projetil
-			_inst.direction = _dir1; //direcao radial correta
-			_dir1 += 30; //faz com que o projetil va nas 4 direções 
-	}
-	estado = scr_boss_escolher_ataque;
 }
 
-function scr_boss_ataque2(){//ataque dos minions felipitos
-	//obj_boss_andrius.image_index = spr_andrius_estado_minions;
-    var _dir = 0; // direção do ataque
-    var _repeticao = irandom_range(2,6);
-    repeat(_repeticao) { // cria diferentes quantidades de miniosn em diferentes direções
-		obj_boss_andrius.image_index = spr_andrius_estado_minions;
-        var _inst = instance_create_layer(x, y, "Instances", obj_minion_andrius_1);
-        
-        _inst.speed				     = 1; // velocidade do projétil
-        _inst.direction		     = _dir; // direção do projétil
-        _inst.image_xscale     = 0.5; // Reduz a escala no eixo X (50% do tamanho original)
-        _inst.image_yscale     = 0.5; // Reduz a escala no eixo Y (50% do tamanho original)
+function scr_boss_ataque2() {
+    // MINIONS: quantidade cresce a cada fase.
+    sprite_index = spr_andrius_estado_minions;
 
-        _dir += 45; // faz com que o projétil vá nas 4 direções
+    var _count = 2 + fase_boss;
+    var _step = 360 / _count;
+
+    for (var _i = 0; _i < _count; _i++) {
+        var _minion = instance_create_layer(
+            x,
+            y,
+            "Instances",
+            obj_minion_andrius_1
+        );
+
+        _minion.speed = 0.8 + fase_boss * 0.2;
+        _minion.direction = _i * _step;
+        _minion.image_xscale = 0.5;
+        _minion.image_yscale = 0.5;
     }
+
+    sprite_index = spr_andrius_boss;
     estado = scr_boss_escolher_ataque;
-	obj_boss_andrius.image_index = spr_andrius_boss
 }
 
-function scr_boss_ataque3(){//bomba fragmentada
-	
-	   var _dir = 0; // direção do ataque
-    var _repeticao = irandom_range(2,6);
-    repeat(_repeticao) { // cria diferentes quantidades de miniosn em diferentes direções
-		obj_boss_andrius.image_index = spr_andrius_estado_minions;
-        var _inst = instance_create_layer(x, y, "Instances", obj_minion_andrius_1);
-        
-        _inst.speed				     = 1; // velocidade do projétil
-        _inst.direction		     = _dir; // direção do projétil
-        _inst.image_xscale     = 0.5; // Reduz a escala no eixo X (50% do tamanho original)
-        _inst.image_yscale     = 0.5; // Reduz a escala no eixo Y (50% do tamanho original)
+function scr_boss_ataque3() {
+    // BOMBARDEIO: cria perigos ao redor do jogador/arena.
+    sprite_index = spr_andrius_boss;
 
-        _dir += 45; // faz com que o projétil vá nas 4 direções
+    var _count = 2 + fase_boss;
+
+    repeat (_count) {
+        var _xx = clamp(
+            x + irandom_range(-170, 170),
+            24,
+            room_width - 24
+        );
+
+        var _yy = clamp(
+            y + irandom_range(-170, 170),
+            24,
+            room_height - 24
+        );
+
+        instance_create_layer(
+            _xx,
+            _yy,
+            "Instances",
+            obj_boss_andrius_ataque_2
+        );
     }
+
     estado = scr_boss_escolher_ataque;
-	obj_boss_andrius.image_index = spr_andrius_boss
-	
-	repeat(4){
-		var _xx = irandom_range(x-150, x+150);
-		var _yy = irandom_range(y-150, y+150);
-		
-		instance_create_layer(_xx, _yy, "Instances", obj_boss_andrius_ataque_2);
-	}
-	estado = scr_boss_escolher_ataque;
 }
 
-function scr_boss_ataque4(){//ataque numerico
-	   var _dir = 0; // direção do ataque
-    var _repeticao = irandom_range(2,6);
-    repeat(_repeticao) { // cria diferentes quantidades de miniosn em diferentes direções
-		obj_boss_andrius.image_index = spr_andrius_estado_minions;
-        var _inst = instance_create_layer(x, y, "Instances", obj_minion_andrius_1);
-        
-        _inst.speed				     = 1; // velocidade do projétil
-        _inst.direction		     = _dir; // direção do projétil
-        _inst.image_xscale     = 0.5; // Reduz a escala no eixo X (50% do tamanho original)
-        _inst.image_yscale     = 0.5; // Reduz a escala no eixo Y (50% do tamanho original)
+function scr_boss_ataque4() {
+    // NUMEROS MALDITOS: outro anel, mais lento e colorido.
+    sprite_index = spr_andrius_estado_minions;
 
-        _dir += 45; // faz com que o projétil vá nas 4 direções
+    var _count = 6 + fase_boss * 2;
+    var _step = 360 / _count;
+
+    for (var _i = 0; _i < _count; _i++) {
+        var _number = instance_create_layer(
+            x,
+            y,
+            "Instances",
+            obj_numeros
+        );
+
+        _number.sprite_index = spr_numeros;
+        _number.speed = 0.8 + fase_boss * 0.15;
+        _number.direction = _i * _step;
+        _number.image_xscale = 0.5;
+        _number.image_yscale = 0.5;
+        _number.image_blend = choose(
+            c_purple,
+            c_green,
+            c_red,
+            c_blue,
+            c_orange
+        );
     }
+
+    sprite_index = spr_andrius_boss;
     estado = scr_boss_escolher_ataque;
-	obj_boss_andrius.image_index = spr_andrius_boss
-	
-	var _dir1 = 0;
-	repeat(8){
-		var _inst = instance_create_layer(x, y, "Instances", obj_numeros);
-				_inst.sprite_index = choose(spr_numeros);
-				_inst.speed = 1 //velocidade do projetil
-				_inst.direction = _dir1; //direcao radial correta
-				_dir1 += 45; //faz com que o projetil va nas 4 direções 
-				_inst.image_xscale = 0.5; // Reduz a escala no eixo X (50% do tamanho original)
-                _inst.image_yscale = 0.5; // Reduz a escala no eixo Y (50% do tamanho original)
-			//_inst.image_alpha = 0.5; //alfa da imagem
-				_inst.image_blend = choose(c_purple,c_green,c_red,c_blue,c_orange); ///cores aos numbers
-		}
-		estado = scr_boss_escolher_ataque;
-	}
+}
