@@ -228,7 +228,14 @@ switch (estado) {
                 selected_option = _i;
 
                 if (mouse_check_button_pressed(mb_left)) {
-                    if (_i == 1) {
+                    if (_i == 0) {
+                        volume_visual += 0.10;
+                        if (volume_visual > 1) volume_visual = 0;
+
+                        global.volume_mestre = volume_visual;
+                        audio_master_gain(global.volume_mestre);
+                    }
+                    else if (_i == 1) {
                         fullscreen = !fullscreen;
                         window_set_fullscreen(fullscreen);
                     }
