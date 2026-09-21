@@ -219,6 +219,32 @@ function gc_quest_apply_rewards(_q) {
                 gc_game_state_sync_from_legacy();
             break;
 
+            case "item":
+                if (variable_struct_exists(_r, "id")) {
+                    var _qtd = variable_struct_exists(_r, "amount") ? _r.amount : 1;
+                    adiciona_ao_inventario(_r.id, _qtd);
+                }
+            break;
+
+            case "magia":
+                if (variable_struct_exists(_r, "slot")) {
+                    gc_state_magic_set(_r.slot, true);
+                }
+            break;
+
+            case "area":
+                if (variable_struct_exists(_r, "area")) {
+                    gc_state_area_set(_r.area, true);
+                }
+            break;
+
+            case "reputacao":
+                if (variable_struct_exists(_r, "name")) {
+                    var _amount = variable_struct_exists(_r, "amount") ? _r.amount : 0;
+                    gc_state_reputation_add(_r.name, _amount);
+                }
+            break;
+
             case "flag":
                 if (variable_struct_exists(_r, "name")) gc_state_flag_set(_r.name, true);
             break;
