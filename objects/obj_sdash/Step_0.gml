@@ -52,36 +52,12 @@ if (!global.dialogo_acontecendo){
 
 #region Magia
 
-    if (keyboard_check_pressed(ord("Z"))) { // exemplo, tecla Z pra usar magia
-    switch(global.magia_selecionada) {
-        case 0: //fogo
-    //if instance_exists(obj_sdash) {
-    // with(obj_sdash) {
-    // //active = false;
-    // //visible = false;
-           
-    // var _layer = layer_create(-700, "ataque_especial");
-    // layer_sequence_create(_layer, x, y, sq_ataque_especial_sdash1);
-    // }
-    //}
-break;
-//repeat(8){
-// var _inst = instance_create_layer(x, y, "Instances", obj_bola_de_fogo);
-// _inst.angulo_base = dir;
-// }
-        case 1: // agua
-create_particle_effect(x,y - 800,"rain", 200, c_white, 10, 360, 2, 1000)
-        break;
-        case 2: //raio
-  
-        break;
-        case 3: //planta
-           // create_particle_effect(x,y,"spark", 200, c_white, 10, 360, 10, 100)
-        break;
-        case 4: //shooter
-//instance_create_layer(x,y,"Instances", obj)
-        break;
-    }
+if (magia_cooldown > 0) {
+    magia_cooldown--;
+}
+
+if (!global.pause && keyboard_check_pressed(ord("Z"))) {
+    gc_magic_cast(id, global.magia_selecionada);
 }
 
 #endregion
