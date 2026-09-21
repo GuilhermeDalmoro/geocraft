@@ -57,6 +57,9 @@ map_rebuild = function() {
 
     for (var _li = 0; _li < array_length(_layers); _li++) {
         var _layer = _layers[_li];
+
+        if (!layer_get_visible(_layer)) continue;
+
         var _tilemap = layer_tilemap_get_id(_layer);
 
         if (_tilemap == -1) continue;
