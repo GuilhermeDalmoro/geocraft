@@ -97,6 +97,9 @@ function gc_session_cleanup() {
     with (obj_transition) instance_destroy();
 
     with (obj_sdash) instance_destroy();
+    with (obj_picareta) instance_destroy();
+    with (obj_seletor) instance_destroy();
+
     with (obj_inventario) instance_destroy();
     with (obj_controle_hud) instance_destroy();
     with (obj_slot_magia) instance_destroy();
