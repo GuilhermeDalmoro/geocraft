@@ -1,17 +1,30 @@
 if (fade_in) {
-    alpha += fade_speed;
+    alpha = min(1, alpha + fade_speed);
+
     if (alpha >= 1) {
-        // Fade out completo: muda room e posiciona Sdash
-        room_goto(target_room);
-        if (instance_exists(obj_sdash)) {
-            obj_sdash.x = target_x;
-            obj_sdash.y = target_y;
+        // O objeto agora e persistente, entao sobrevive ao room_goto e consegue
+        // executar a segunda metade do fade na nova room.
+        fade_in = false;
+
+        if (target_room != noone && room != target_room) {
+            room_goto(target_room);
+            exit;
         }
-        fade_in = false; // Agora fade in na nova room
     }
 } else {
-    alpha -= fade_speed;
+    // Depois que a nova room iniciou, posiciona o Sdash persistente.
+    if (instance_exists(obj_sdash)) {
+        obj_sdash.x = target_x;
+        obj_sdash.y = target_y;
+    }
+
+    if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+        gc_game_state_touch_room();
+    }
+
+    alpha = max(0, alpha - fade_speed);
+
     if (alpha <= 0) {
-        instance_destroy(); // Missão cumprida!
+        instance_destroy();
     }
 }
