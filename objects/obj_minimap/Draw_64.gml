@@ -12,21 +12,33 @@ if (!instance_exists(obj_sdash)) exit;
 var _gw = display_get_gui_width();
 var _gh = display_get_gui_height();
 
-var _panel_w = expanded ? min(expanded_w, _gw - 40) : compact_w;
-var _panel_h = expanded ? min(expanded_h, _gh - 40) : compact_h;
+var _draw_expanded = expanded;
 
-var _panel_x = expanded
+// O overlay tecnico do F10 usa o lado direito; nesse caso o mapa volta
+// temporariamente ao modo compacto para nao virar uma parede de UI.
+if (variable_global_exists("game_state")
+&& is_struct(global.game_state)
+&& global.game_state.runtime.debug_open) {
+    _draw_expanded = false;
+}
+
+var _panel_w = _draw_expanded ? min(expanded_w, _gw - 40) : compact_w;
+var _panel_h = _draw_expanded ? min(expanded_h, _gh - 40) : compact_h;
+
+var _panel_x = _draw_expanded
     ? (_gw - _panel_w) * 0.5
     : _gw - _panel_w - panel_margin;
 
-var _panel_y = expanded
+var _panel_y = _draw_expanded
     ? 20
     : panel_margin;
+
+var _footer_h = _draw_expanded ? 28 : 0;
 
 var _map_x = _panel_x + 8;
 var _map_y = _panel_y + header_h + 4;
 var _map_w = _panel_w - 16;
-var _map_h = _panel_h - header_h - 12;
+var _map_h = _panel_h - header_h - 12 - _footer_h;
 
 // Moldura cubica.
 draw_set_alpha(0.92);
@@ -78,14 +90,14 @@ draw_set_color(c_gray);
 draw_text(
     _panel_x + _panel_w - 10,
     _panel_y + 8,
-    expanded ? "[TAB] fechar" : "[TAB] ampliar"
+    _draw_expanded ? "[TAB] fechar" : "[TAB] ampliar"
 );
 draw_set_halign(fa_left);
 
 // Janela do mundo em torno do jogador.
 var _player = instance_find(obj_sdash, 0);
 
-var _view_world_w = expanded
+var _view_world_w = _draw_expanded
     ? min(room_width, 1500)
     : min(room_width, 720);
 
@@ -270,7 +282,7 @@ draw_line(
     _player_sy + lengthdir_y(7, _dir_angle)
 );
 
-if (expanded) {
+if (_draw_expanded) {
     draw_set_halign(fa_left);
     draw_set_color(c_yellow);
     draw_text(_panel_x + 12, _panel_y + _panel_h - 24, "Sdash");
