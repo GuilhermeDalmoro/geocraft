@@ -36,7 +36,7 @@ function gc_game_state_defaults() {
     }
 
     return {
-        schema_version : 3,
+        schema_version : 4,
 
         runtime : {
             pause : global.pause,
@@ -75,7 +75,8 @@ function gc_game_state_defaults() {
         world : {
             last_room : room_get_name(room),
             visited_rooms : [room_get_name(room)],
-            placed_structures : []
+            placed_structures : [],
+            furnaces : []
         },
 
         missions : scr_missoes_banco()
@@ -266,7 +267,117 @@ function gc_world_structure_add(_kind, _room_name, _x, _y) {
         y : _y
     });
 
+    if (_kind == "fornalha") {
+        gc_world_furnace_get(_room_name, _x, _y, true);
+    }
+
     return true;
+}
+
+function gc_world_furnace_get(_room_name, _x, _y, _create = true) {
+    gc_game_state_bootstrap();
+
+    if (!variable_struct_exists(global.game_state.world, "furnaces")
+    || !is_array(global.game_state.world.furnaces)) {
+        global.game_state.world.furnaces = [];
+    }
+
+    var _list = global.game_state.world.furnaces;
+
+    for (var _i = 0; _i < array_length(_list); _i++) {
+        var _f = _list[_i];
+
+        if (!is_struct(_f)) continue;
+
+        if (_f.room_name == _room_name
+        && point_distance(_f.x, _f.y, _x, _y) < 4) {
+            return _f;
+        }
+    }
+
+    if (!_create) return noone;
+
+    var _new = {
+        room_name : _room_name,
+        x : _x,
+        y : _y,
+        active : false,
+        recipe_id : -1,
+        progress : 0,
+        duration : 0,
+        output_id : -1,
+        output_qty : 0,
+        total_batches : 0
+    };
+
+    array_push(global.game_state.world.furnaces, _new);
+    return _new;
+}
+
+function gc_world_furnace_remove(_room_name, _x, _y) {
+    gc_game_state_bootstrap();
+
+    if (!variable_struct_exists(global.game_state.world, "furnaces")
+    || !is_array(global.game_state.world.furnaces)) return false;
+
+    var _list = global.game_state.world.furnaces;
+
+    for (var _i = array_length(_list) - 1; _i >= 0; _i--) {
+        var _f = _list[_i];
+
+        if (is_struct(_f)
+        && _f.room_name == _room_name
+        && point_distance(_f.x, _f.y, _x, _y) < 4) {
+            array_delete(_list, _i, 1);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function gc_game_state_new_run() {
+    // Reset explicito. Diferente de defaults(), nao reaproveita globals antigos.
+    global.pause = false;
+    global.pause_por_inventario = false;
+    global.dialogo_acontecendo = false;
+    global.modo_construcao = false;
+
+    global.tutorial = false;
+    global.moedas = 0;
+    global.inimigos_mortos = 0;
+    global.cabalos_alimentados = 0;
+    global.orbs = 0;
+    global.minions_mortos = 0;
+
+    global.tem_magia = array_create(5, false);
+    global.magia_selecionada = 0;
+    global.item_player = noone;
+
+    for (var _a = 1; _a <= 6; _a++) {
+        variable_global_set("area_" + string(_a), false);
+    }
+
+    var _rep_names = [
+        "maldade", "bondade", "honestidade", "egoismo",
+        "fama", "temido", "respeito", "caridade",
+        "lealdade", "rancor", "caos", "ordem",
+        "riqueza", "arrogancia", "empatia", "ambicao"
+    ];
+
+    for (var _r = 0; _r < array_length(_rep_names); _r++) {
+        variable_global_set(_rep_names[_r], 0);
+    }
+
+    global.game_state = gc_game_state_defaults();
+    global.missoes = global.game_state.missions;
+
+    if (variable_global_exists("inventario_slots")
+    && ds_exists(global.inventario_slots, ds_type_grid)) {
+        ds_grid_clear(global.inventario_slots, 0);
+    }
+
+    return global.game_state;
 }
 
 function gc_world_structure_exists_here(_kind, _x, _y) {
@@ -339,6 +450,9 @@ function gc_game_state_import(_data) {
         }
         if (variable_struct_exists(_data.world, "placed_structures") && is_array(_data.world.placed_structures)) {
             _new.world.placed_structures = _data.world.placed_structures;
+        }
+        if (variable_struct_exists(_data.world, "furnaces") && is_array(_data.world.furnaces)) {
+            _new.world.furnaces = _data.world.furnaces;
         }
     }
 
