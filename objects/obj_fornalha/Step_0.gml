@@ -24,6 +24,7 @@ if (fornalha_state.active) {
                 fornalha_state.total_batches++;
 
                 gc_state_counter_add("itens_fundidos", _recipe.quantidade);
+                gc_state_counter_add("fundido_" + string(_recipe.resultado), _recipe.quantidade);
                 gc_quest_notify("fundir", string(_recipe.resultado), _recipe.quantidade);
             }
         }
