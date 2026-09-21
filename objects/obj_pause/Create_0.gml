@@ -3,6 +3,10 @@ if (instance_number(obj_pause) > 1) {
     exit;
 }
 
+if (!variable_global_exists("save_slot")) {
+    global.save_slot = 1;
+}
+
 global.pause_menu = {
     active : false,
     selected : 0,
