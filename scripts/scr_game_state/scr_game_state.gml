@@ -72,7 +72,8 @@ function gc_game_state_defaults() {
 
         world : {
             last_room : room_get_name(room),
-            visited_rooms : [room_get_name(room)]
+            visited_rooms : [room_get_name(room)],
+            placed_structures : []
         },
 
         missions : scr_missoes_banco()
@@ -242,6 +243,62 @@ function gc_world_room_entered(_room_name) {
     if (!_found) array_push(global.game_state.world.visited_rooms, _room_name);
 }
 
+function gc_world_structure_add(_kind, _room_name, _x, _y) {
+    gc_game_state_bootstrap();
+
+    var _list = global.game_state.world.placed_structures;
+
+    for (var _i = 0; _i < array_length(_list); _i++) {
+        var _s = _list[_i];
+        if (_s.kind == _kind
+        && _s.room_name == _room_name
+        && point_distance(_s.x, _s.y, _x, _y) < 4) {
+            return false;
+        }
+    }
+
+    array_push(global.game_state.world.placed_structures, {
+        kind : _kind,
+        room_name : _room_name,
+        x : _x,
+        y : _y
+    });
+
+    return true;
+}
+
+function gc_world_structure_exists_here(_kind, _x, _y) {
+    switch (_kind) {
+        case "fornalha":
+            for (var _i = 0; _i < instance_number(obj_fornalha); _i++) {
+                var _inst = instance_find(obj_fornalha, _i);
+                if (_inst != noone && point_distance(_inst.x, _inst.y, _x, _y) < 4) return true;
+            }
+        break;
+    }
+
+    return false;
+}
+
+function gc_world_restore_room(_room_name) {
+    gc_game_state_bootstrap();
+
+    var _list = global.game_state.world.placed_structures;
+
+    for (var _i = 0; _i < array_length(_list); _i++) {
+        var _s = _list[_i];
+        if (!is_struct(_s)) continue;
+        if (_s.room_name != _room_name) continue;
+        if (gc_world_structure_exists_here(_s.kind, _s.x, _s.y)) continue;
+
+        switch (_s.kind) {
+            case "fornalha":
+                instance_create_depth(_s.x, _s.y, -_s.y, obj_fornalha);
+            break;
+        }
+    }
+}
+
 function gc_game_state_export() {
     gc_game_state_sync_from_legacy();
     return {
@@ -277,6 +334,9 @@ function gc_game_state_import(_data) {
         if (variable_struct_exists(_data.world, "last_room")) _new.world.last_room = _data.world.last_room;
         if (variable_struct_exists(_data.world, "visited_rooms") && is_array(_data.world.visited_rooms)) {
             _new.world.visited_rooms = _data.world.visited_rooms;
+        }
+        if (variable_struct_exists(_data.world, "placed_structures") && is_array(_data.world.placed_structures)) {
+            _new.world.placed_structures = _data.world.placed_structures;
         }
     }
 
