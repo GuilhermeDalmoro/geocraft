@@ -128,6 +128,7 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		ds_grid_add_text("Então.... eu comi um pouco, e to me sentindo... diferente [pulsar] [cor=vermelho] eu acho..", spr_ret_sdash_normal, 0, "Sdash");
 		ds_grid_add_text("Sdash... SEU IMBECIL ME ESPERE NO ESTABULO, EU IREI COMUNICAR O [cor=amarelo] ALMUDEAO [/cor] [semefeito] COM VOCÊ [/semefeito]", spr_ret_king_arts_bravo, 0, "King of Art's")
         gc_state_area_set(1, true);
+        gc_quest_start("m001_almudeao");
 		break;
 		
 		
