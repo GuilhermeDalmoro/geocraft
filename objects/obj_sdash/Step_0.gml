@@ -15,6 +15,7 @@ if (montado) {
 
             _horse.montado = false;
             _horse.cavaleiro = noone;
+            _horse.mount_cooldown = 12;
 
             x = clamp(_horse.x + 18, 0, room_width);
             y = clamp(_horse.y, 0, room_height);
@@ -195,20 +196,8 @@ if (fade_estado == 2) { // Abrindo
 }
 #endregion
 #region cavalos
-if (!montado) {
-    var cav = instance_place(x, y, obj_cavalos);
-    if (cav != noone && keyboard_check_pressed(ord("R"))) {
-        montado = true;
-        meu_cavalo = cav;
-        cav.montado = true;
-        cav.cavaleiro = id;
-        gc_quest_notify("montar", "cavalo", 1);
-    }
-}
-else {
-    // enquanto montado, não anda
-    exit;
-}
+// Montar agora e controlado pelo proprio cavalo por distancia.
+// Aqui fica apenas a compatibilidade; desmontar e tratado no topo deste Step.
 #endregion
 // Teleportes de desenvolvimento nao ficam mais ativos na gameplay normal.
 if (variable_global_exists("game_state") && is_struct(global.game_state)
