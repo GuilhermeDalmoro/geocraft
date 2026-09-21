@@ -200,6 +200,7 @@ if (!montado) {
         meu_cavalo = cav;
         cav.montado = true;
         cav.cavaleiro = id;
+        gc_quest_notify("montar", "cavalo", 1);
     }
 }
 else {
@@ -207,11 +208,15 @@ else {
     exit;
 }
 #endregion
-if keyboard_check_pressed(vk_right){
-    room_goto(Room_dentro_masmorra);
-}
-if keyboard_check_pressed(vk_left){
-    room_goto(Room5);
+// Teleportes de desenvolvimento nao ficam mais ativos na gameplay normal.
+if (variable_global_exists("game_state") && is_struct(global.game_state)
+&& global.game_state.runtime.dev_mode) {
+    if (keyboard_check_pressed(vk_right)) {
+        room_goto(Room_dentro_masmorra);
+    }
+    if (keyboard_check_pressed(vk_left)) {
+        room_goto(Room5);
+    }
 }
 #region Jukebox
 audio_listener_position(x, y, 0);
