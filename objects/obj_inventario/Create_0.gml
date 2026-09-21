@@ -323,23 +323,30 @@ desenha_itens_construcao = function(_x_inicio, _y_inicio, _array, _spr = spr_bot
         var _cor = point_in_rectangle(_mx, _my, _x, _y, _x2, _y2) ? c_aqua : c_white;
         if (_cor == c_aqua) {
             if (is_struct(_atual)) _atual.desenha_info(_x, _y2);
-            if (_mouse_click && tem_materiais(_atual)) { // Checa materiais antes de craftar
+            if (_mouse_click) {
                 switch (_i) {
                     case LISTA_FORGE.fornalha:
-                        consome_materiais(_atual); // Consome os materiais agora!
-                        instance_create_layer(mouse_x, mouse_y, "Instances", obj_place);
-                        instance_create_depth(obj_sdash.x, obj_sdash.y, depth-10, obj_brilho);
-                        tocar_som_efeito(snd_blip_2, 8, 1);
-                        inventario = false;
-                        break;
-                    
-                    case LISTA_FORGE.mesa:
-                        consome_materiais(_atual); // Consome os materiais agora!
-                        instance_create_layer(mouse_x, mouse_y, "Instances", obj_place);
-                        instance_create_depth(obj_sdash.x, obj_sdash.y, depth-10, obj_brilho);
-                        tocar_som_efeito(snd_blip_2, 8, 1);
-                        inventario = false;
-                        break;
+                        if (tem_materiais(_atual)) {
+                            // Materiais so sao consumidos quando a colocacao for confirmada.
+                            var _place = instance_create_layer(mouse_x, mouse_y, "Instances", obj_place);
+                            _place.estrutura = _atual;
+                            _place.build_kind = "fornalha";
+
+                            instance_create_depth(obj_sdash.x, obj_sdash.y, depth - 10, obj_brilho);
+                            tocar_som_efeito(snd_blip_2, 8, 1);
+
+                            inventario = false;
+                            global.pause = false;
+                            global.pause_por_inventario = false;
+                        } else {
+                            gc_quest_toast("Materiais insuficientes", 100);
+                        }
+                    break;
+
+                    default:
+                        // Evita o bug antigo onde Mesa criava uma Fornalha.
+                        gc_quest_toast(_atual.nome + " ainda nao possui objeto de mundo", 140);
+                    break;
                 }
            }
         }
