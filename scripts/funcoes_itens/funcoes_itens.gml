@@ -276,7 +276,7 @@ function adiciona_ao_inventario(_item_id, _qtd) {
                     _capacidade += _max_stack - _slot.quantity;
                 }
             }
-            else if (!_slot) {
+            else if (!is_struct(_slot)) {
                 _capacidade += _max_stack;
             }
         }
@@ -307,7 +307,7 @@ function adiciona_ao_inventario(_item_id, _qtd) {
         for (var _x = 0; _x < _colunas && _qtd > 0; _x++) {
             var _slot = global.inventario_slots[# _x, _y];
 
-            if (!_slot) {
+            if (!is_struct(_slot)) {
                 var _move = min(_qtd, _max_stack);
                 global.inventario_slots[# _x, _y] = {
                     id : _item_id,
