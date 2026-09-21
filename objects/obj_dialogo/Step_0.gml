@@ -1,7 +1,27 @@
 if (!inicializar) {
-    // Chama o script correto baseado no idioma
-    if (global.lingua == "pt-br") script_execute(scr_textos);
-    else script_execute(scr_textos_en);
+    // Chama o script correto baseado no idioma.
+    if (global.lingua == "pt-br") {
+        script_execute(scr_textos);
+    }
+    else {
+        script_execute(scr_textos_en);
+
+        // A traducao em ingles ainda nao cobre todos os dialogos.
+        // Em vez de quebrar o jogo com uma grid vazia, usa PT-BR como fallback.
+        if (ds_grid_height(texto_grid) <= 0) {
+            show_debug_message("[DIALOGO] Fallback PT-BR para: " + string(npc_nome));
+            script_execute(scr_textos);
+        }
+    }
+
+    // Dialogo desconhecido nao pode acessar linha 0 de uma grid vazia.
+    if (ds_grid_height(texto_grid) <= 0) {
+        show_debug_message("[DIALOGO] Nenhum texto encontrado para: " + string(npc_nome));
+        global.pause = false;
+        global.dialogo_acontecendo = false;
+        instance_destroy();
+        exit;
+    }
     
     inicializar = true;
     alarm[0] = 1;
