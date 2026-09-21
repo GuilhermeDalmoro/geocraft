@@ -8,6 +8,7 @@ itens_venda = [
 
 index = 0;
 fechando = false;
+open_lock = 2;
 
 global.pause = true;
 
