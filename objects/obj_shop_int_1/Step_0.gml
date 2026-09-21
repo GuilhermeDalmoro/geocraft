@@ -1,5 +1,7 @@
 if (fechando) exit;
 
+if (open_lock > 0) open_lock--;
+
 global.pause = true;
 
 if (variable_global_exists("game_state") && is_struct(global.game_state)) {
@@ -97,8 +99,13 @@ var _close_hover = point_in_rectangle(
 
 var _close =
     keyboard_check_pressed(vk_escape)
-    || keyboard_check_pressed(ord("F"))
-    || gamepad_button_check_pressed(global.controle, gp_face2)
+    || (
+        open_lock <= 0
+        && (
+            keyboard_check_pressed(ord("F"))
+            || gamepad_button_check_pressed(global.controle, gp_face2)
+        )
+    )
     || (_close_hover && mouse_check_button_pressed(mb_left));
 
 if (_close) {
@@ -112,6 +119,8 @@ if (_close) {
         && global.game_state.runtime.modal_ui == "loja") {
             global.game_state.runtime.modal_ui = "";
         }
+
+        global.game_state.runtime.interaction_lock = 3;
     }
 
     instance_destroy();
