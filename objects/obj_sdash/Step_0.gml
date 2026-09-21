@@ -63,8 +63,8 @@ estamina = clamp(estamina, 0, max_estamina);
 
 #region Dialogo
 
-if (!global.dialogo_acontecendo){
-    if distance_to_object(obj_par_npc)<= 15 {
+if (!global.dialogo_acontecendo && !global.pause) {
+    if (distance_to_object(obj_par_npc) <= 20) {
         if keyboard_check_pressed(ord("F")) or gamepad_button_check_pressed(global.controle,gp_face2){
             global.dialogo_acontecendo = true
     var _npc = instance_nearest(x,y,obj_par_npc);
