@@ -1,3 +1,8 @@
+if (instance_number(obj_inventario) > 1) {
+    instance_destroy();
+    exit;
+}
+
 #region variaveis
 //criando a dsgrid do inventario
 global.inventario_slots = ds_grid_create(8,4); //largura, altura da grid
@@ -5,12 +10,10 @@ global.inventario_slots = ds_grid_create(8,4); //largura, altura da grid
 ds_grid_clear(global.inventario_slots, 0); // 0 = vazio
 //me dando um item (agora com structs {id, quantity})
 #region Preenchendo slots
-global.inventario_slots[# 0, 0] = { id: ITENS.reia, quantity: 1};
+global.inventario_slots[# 0, 0] = { id: ITENS.reia, quantity: 1 };
 global.inventario_slots[# 1, 0] = { id: ITENS.espadalv1, quantity: 1 };
-global.inventario_slots[# 2, 0] = { id: ITENS.madeira, quantity: 64 };
-global.inventario_slots[# 3, 0] = { id: ITENS.pedra, quantity: 64 };
-global.inventario_slots[# 4, 0] = { id: ITENS.vara_pesca, quantity: 1 };
-global.inventario_slots[# 5, 0] = { id: ITENS.cogumelo, quantity: 64 };
+global.inventario_slots[# 2, 0] = { id: ITENS.madeira, quantity: 4 };
+global.inventario_slots[# 3, 0] = { id: ITENS.pedra, quantity: 4 };
 //global.inventario_slots[# 5, 0] = { id: ITENS.gd, quantity: 1 };
 //global.inventario_slots[# 6, 0] = { id: ITENS.pocaogeleia, quantity: 8 };
 //global.inventario_slots[# 7, 0] = { id: ITENS.moedaenferrujada, quantity: 1 };
