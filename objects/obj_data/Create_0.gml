@@ -48,6 +48,7 @@ global.salva_jogo = function() {
             meux : obj_sdash.x,
             meuy : obj_sdash.y,
             rm : room,
+            room_name : room_get_name(room),
             vida : obj_sdash.vida,
             mvida : obj_sdash.max_vida,
 
@@ -151,7 +152,16 @@ global.carrega_jogo = function() {
 
     var _temp_x = variable_struct_exists(_dados.sdash, "meux") ? _dados.sdash.meux : 0;
     var _temp_y = variable_struct_exists(_dados.sdash, "meuy") ? _dados.sdash.meuy : 0;
-    var _temp_room = variable_struct_exists(_dados.sdash, "rm") ? _dados.sdash.rm : room;
+    var _temp_room = room;
+    if (variable_struct_exists(_dados.sdash, "room_name")) {
+        var _room_asset = asset_get_index(_dados.sdash.room_name);
+        if (_room_asset != -1) {
+            _temp_room = _room_asset;
+        }
+    } else if (variable_struct_exists(_dados.sdash, "rm")) {
+        // Compatibilidade com save v1, que guardava o ID numerico da room.
+        _temp_room = _dados.sdash.rm;
+    }
     var _temp_vida = variable_struct_exists(_dados.sdash, "vida") ? _dados.sdash.vida : 10;
     var _temp_max_vida = variable_struct_exists(_dados.sdash, "mvida") ? _dados.sdash.mvida : 10;
 
