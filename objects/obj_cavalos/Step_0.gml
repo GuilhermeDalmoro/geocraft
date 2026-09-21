@@ -1,3 +1,8 @@
+// Sincroniza estado depois de um load feito com a room ja aberta.
+if (!alimentado && gc_state_flag_get(feed_key, false)) {
+    alimentado = true;
+}
+
 // Alimentacao: o dialogo ja ensina Control, agora a mecanica existe de verdade.
 if (feed_flash > 0) {
     feed_flash--;
@@ -12,6 +17,7 @@ if (!montado && !alimentado && instance_exists(obj_sdash)) {
     if (_dist_feed <= 28 && keyboard_check_pressed(vk_control)) {
         alimentado = true;
         feed_flash = 45;
+        gc_state_flag_set(feed_key, true);
 
         global.cabalos_alimentados += 1;
         gc_game_state_sync_from_legacy();
