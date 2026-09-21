@@ -1,4 +1,4 @@
-var _dano = 2;
+var _dano = variable_instance_exists(id, "dano") ? dano : 3;
 var _dir = point_direction(x, y, other.x, other.y);
 
 other.empurrar_dir = _dir;
