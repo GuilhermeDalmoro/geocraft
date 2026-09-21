@@ -177,6 +177,7 @@ function gc_quest_start(_id) {
     if (_q.status == "concluida" || _q.status == "ativa" || _q.status == "pronta") return false;
 
     _q.status = "ativa";
+    global.game_state.runtime.tracked_quest_id = _q.id_m;
     gc_quest_reconcile(_q);
 
     gc_quest_toast("Nova missao: " + _q.nome, 240);
@@ -329,6 +330,18 @@ function gc_quest_notify(_type, _target, _amount = 1) {
 
 function gc_quest_get_tracked() {
     if (!variable_global_exists("missoes") || !is_array(global.missoes)) return noone;
+
+    if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+        var _tracked_id = global.game_state.runtime.tracked_quest_id;
+
+        if (string_length(_tracked_id) > 0) {
+            var _tracked = gc_quest_get(_tracked_id);
+            if (_tracked != noone
+            && (_tracked.status == "ativa" || _tracked.status == "pronta")) {
+                return _tracked;
+            }
+        }
+    }
 
     for (var _i = 0; _i < array_length(global.missoes); _i++) {
         var _q = global.missoes[_i];
