@@ -13,3 +13,7 @@ image_speed = 1;
 image_xscale = 1;
 
 
+
+
+alimentado = false;
+feed_flash = 0;
