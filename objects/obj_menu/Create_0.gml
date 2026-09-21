@@ -6,6 +6,10 @@ enum MENU_ESTADO {
     opcoes
 }
 
+if (!variable_global_exists("controle")) {
+    global.controle = -1;
+}
+
 // Garante que Save/Load exista ja no menu inicial.
 if (!instance_exists(obj_data)) {
     instance_create_layer(0, 0, "Instances", obj_data);
