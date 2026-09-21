@@ -1,28 +1,74 @@
-// Create Event
-// Configura as propriedades do minimapa pra mostrar a room inteira
+// Minimap cacheado: tiles estaticos sao reconstruidos apenas ao trocar de room
+// ou quando a surface for perdida.
 
-// Tamanho do minimapa (50% da tela, ajustável)
-minimap_width = 400;  // Largura do minimapa
-minimap_height = 300; // Altura do minimapa
+minimap_width = 400;
+minimap_height = 300;
+minimap_margin = 10;
 
-// Posição do minimapa (canto inferior direito)
-minimap_x = display_get_gui_width() - minimap_width - 10; // 10 pixels da direita
-minimap_y = display_get_gui_height() - minimap_height - 10; // 10 pixels da base
-
-// Calcula a escala pra caber a room inteira no minimapa
-scale_x = minimap_width / room_width;  // Escala horizontal
-scale_y = minimap_height / room_height; // Escala vertical
-scale = min(scale_x, scale_y); // Usa a menor pra evitar distorção
-
-// Centraliza o conteúdo no minimapa (offset pra ajustar recorte)
-offset_x = (minimap_width - room_width * scale) / 2; // Centraliza horizontalmente
-offset_y = (minimap_height - room_height * scale) / 2; // Centraliza verticalmente
-
-// Cor de fundo (preto)
 bg_color = c_black;
+tile_color = make_color_rgb(160, 160, 160);
+alpha = 0.70;
 
-// Cor dos tiles (cinza claro, mais visível)
-tile_color = make_color_rgb(160, 160, 160); // #A0A0A0
+cached_room = -1;
+map_surface = -1;
 
-// Transparência do minimapa (fundo e objetos)
-alpha = 0.6;
+minimap_recalculate = function() {
+    minimap_x = display_get_gui_width() - minimap_width - minimap_margin;
+    minimap_y = display_get_gui_height() - minimap_height - minimap_margin;
+
+    scale_x = minimap_width / max(1, room_width);
+    scale_y = minimap_height / max(1, room_height);
+    scale = min(scale_x, scale_y);
+
+    offset_x = (minimap_width - room_width * scale) * 0.5;
+    offset_y = (minimap_height - room_height * scale) * 0.5;
+};
+
+minimap_build_surface = function() {
+    if (surface_exists(map_surface)) surface_free(map_surface);
+
+    map_surface = surface_create(minimap_width, minimap_height);
+    if (!surface_exists(map_surface)) return false;
+
+    surface_set_target(map_surface);
+    draw_clear_alpha(c_black, 0);
+
+    draw_set_alpha(alpha);
+    draw_set_color(bg_color);
+    draw_rectangle(0, 0, minimap_width, minimap_height, false);
+    draw_set_alpha(1);
+
+    var _layers = layer_get_all();
+
+    for (var _li = 0; _li < array_length(_layers); _li++) {
+        var _tilemap = layer_tilemap_get_id(_layers[_li]);
+        if (_tilemap == -1) continue;
+
+        for (var _tx = 0; _tx < room_width; _tx += 32) {
+            for (var _ty = 0; _ty < room_height; _ty += 32) {
+                if (tilemap_get_at_pixel(_tilemap, _tx, _ty) == 0) continue;
+
+                var _mx = offset_x + _tx * scale;
+                var _my = offset_y + _ty * scale;
+
+                draw_set_color(tile_color);
+                draw_rectangle(
+                    _mx,
+                    _my,
+                    _mx + 32 * scale,
+                    _my + 32 * scale,
+                    false
+                );
+            }
+        }
+    }
+
+    draw_set_color(c_white);
+    draw_set_alpha(1);
+    surface_reset_target();
+
+    cached_room = room;
+    return true;
+};
+
+minimap_recalculate();
