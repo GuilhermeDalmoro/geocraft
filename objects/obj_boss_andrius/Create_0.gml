@@ -20,3 +20,5 @@ estado = scr_boss_escolher_ataque;  // Estado inicial do boss
 //max_vida = vida;
 //image_xscale = 0.5;
 //image_yscale = 0.5;
+
+gc_quest_start("andrius");
