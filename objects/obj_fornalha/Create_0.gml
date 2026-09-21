@@ -16,17 +16,17 @@ receitas_fornalha = [
         duracao : 240
     },
     {
-        nome : "Pocao de fogo",
+        nome : "Pocao de geleia aquecida",
         ingredientes : [
             { id : ITENS.reia, qtd : 2 },
             { id : ITENS.flor, qtd : 3 }
         ],
-        resultado : ITENS.cura,
+        resultado : ITENS.pocaogeleia,
         quantidade : 1,
         duracao : 300
     },
     {
-        nome : "Espada de fogo",
+        nome : "Espada cubica reforcada",
         ingredientes : [
             { id : ITENS.bloco_pedra, qtd : 5 },
             { id : ITENS.reia, qtd : 1 }
