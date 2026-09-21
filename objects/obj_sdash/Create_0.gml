@@ -1,3 +1,10 @@
+inimigos_atingidos = -1;
+
+if (instance_number(obj_sdash) > 1) {
+    instance_destroy();
+    exit;
+}
+
 #region Equipamentos
 // enumerator armas
 enum ARMAS{
