@@ -188,8 +188,7 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		
 		case "Texto treino pag 2":
 		ds_grid_add_text("MUITO BEM SDASH, voce conseguiiiiu",spr_ret_king_arts_orgulhoso,1,"King of Art's");
-		gc_state_magic_set(1, true);
-        gc_quest_complete("treino_gmd");
+gc_quest_complete("treino_gmd");
         gc_quest_start("alimentar_cavalos");
 		ds_grid_add_text("Agora que voce treinou o bastante sdash, me espere no estabulo que \n nos iremos alimentar os cavalos do almudeão:",spr_ret_king_arts_orgulhoso,1,"King of Art's");
 		break;
@@ -216,13 +215,15 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 	    ds_grid_add_text("Olá sdash, eu preciso te dizer uma coisa...", spr_almudeao_frente, 1, "Almudeao");
 	    ds_grid_add_text("O - oque... ;--;", spr_ret_sdash_normal, 0, "Sdash");
 	    ds_grid_add_text("Não é algo muito grave né?", spr_ret_sdash_emotivo, 0, "Sdash");
-	    ds_grid_add_text("Não,  é so que.. no caminho eu ouvi [flutuar] um barulho [/flutuar]...", spr_almudeao_frente, 1, "Almudeao");
-	    ds_grid_add_text("Vamos indo ate o centro da cidade, pegue um cavalo e vamos nessa", spr_almudeao_frente, 1, "Almudeao");
-	    add_op("Ok to indo", "resp1cav");
+	    ds_grid_add_text("Não, é só que no caminho eu ouvi [flutuar] um barulho [/flutuar] estranho...", spr_almudeao_frente, 1, "Almudeao");
+	    ds_grid_add_text("Antes da viagem, me ajuda no estábulo: alimente os cavalos, escolha um e depois vamos para CúbicLand.", spr_almudeao_frente, 1, "Almudeao");
+	    ds_grid_add_text("[cor=amarelo]Chegue perto de um cavalo e aperte Control para alimentá-lo.[/cor]", spr_ret_reia, 1, "Aviso");
+	    add_op("Ok, bora", "resp1cav");
 		break;
 						
 			case "resp1cav":
-		    ds_grid_add_text("otimo", spr_almudeao_frente, 1, "Almudeao");
+            gc_quest_start("alimentar_cavalos");
+		    ds_grid_add_text("Ótimo. Quando terminar, escolha um cavalo e vamos para CúbicLand.", spr_almudeao_frente, 1, "Almudeao");
 			break;
     
 	
