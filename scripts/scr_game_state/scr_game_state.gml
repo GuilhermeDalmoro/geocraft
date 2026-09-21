@@ -280,6 +280,11 @@ function gc_game_state_import(_data) {
         }
     }
 
+    // Normaliza saves antigos que tratavam magia como booleano.
+    if (!is_array(_new.campaign.unlocks.tem_magia)) {
+        _new.campaign.unlocks.tem_magia = array_create(5, false);
+    }
+
     global.game_state = _new;
     global.missoes = _new.missions;
 
