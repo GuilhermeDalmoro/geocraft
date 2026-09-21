@@ -1,5 +1,20 @@
 if (!active) exit;
 
+// Morte e tratada antes do pause para nunca deixar um Sdash morto preso em menu.
+if (vida <= 0) {
+    active = false;
+    instance_destroy();
+    room_goto(Room_game_over);
+    exit;
+}
+
+// Pause agora interrompe o Step inteiro do jogador.
+// Antes ainda era possivel executar interacoes e empurrar blocos com menu aberto.
+if (global.pause) {
+    audio_listener_position(x, y, 0);
+    exit;
+}
+
 // Enquanto montado, o cavalo controla o movimento. R desmonta com seguranca.
 if (montado) {
     if (!instance_exists(meu_cavalo)) {
@@ -35,7 +50,8 @@ depth = -y;
 
 #region Ferramenta
 
-if (keyboard_check_pressed(ord("C")) or gamepad_axis_value(global.controle, gp_shoulderlb)) {
+if (keyboard_check_pressed(ord("C"))
+|| gamepad_button_check_pressed(global.controle, gp_shoulderlb)) {
     ferramenta_selecionada = !ferramenta_selecionada;
         if (ferramenta_selecionada) {
             
@@ -89,16 +105,7 @@ if (!global.pause && keyboard_check_pressed(ord("Z"))) {
 
 #endregion
 
-#region Morte
 
-if (vida <= 0) {
-    active = false;
-    instance_destroy();
-    room_goto(Room_game_over);
-    exit;
-}
-
-#endregion
 #region trocar arma
 //if keyboard_check_pressed(ord("R")){
 // arma += 1;
