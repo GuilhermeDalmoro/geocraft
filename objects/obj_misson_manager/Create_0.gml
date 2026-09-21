@@ -1,16 +1,16 @@
-//show_message("Gerenciador de missões iniciado");
+/// Gerenciador persistente de campanha e missoes.
+if (instance_number(obj_misson_manager) > 1) {
+    instance_destroy();
+    exit;
+}
 
-global.missoes = scr_missoes_banco();
+gc_game_state_bootstrap();
 
-//show_message("Missões carregadas:");
-//show_message(global.missoes[0].id_m);
+last_room_seen = room;
+journal_pause_owned = false;
 
-var _m = scr_missoes_pegar("teste");
+// O diario abre com M. F10 mostra informacoes tecnicas do estado.
+global.game_state.runtime.quest_journal_open = false;
+global.game_state.runtime.debug_open = false;
 
-scr_missoes_iniciar(_m);
-
-if (_m != noone) {
-    //show_message("Missão encontrada: " + _m.nome);
-} else {
-    //show_message("Missão NÃO encontrada");
-    }
+show_debug_message("[GEOCRAFT] GameState v2 e QuestSystem carregados.");
