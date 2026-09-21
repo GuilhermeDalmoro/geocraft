@@ -140,7 +140,8 @@ function gc_quest_database() {
             "Ajude os cidadaos usando seu inventario: junte recursos e comece a reconstruir a cidade.",
             [
                 gc_quest_objective("coletar", "*", 10, "Colete 10 recursos"),
-                gc_quest_objective("construir", "fornalha", 1, "Construa uma fornalha")
+                gc_quest_objective("construir", "fornalha", 1, "Construa uma fornalha"),
+                gc_quest_objective("fundir", string(ITENS.bloco_pedra), 1, "Use a fornalha para refinar pedra")
             ],
             [
                 { type : "moedas", amount : 50 },
