@@ -8,7 +8,9 @@ draw_set_valign(fa_top);
 // HUD compacto da missao rastreada.
 var _tracked = gc_quest_get_tracked();
 
-if (_tracked != noone && !global.game_state.runtime.quest_journal_open) {
+if (_tracked != noone
+&& !global.pause
+&& !global.game_state.runtime.quest_journal_open) {
     var _x = 18;
     var _y = 18;
     var _w = 360;
@@ -53,7 +55,8 @@ if (_tracked != noone && !global.game_state.runtime.quest_journal_open) {
 }
 
 // Notificacao curta de progresso.
-if (global.game_state.runtime.toast_timer > 0
+if (!global.pause
+&& global.game_state.runtime.toast_timer > 0
 && string_length(global.game_state.runtime.toast_text) > 0) {
 
     var _tw = min(680, string_width(global.game_state.runtime.toast_text) + 40);
@@ -184,7 +187,7 @@ if (global.game_state.runtime.quest_journal_open) {
 }
 
 // Overlay tecnico para desenvolvimento.
-if (global.game_state.runtime.debug_open) {
+if (global.game_state.runtime.debug_open && !global.pause) {
     var _dx = _gw - 370;
     var _dy = 205;
 
@@ -209,7 +212,7 @@ if (global.game_state.runtime.debug_open) {
 
 
 // Painel do DEV MODE: F9 liga/desliga.
-if (global.game_state.runtime.dev_mode) {
+if (global.game_state.runtime.dev_mode && !global.pause) {
     var _dev_x = (_gw - 390) * 0.5;
     var _dev_y = _gh - 178;
     var _dev_w = 390;
