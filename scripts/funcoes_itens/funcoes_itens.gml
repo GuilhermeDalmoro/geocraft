@@ -331,6 +331,37 @@ function adiciona_ao_inventario(_item_id, _qtd) {
 }
 
 
+function remove_do_inventario(_item_id, _qtd) {
+    if (_qtd <= 0) return true;
+    if (!variable_global_exists("inventario_slots")) return false;
+    if (!ds_exists(global.inventario_slots, ds_type_grid)) return false;
+
+    var _total = procura_item_inventario(_item_id);
+    if (_total < _qtd) return false;
+
+    var _faltando = _qtd;
+    var _w = ds_grid_width(global.inventario_slots);
+    var _h = ds_grid_height(global.inventario_slots);
+
+    for (var _y = 0; _y < _h && _faltando > 0; _y++) {
+        for (var _x = 0; _x < _w && _faltando > 0; _x++) {
+            var _slot = global.inventario_slots[# _x, _y];
+
+            if (!is_struct(_slot) || _slot.id != _item_id) continue;
+
+            var _take = min(_faltando, _slot.quantity);
+            _slot.quantity -= _take;
+            _faltando -= _take;
+
+            if (_slot.quantity <= 0) {
+                global.inventario_slots[# _x, _y] = noone;
+            }
+        }
+    }
+
+    return (_faltando <= 0);
+}
+
 // Função pra checar se tem materiais suficientes (escalável pra qualquer receita)
 function tem_materiais(_estrutura) {
     var _itens = _estrutura.mat.item;
