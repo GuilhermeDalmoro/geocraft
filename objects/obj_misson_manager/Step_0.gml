@@ -10,6 +10,7 @@ if (room != last_room_seen) {
     last_room_seen = room;
     var _room_name = room_get_name(room);
     gc_world_room_entered(_room_name);
+    gc_world_restore_room(_room_name);
     gc_quest_notify("visitar", _room_name, 1);
 }
 
