@@ -1,3 +1,5 @@
+if (global.pause || global.dialogo_acontecendo) exit;
+
 if  instance_exists(obj_sdash) and obj_sdash.active{
 var _escala =3 ;
 var _guia = display_get_gui_height();
