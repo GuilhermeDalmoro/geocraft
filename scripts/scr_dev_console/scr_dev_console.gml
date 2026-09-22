@@ -4,6 +4,12 @@
 function gc_dev_setup() {
     gc_game_state_bootstrap();
 
+    if (!variable_global_exists("controle")) global.controle = -1;
+    if (!variable_global_exists("save_slot")) global.save_slot = 1;
+    if (!variable_global_exists("volume_mestre")) global.volume_mestre = 1;
+    if (!variable_global_exists("dificuldade")) global.dificuldade = 1;
+    if (!variable_global_exists("moedas")) global.moedas = 0;
+
     if (variable_struct_exists(global.game_state.runtime, "dev_console")
     && is_struct(global.game_state.runtime.dev_console)) {
         return global.game_state.runtime.dev_console;
@@ -248,6 +254,24 @@ function gc_dev_open() {
     var _dev = gc_dev_setup();
 
     if (_dev.open) return;
+
+    // O console DEV vira a unica UI modal ativa.
+    if (variable_struct_exists(global.game_state.runtime, "quest_journal_open")) {
+        global.game_state.runtime.quest_journal_open = false;
+    }
+
+    if (variable_global_exists("pause_menu") && is_struct(global.pause_menu)) {
+        global.pause_menu.active = false;
+    }
+
+    if (instance_exists(obj_inventario)) {
+        var _inv = instance_find(obj_inventario, 0);
+        if (variable_instance_exists(_inv, "inventario")) {
+            _inv.inventario = false;
+        }
+    }
+
+    global.pause_por_inventario = false;
 
     _dev.open = true;
     _dev.row = 0;
