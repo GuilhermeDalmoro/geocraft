@@ -250,42 +250,117 @@ ds_list_add(global.itens, _reia, _arco, _gd, _cura, _espadalv1, _neve, _orb, _mo
 ///@function adiciona_ao_inventario
 ///
 function adiciona_ao_inventario(_item_id, _qtd) {
-    var _item = global.itens[| _item_id];
-    var _colunas = ds_grid_width(global.inventario_slots);
-    var _linhas = ds_grid_height(global.inventario_slots);
-    
-    // Primeiro, tenta stackar em slots existentes (apenas se stackável)
-    if (_item.max_stack > 1) {
-        for (var _i = 0; _i < _linhas; _i++) {
-            for (var _j = 0; _j < _colunas; _j++) {
-                var _slot = global.inventario_slots[# _j, _i];
-                if (_slot && _slot.id == _item_id && _slot.quantity < _item.max_stack) {
-                    var _espaco = _item.max_stack - _slot.quantity;
-                    if (_qtd <= _espaco) {
-                        _slot.quantity += _qtd;
-                        return true;
-                    } else {
-                        _slot.quantity = _item.max_stack;
-                        _qtd -= _espaco;
-                    }
-                }
-            }
-        }
-    }
-    
-    // Se sobrou qtd, adiciona em slot vazio
-    for (var _i = 0; _i < _linhas; _i++) {
-        for (var _j = 0; _j < _colunas; _j++) {
-            var _slot = global.inventario_slots[# _j, _i];
-            if (!_slot) {
-                global.inventario_slots[# _j, _i] = { id: _item_id, quantity: _qtd };
-                return true;
-            }
-        }
-    }
-    return false; // Inventário cheio
+    if (_qtd <= 0) return true;
+    if (!ds_exists(global.inventario_slots, ds_type_grid)) return false;
+    if (!ds_exists(global.itens, ds_type_list)) return false;
+    if (_item_id < 0 || _item_id >= ds_list_size(global.itens)) return false;
+
+    var _item = global.itens[| _item_id];
+    if (!is_struct(_item)) return false;
+
+    var _colunas = ds_grid_width(global.inventario_slots);
+    var _linhas = ds_grid_height(global.inventario_slots);
+    var _max_stack = max(1, _item.max_stack);
+    var _original_qtd = _qtd;
+
+    // Primeiro calcula capacidade. Assim a funcao nunca altera metade do
+    // inventario e depois retorna false.
+    var _capacidade = 0;
+
+    for (var _y = 0; _y < _linhas; _y++) {
+        for (var _x = 0; _x < _colunas; _x++) {
+            var _slot = global.inventario_slots[# _x, _y];
+
+            if (is_struct(_slot)) {
+                if (_slot.id == _item_id && _slot.quantity < _max_stack) {
+                    _capacidade += _max_stack - _slot.quantity;
+                }
+            }
+            else if (!is_struct(_slot)) {
+                _capacidade += _max_stack;
+            }
+        }
+    }
+
+    if (_capacidade < _qtd) return false;
+
+    // Completa stacks existentes.
+    if (_max_stack > 1) {
+        for (var _y = 0; _y < _linhas && _qtd > 0; _y++) {
+            for (var _x = 0; _x < _colunas && _qtd > 0; _x++) {
+                var _slot = global.inventario_slots[# _x, _y];
+
+                if (is_struct(_slot)
+                && _slot.id == _item_id
+                && _slot.quantity < _max_stack) {
+
+                    var _move = min(_qtd, _max_stack - _slot.quantity);
+                    _slot.quantity += _move;
+                    _qtd -= _move;
+                }
+            }
+        }
+    }
+
+    // Distribui o restante em slots vazios respeitando max_stack.
+    for (var _y = 0; _y < _linhas && _qtd > 0; _y++) {
+        for (var _x = 0; _x < _colunas && _qtd > 0; _x++) {
+            var _slot = global.inventario_slots[# _x, _y];
+
+            if (!is_struct(_slot)) {
+                var _move = min(_qtd, _max_stack);
+                global.inventario_slots[# _x, _y] = {
+                    id : _item_id,
+                    quantity : _move
+                };
+                _qtd -= _move;
+            }
+        }
+    }
+
+    // Eventos de coleta alimentam missoes futuras (livros, pergaminhos etc.).
+    if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+        gc_quest_notify("coletar", string(_item_id), _original_qtd);
+
+        if (variable_struct_exists(_item, "nome")) {
+            gc_quest_notify("coletar", string(_item.nome), _original_qtd);
+        }
+    }
+
+    return true;
 }
 
+
+function remove_do_inventario(_item_id, _qtd) {
+    if (_qtd <= 0) return true;
+    if (!variable_global_exists("inventario_slots")) return false;
+    if (!ds_exists(global.inventario_slots, ds_type_grid)) return false;
+
+    var _total = procura_item_inventario(_item_id);
+    if (_total < _qtd) return false;
+
+    var _faltando = _qtd;
+    var _w = ds_grid_width(global.inventario_slots);
+    var _h = ds_grid_height(global.inventario_slots);
+
+    for (var _y = 0; _y < _h && _faltando > 0; _y++) {
+        for (var _x = 0; _x < _w && _faltando > 0; _x++) {
+            var _slot = global.inventario_slots[# _x, _y];
+
+            if (!is_struct(_slot) || _slot.id != _item_id) continue;
+
+            var _take = min(_faltando, _slot.quantity);
+            _slot.quantity -= _take;
+            _faltando -= _take;
+
+            if (_slot.quantity <= 0) {
+                global.inventario_slots[# _x, _y] = noone;
+            }
+        }
+    }
+
+    return (_faltando <= 0);
+}
 
 // Função pra checar se tem materiais suficientes (escalável pra qualquer receita)
 function tem_materiais(_estrutura) {
