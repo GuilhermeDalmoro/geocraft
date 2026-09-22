@@ -8,6 +8,10 @@ if(global.pause == false){
     
 if vida <= 0{
 	   global.inimigos_mortos += 1;
+       gc_game_state_sync_from_legacy();
+       gc_quest_notify("matar", "andrius", 1);
+       gc_quest_notify("matar", "inimigo", 1);
+       gc_state_flag_set("andrius_derrotado", true);
 	   instance_destroy();
 	   audio_pause_sound(snd_andrius_batalha);
 	   var _sequence = sq_andrius_defeat;
