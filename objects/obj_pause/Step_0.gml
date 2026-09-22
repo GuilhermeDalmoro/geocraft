@@ -19,7 +19,6 @@ if (instance_exists(obj_inventario)) {
 var _blocking_ui =
     global.dialogo_acontecendo
     || _inventory_open
-    || instance_exists(obj_fornalha_ui)
     || instance_exists(obj_shop_int_1)
     || (
         variable_global_exists("game_state")
