@@ -1,3 +1,20 @@
+if (global.pause || global.dialogo_acontecendo) exit;
+
+// Como o minimapa e persistente, recalcula escala ao trocar de room.
+if (!variable_instance_exists(id, "cached_room") || cached_room != room) {
+    cached_room = room;
+
+    minimap_x = display_get_gui_width() - minimap_width - 10;
+    minimap_y = display_get_gui_height() - minimap_height - 10;
+
+    scale_x = minimap_width / max(1, room_width);
+    scale_y = minimap_height / max(1, room_height);
+    scale = min(scale_x, scale_y);
+
+    offset_x = (minimap_width - room_width * scale) / 2;
+    offset_y = (minimap_height - room_height * scale) / 2;
+}
+
 // Draw GUI Event
 // Desenha o minimapa na interface, mostrando todos os tilemaps e objetos visíveis
 
