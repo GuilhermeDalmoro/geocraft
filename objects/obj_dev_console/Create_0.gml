@@ -453,7 +453,7 @@ dev_edit = function(_dir, _confirm = false) {
                 var _area = selected - _cursor + 1;
 
                 if (_confirm || _dir != 0) {
-                    var _current_area = global.game_state.campaign.areas[$ "area_" + string(_area)];
+                    var _current_area = global.game_state.campaign.areas[_area - 1];
                     gc_state_area_set(_area, !_current_area);
                 }
                 return;
@@ -855,7 +855,7 @@ dev_value = function(_row) {
 
             if (_row < _cursor + 6) {
                 var _area = _row - _cursor + 1;
-                return global.game_state.campaign.areas[$ "area_" + string(_area)]
+                return global.game_state.campaign.areas[_area - 1]
                     ? "LIBERADA"
                     : "BLOQUEADA";
             }
@@ -864,7 +864,14 @@ dev_value = function(_row) {
 
             if (_row < _cursor + array_length(rep_names)) {
                 var _rep = rep_names[_row - _cursor];
-                return string(gc_state_reputation_get(_rep, 0));
+
+                if (!variable_struct_exists(global.game_state.campaign.reputation, _rep)) {
+                    variable_struct_set(global.game_state.campaign.reputation, _rep, 0);
+                }
+
+                return string(
+                    variable_struct_get(global.game_state.campaign.reputation, _rep)
+                );
             }
 
             _cursor += array_length(rep_names);
