@@ -1,3 +1,8 @@
+if (instance_number(obj_minimap) > 1) {
+    instance_destroy();
+    exit;
+}
+
 // Create Event
 // Configura as propriedades do minimapa pra mostrar a room inteira
 
