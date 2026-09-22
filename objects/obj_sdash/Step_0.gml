@@ -200,6 +200,9 @@ if (!montado) {
         meu_cavalo = cav;
         cav.montado = true;
         cav.cavaleiro = id;
+
+        // Evento de missao sem alterar o sistema de montaria original.
+        gc_quest_notify("montar", "cavalo", 1);
     }
 }
 else {
