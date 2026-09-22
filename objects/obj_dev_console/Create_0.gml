@@ -495,11 +495,7 @@ dev_edit = function(_dir, _confirm = false) {
                         gc_state_counter_get(_counter, 0) + _dir * _step
                     );
 
-                    variable_struct_set(
-                        global.game_state.campaign.counters,
-                        _counter,
-                        _value
-                    );
+                    gc_state_counter_set(_counter, _value);
                 }
                 return;
             }
