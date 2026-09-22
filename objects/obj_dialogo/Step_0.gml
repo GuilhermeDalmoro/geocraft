@@ -143,12 +143,20 @@ if (caractere < string_length(texto_grid[# Infosnpc.Texto, pagina])) {
     } else {
         if (opcao_numero != 0) opcao_draw = true;
         else if (keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(global.controle, gp_face1)) {
+            // O Quest System recebe o nome do dialogo/NPC sem mudar o conteudo do dialogo.
+            gc_quest_notify("falar", npc_nome, 1);
+
             if (instance_exists(npc_ref)) {
                 npc_ref.terminou_dialogo = true;
+
+                if (variable_instance_exists(npc_ref, "nome")) {
+                    gc_quest_notify("falar", string(npc_ref.nome), 1);
+                }
             }
+
             instance_destroy();
             global.pause = false;
-            global.dialogo_acontecendo = !global.dialogo_acontecendo;
+            global.dialogo_acontecendo = false;
             // if (global.comeca_batalha) {
             // if (global.turno == 0) {
             // global.batalha_menu = 0; // Ativa menu após diálogo do jogador
