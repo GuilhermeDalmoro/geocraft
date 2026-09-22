@@ -65,22 +65,22 @@ draw_rectangle(_cx + 2, _cy + 2, _cx + _cw - 2, _cy + _ch - 2, true);
 var _x = _cx + 20;
 var _y = _cy + 18;
 
-function dev_draw_row(_label, _value, _index, _selected_row) {
-    var _yy = _y + _index * 30;
+function dev_draw_row(_label, _value, _index, _selected_row, _base_x, _base_y, _panel_x, _panel_w) {
+    var _yy = _base_y + _index * 30;
 
     if (_index == _selected_row) {
         draw_set_alpha(0.22);
         draw_set_color(c_fuchsia);
-        draw_rectangle(_x - 8, _yy - 5, _cx + _cw - 18, _yy + 23, false);
+        draw_rectangle(_base_x - 8, _yy - 5, _panel_x + _panel_w - 18, _yy + 23, false);
         draw_set_alpha(1);
     }
 
     draw_set_color(_index == _selected_row ? c_yellow : c_white);
-    draw_text(_x, _yy, _label);
+    draw_text(_base_x, _yy, _label);
 
     draw_set_halign(fa_right);
     draw_set_color(c_aqua);
-    draw_text(_cx + _cw - 30, _yy, string(_value));
+    draw_text(_panel_x + _panel_w - 30, _yy, string(_value));
     draw_set_halign(fa_left);
 }
 
@@ -101,7 +101,7 @@ if (tab == 0) {
     _y += 32;
 
     for (var _i = 0; _i < array_length(_labels); _i++) {
-        dev_draw_row(_labels[_i], "[ENTER]", _i, row);
+        dev_draw_row(_labels[_i], "[ENTER]", _i, row, _x, _y, _cx, _cw);
     }
 
     draw_set_color(c_gray);
@@ -146,7 +146,7 @@ if (tab == 1) {
         ];
 
         for (var _i = 0; _i < array_length(_labels); _i++) {
-            dev_draw_row(_labels[_i], _values[_i], _i, row);
+            dev_draw_row(_labels[_i], _values[_i], _i, row, _x, _y, _cx, _cw);
         }
 
         draw_set_color(c_gray);
@@ -189,7 +189,7 @@ if (tab == 2) {
     ];
 
     for (var _i = 0; _i < array_length(_labels); _i++) {
-        dev_draw_row(_labels[_i], _values[_i], _i, row);
+        dev_draw_row(_labels[_i], _values[_i], _i, row, _x, _y, _cx, _cw);
     }
 
     draw_set_color(c_gray);
@@ -379,7 +379,7 @@ if (tab == 5) {
                 global.game_state.campaign.areas[_i],
                 _i,
                 state_index
-            );
+            , _x, _y, _cx, _cw);
         }
 
         draw_set_color(c_gray);
@@ -435,7 +435,7 @@ if (tab == 7) {
     _y += 48;
 
     for (var _i = 0; _i < array_length(_actions); _i++) {
-        dev_draw_row(_actions[_i], "[ENTER]", _i, save_action);
+        dev_draw_row(_actions[_i], "[ENTER]", _i, save_action, _x, _y, _cx, _cw);
     }
 
     if (variable_global_exists("save_slot_meta")) {
