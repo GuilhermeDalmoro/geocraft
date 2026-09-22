@@ -178,11 +178,12 @@ switch (estado) {
         }
 
         if (_confirm) {
-            switch (selected_world) {
-                case 0: room_goto(rm_facil); break;
-                case 1: room_goto(rm_hardcore); break;
-                case 2: room_goto(rm_construcao); break;
-            }
+            // Os tres modos ainda nao possuem rooms proprias no projeto oficial.
+            // Mantemos o menu sem referenciar assets inexistentes.
+            show_debug_message(
+                "[MENU] Modo ainda em desenvolvimento: "
+                + world_options[selected_world]
+            );
         }
 
         if (_back) estado = MENU_ESTADO.principal;
