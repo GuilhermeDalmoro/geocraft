@@ -1,7 +1,11 @@
 function scr_missao_teste() {
-    return {
-        id_m: "teste",
-        nome: "Missão de Teste",
-        status: "bloqueada"
-    };
+    return gc_quest_make(
+        "teste",
+        "Missao de Teste",
+        "Missao interna mantida para compatibilidade.",
+        [],
+        [],
+        false,
+        true
+    );
 }
