@@ -247,43 +247,88 @@ _vara_pesca.usa_arma = function(){
 #region Salvando os meus itens na minha lista de itens
 
 ds_list_add(global.itens, _reia, _arco, _gd, _cura, _espadalv1, _neve, _orb, _moeda_enferrujada, _pocao_geleia, _pedra, _madeira, _cerca, _flor, _bloco_pedra, _bloco_madeira, _terra, _tomate, _trigo, _vara_pesca, _cogumelo);
-///@function adiciona_ao_inventario
-///
-function adiciona_ao_inventario(_item_id, _qtd) {
-    var _item = global.itens[| _item_id];
-    var _colunas = ds_grid_width(global.inventario_slots);
-    var _linhas = ds_grid_height(global.inventario_slots);
-    
-    // Primeiro, tenta stackar em slots existentes (apenas se stackável)
-    if (_item.max_stack > 1) {
-        for (var _i = 0; _i < _linhas; _i++) {
-            for (var _j = 0; _j < _colunas; _j++) {
-                var _slot = global.inventario_slots[# _j, _i];
-                if (_slot && _slot.id == _item_id && _slot.quantity < _item.max_stack) {
-                    var _espaco = _item.max_stack - _slot.quantity;
-                    if (_qtd <= _espaco) {
-                        _slot.quantity += _qtd;
-                        return true;
-                    } else {
-                        _slot.quantity = _item.max_stack;
-                        _qtd -= _espaco;
-                    }
-                }
-            }
-        }
-    }
-    
-    // Se sobrou qtd, adiciona em slot vazio
-    for (var _i = 0; _i < _linhas; _i++) {
-        for (var _j = 0; _j < _colunas; _j++) {
-            var _slot = global.inventario_slots[# _j, _i];
-            if (!_slot) {
-                global.inventario_slots[# _j, _i] = { id: _item_id, quantity: _qtd };
-                return true;
-            }
-        }
-    }
-    return false; // Inventário cheio
+///@function adiciona_ao_inventario(_item_id, _qtd) {
+    if (_qtd <= 0) return true;
+
+    if (!variable_global_exists("itens")
+    || !ds_exists(global.itens, ds_type_list)
+    || !variable_global_exists("inventario_slots")
+    || !ds_exists(global.inventario_slots, ds_type_grid)) {
+        return false;
+    }
+
+    if (_item_id < 0 || _item_id >= ds_list_size(global.itens)) return false;
+
+    var _item = global.itens[| _item_id];
+    if (!is_struct(_item)) return false;
+
+    var _max_stack = max(1, _item.max_stack);
+    var _colunas = ds_grid_width(global.inventario_slots);
+    var _linhas = ds_grid_height(global.inventario_slots);
+
+    // Primeiro calcula capacidade. Assim a funcao nunca altera metade
+    // do inventario e depois retorna false.
+    var _capacidade = 0;
+
+    for (var _y = 0; _y < _linhas; _y++) {
+        for (var _x = 0; _x < _colunas; _x++) {
+            var _slot = global.inventario_slots[# _x, _y];
+
+            if (!is_struct(_slot)) {
+                _capacidade += _max_stack;
+            }
+            else if (_slot.id == _item_id) {
+                _capacidade += max(0, _max_stack - _slot.quantity);
+            }
+        }
+    }
+
+    if (_capacidade < _qtd) return false;
+
+    var _original_qtd = _qtd;
+
+    // Completa stacks existentes.
+    if (_max_stack > 1) {
+        for (var _y = 0; _y < _linhas && _qtd > 0; _y++) {
+            for (var _x = 0; _x < _colunas && _qtd > 0; _x++) {
+                var _slot = global.inventario_slots[# _x, _y];
+
+                if (is_struct(_slot)
+                && _slot.id == _item_id
+                && _slot.quantity < _max_stack) {
+
+                    var _add = min(_qtd, _max_stack - _slot.quantity);
+                    _slot.quantity += _add;
+                    _qtd -= _add;
+                }
+            }
+        }
+    }
+
+    // Cria novas stacks.
+    for (var _y = 0; _y < _linhas && _qtd > 0; _y++) {
+        for (var _x = 0; _x < _colunas && _qtd > 0; _x++) {
+            var _slot = global.inventario_slots[# _x, _y];
+
+            if (!is_struct(_slot)) {
+                var _add = min(_qtd, _max_stack);
+
+                global.inventario_slots[# _x, _y] = {
+                    id : _item_id,
+                    quantity : _add
+                };
+
+                _qtd -= _add;
+            }
+        }
+    }
+
+    // Qualquer item realmente recebido pode alimentar objetivos "coletar".
+    if (variable_global_exists("missoes") && is_array(global.missoes)) {
+        gc_quest_notify("coletar", string(_item_id), _original_qtd);
+    }
+
+    return true;
 }
 
 
