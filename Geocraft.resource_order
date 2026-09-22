@@ -258,6 +258,7 @@
     {"name":"obj_minion_andrius_1","order":2,"path":"objects/obj_minion_andrius_1/obj_minion_andrius_1.yy",},
     {"name":"obj_mira","order":4,"path":"objects/obj_mira/obj_mira.yy",},
     {"name":"obj_misson_manager","order":1,"path":"objects/obj_misson_manager/obj_misson_manager.yy",},
+    {"name":"obj_dev_console","order":2,"path":"objects/obj_dev_console/obj_dev_console.yy",},
     {"name":"obj_moeda","order":13,"path":"objects/obj_moeda/obj_moeda.yy",},
     {"name":"obj_npc_spawner","order":1,"path":"objects/obj_npc_spawner/obj_npc_spawner.yy",},
     {"name":"obj_numeros","order":4,"path":"objects/obj_numeros/obj_numeros.yy",},
