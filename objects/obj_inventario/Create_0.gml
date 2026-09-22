@@ -1,3 +1,8 @@
+if (instance_number(obj_inventario) > 1) {
+    instance_destroy();
+    exit;
+}
+
 #region variaveis
 //criando a dsgrid do inventario
 global.inventario_slots = ds_grid_create(8,4); //largura, altura da grid
@@ -5,12 +10,10 @@ global.inventario_slots = ds_grid_create(8,4); //largura, altura da grid
 ds_grid_clear(global.inventario_slots, 0); // 0 = vazio
 //me dando um item (agora com structs {id, quantity})
 #region Preenchendo slots
-global.inventario_slots[# 0, 0] = { id: ITENS.reia, quantity: 1};
+global.inventario_slots[# 0, 0] = { id: ITENS.reia, quantity: 1 };
 global.inventario_slots[# 1, 0] = { id: ITENS.espadalv1, quantity: 1 };
-global.inventario_slots[# 2, 0] = { id: ITENS.madeira, quantity: 64 };
-global.inventario_slots[# 3, 0] = { id: ITENS.pedra, quantity: 64 };
-global.inventario_slots[# 4, 0] = { id: ITENS.vara_pesca, quantity: 1 };
-global.inventario_slots[# 5, 0] = { id: ITENS.cogumelo, quantity: 64 };
+global.inventario_slots[# 2, 0] = { id: ITENS.madeira, quantity: 4 };
+global.inventario_slots[# 3, 0] = { id: ITENS.pedra, quantity: 4 };
 //global.inventario_slots[# 5, 0] = { id: ITENS.gd, quantity: 1 };
 //global.inventario_slots[# 6, 0] = { id: ITENS.pocaogeleia, quantity: 8 };
 //global.inventario_slots[# 7, 0] = { id: ITENS.moedaenferrujada, quantity: 1 };
@@ -83,8 +86,6 @@ desenha_inventario = function(){
         // Coordenadas do mouse na GUI
         var _mx = device_mouse_x_to_gui(0);
         var _my = device_mouse_y_to_gui(0);
-        show_debug_message(_mx)
-        show_debug_message(_my)
         // Desenhando o inventário
         if inventario == true {
             var _invx = _guil / 2 - inventario_l / 2;
@@ -92,7 +93,7 @@ desenha_inventario = function(){
             // Desenhar o sprite do inventário na posição calculada
             draw_sprite_ext(spr_inventario, 0, _invx, _invy, escala, escala, 0, c_white, 1);
     
-if (global.item_player) {
+if (global.item_player != noone && is_struct(global.item_player)) {
         draw_sprite_ext(global.item_player.spr, global.item_player.frames, 1016, 582, 2, 2, 0, c_white, 1);
         // Checar clique na área do item equipado (ajustado pra 64x64 com escala 2, pra caber sprites maiores)
         //draw_rectangle(1000, 564, 1000 + 32, 564 + 32, true)
@@ -225,7 +226,7 @@ if (global.item_player) {
                             _novo_drop.image_index = _item.frames; // Definir frame diretamente
                             _novo_drop.qtd = _slot.quantity;
                             global.inventario_slots[# ix, iy] = 0; // Remove do slot
-                            if _novo_drop == TIPO_ITENS.material{
+                            if (_item.tipo == TIPO_ITENS.material) {
                                 _novo_drop.sprite = _item.spr;
                             }
                         }
@@ -323,23 +324,30 @@ desenha_itens_construcao = function(_x_inicio, _y_inicio, _array, _spr = spr_bot
         var _cor = point_in_rectangle(_mx, _my, _x, _y, _x2, _y2) ? c_aqua : c_white;
         if (_cor == c_aqua) {
             if (is_struct(_atual)) _atual.desenha_info(_x, _y2);
-            if (_mouse_click && tem_materiais(_atual)) { // Checa materiais antes de craftar
+            if (_mouse_click) {
                 switch (_i) {
                     case LISTA_FORGE.fornalha:
-                        consome_materiais(_atual); // Consome os materiais agora!
-                        instance_create_layer(mouse_x, mouse_y, "Instances", obj_place);
-                        instance_create_depth(obj_sdash.x, obj_sdash.y, depth-10, obj_brilho);
-                        tocar_som_efeito(snd_blip_2, 8, 1);
-                        inventario = false;
-                        break;
-                    
-                    case LISTA_FORGE.mesa:
-                        consome_materiais(_atual); // Consome os materiais agora!
-                        instance_create_layer(mouse_x, mouse_y, "Instances", obj_place);
-                        instance_create_depth(obj_sdash.x, obj_sdash.y, depth-10, obj_brilho);
-                        tocar_som_efeito(snd_blip_2, 8, 1);
-                        inventario = false;
-                        break;
+                        if (tem_materiais(_atual)) {
+                            // Materiais so sao consumidos quando a colocacao for confirmada.
+                            var _place = instance_create_layer(mouse_x, mouse_y, "Instances", obj_place);
+                            _place.estrutura = _atual;
+                            _place.build_kind = "fornalha";
+
+                            instance_create_depth(obj_sdash.x, obj_sdash.y, depth - 10, obj_brilho);
+                            tocar_som_efeito(snd_blip_2, 8, 1);
+
+                            inventario = false;
+                            global.pause = false;
+                            global.pause_por_inventario = false;
+                        } else {
+                            gc_quest_toast("Materiais insuficientes", 100);
+                        }
+                    break;
+
+                    default:
+                        // Evita o bug antigo onde Mesa criava uma Fornalha.
+                        gc_quest_toast(_atual.nome + " ainda nao possui objeto de mundo", 140);
+                    break;
                 }
            }
         }
