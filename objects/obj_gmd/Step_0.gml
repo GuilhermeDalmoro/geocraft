@@ -10,6 +10,9 @@ if global.pause == false{
 			  drop_moedas(x ,y , 10, 12)
 			  audio_play_sound(snd_mortegmd,1,false,1,1.15);
 			  global.inimigos_mortos += 1;
+              gc_game_state_sync_from_legacy();
+              gc_quest_notify("matar", "gmd", 1);
+              gc_quest_notify("matar", "inimigo", 1);
 			  _inst = instance_create_layer(x+10,y-10,"Instances",obj_orb);
 			 _inst = instance_create_layer(x-10,y+10,"Instances",obj_orb);
 			 _inst.image_blend = choose(c_aqua, c_purple, c_yellow, c_red, c_orange, c_blue)
