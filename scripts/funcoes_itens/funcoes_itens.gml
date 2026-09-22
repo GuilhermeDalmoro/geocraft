@@ -113,13 +113,13 @@ global.item_player = noone;
 //criando um item
 var _reia = new cria_item(ITENS.reia, "dejeto", "Um pequeno pedaço de dejeto alienigena fresquinho", spr_item_reia, 0, 0, 1, "Deixa vc mais feliz", "Comum", 0, TIPO_ITENS.consumivel);
                                     
-var _arco = new cria_item(ITENS.arco, "Arco", "Arco cubico: preciso, simples e bem menos decorativo agora.", spr_arco, 0, 3, 1, "Ataque a distancia", "Padrao", 10, TIPO_ITENS.armamento);
+var _arco = new cria_item(ITENS.arco, "Arco", "Um arco que destroi tudo pela frente", spr_arco, 0, 10, 1, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.armamento);
                                     
 var _gd = new cria_item(ITENS.gd, "gd", "Um cubinho que é sapeca", spr_item_gd, 0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
                                     
 var _cura = new cria_item(ITENS.cura, "cura", "Uma poção de cura: +10hp", spr_pocao_cura, 0, 12, 10, "Deixa voce mais sanguinario", "Padrao", 10, TIPO_ITENS.consumivel);
                             
-var _espadalv1 = new cria_item(ITENS.espadalv1, "Espada Cubica", "Uma espada reforcada para combate corpo a corpo.", spr_espada, 0, 3, 1, "Ataque corpo a corpo", "Padrao", 1, TIPO_ITENS.armamento);
+var _espadalv1 = new cria_item(ITENS.espadalv1, "espada", "Uma espada de agua, em que machuca muito :(", spr_espada, 0, 1, 1, 1, 1, 1, TIPO_ITENS.armamento);
                             
 var _neve = new cria_item(ITENS.boladeneve, "Neve", "Isto é uma bolinha de neve, leve ao fim do planeta", spr_particula, 0, 1, 1, 1, 1, 1, TIPO_ITENS.material, 64);
                                                                                     
@@ -199,36 +199,48 @@ _cogumelo.usa_item = function(){
 
 #region Ataques das armas
 
-_espadalv1.usa_arma = function() {
-    if (!instance_exists(obj_sdash)) return;
-
-    with (obj_sdash) {
-        if (global.pause) exit;
-
-        // Usa o combate real do Sdash. A sequence antiga continuava bonita,
-        // mas nao possuia o momento de dano ligado na timeline.
-        scr_sdash_iniciar_corpo_a_corpo(3);
-    }
+_espadalv1.usa_arma = function(){
+    if instance_exists(obj_sdash) {
+        with (obj_sdash) {
+            pode_andar = false;
+            visible = false
+            var _layer = layer_create(depth, "ataque_especial");
+            layer_sequence_create(_layer, obj_sdash.x, obj_sdash.y, sq_ataque_especial_sdash1);
+        }
+    }
+}
+    
+_arco.usa_arma = function(){
+            if instance_exists(obj_sdash) {
+        with (obj_sdash) {
+            pode_andar = false;
+            visible = false
+            var _layer = layer_create(depth, "ataque_especial");
+            layer_sequence_create(_layer, x, y, sq_ataque_especial_sdash1);
+        }
+    }
 }
 
-_arco.usa_arma = function() {
-    if (!instance_exists(obj_sdash)) return;
-
-    with (obj_sdash) {
-        if (global.pause) exit;
-
-        arco_dano = 3;
-        image_index = 0;
-        image_speed = 1;
-        estado = scr_sdash_arco;
-    }
+_vara_pesca.usa_arma = function(){
+            if instance_exists(obj_sdash) {
+        with (obj_sdash) {
+            //pode_andar = false;
+            //visible = false
+            //fazer a porra da vara funcionar
+        }
+    }
 }
 
-_vara_pesca.usa_arma = function() {
-    if (instance_exists(obj_sdash)) {
-        gc_quest_toast("A vara de pesca ainda nao aprendeu a pescar. Cubos...", 90);
-    }
-}
+/*
+ * como spwanar um item na room?
+ * metodo 1: utilizar dentro de um outro objeto pra spawnar usando esse codigo como ex
+ * var _inst_exemplo = instance_create_layer(x, y, "Instances", obj_item)  
+ * _inst_exemplo.item = global.itens[| ITENS.exemplo]
+ * 
+ * metodo 2: colocar um obj item na room e mudar a variavel de objeto do
+ * obj item
+ * 
+ */
 
 #endregion
 
@@ -318,7 +330,6 @@ function adiciona_ao_inventario(_item_id, _qtd) {
     return true;
 }
 
-
 function remove_do_inventario(_item_id, _qtd) {
     if (_qtd <= 0) return true;
     if (!variable_global_exists("inventario_slots")) return false;
@@ -349,6 +360,7 @@ function remove_do_inventario(_item_id, _qtd) {
 
     return (_faltando <= 0);
 }
+
 
 // Função pra checar se tem materiais suficientes (escalável pra qualquer receita)
 function tem_materiais(_estrutura) {
