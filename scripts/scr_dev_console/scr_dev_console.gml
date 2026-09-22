@@ -717,11 +717,19 @@ function gc_dev_confirm(_manager) {
 
                 case 2:
                     if (variable_global_exists("carrega_jogo")) {
-                        global.carrega_jogo(_dev.save_slot);
+                        var _slot_to_load = _dev.save_slot;
+                        gc_dev_close();
+                        global.carrega_jogo(_slot_to_load);
+                        return;
                     }
                 break;
 
                 case 3:
+                    if (!variable_global_exists("delete_save_slot")) {
+                        gc_dev_message("Save manager indisponivel");
+                        break;
+                    }
+
                     if (_dev.confirm_danger == "delete_save") {
                         global.delete_save_slot(_dev.save_slot);
                         _dev.confirm_danger = "";
