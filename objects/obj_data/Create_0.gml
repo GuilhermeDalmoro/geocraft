@@ -93,8 +93,7 @@ function gc_session_cleanup() {
     // Mantem obj_data vivo porque ele e o save manager do menu.
     with (obj_dev_console) instance_destroy();
     with (obj_dialogo) instance_destroy();
-    with (obj_fornalha_ui) instance_destroy();
-    with (obj_shop_int_1) instance_destroy();
+with (obj_shop_int_1) instance_destroy();
     with (obj_transition) instance_destroy();
 
     with (obj_sdash) instance_destroy();
