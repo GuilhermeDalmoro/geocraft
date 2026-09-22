@@ -1,3 +1,36 @@
+// Integracao minima com a missao de alimentar cavalos.
+if (feed_flash > 0) {
+    feed_flash--;
+    image_blend = c_lime;
+}
+else {
+    image_blend = c_white;
+}
+
+if (!global.pause
+&& !montado
+&& !alimentado
+&& instance_exists(obj_sdash)) {
+
+    var _quest_player = instance_find(obj_sdash, 0);
+
+    if (point_distance(x, y, _quest_player.x, _quest_player.y) <= 44
+    && keyboard_check_pressed(vk_control)) {
+
+        alimentado = true;
+        feed_flash = 45;
+
+        gc_state_flag_set(feed_key, true);
+
+        global.cabalos_alimentados += 1;
+        gc_game_state_sync_from_legacy();
+        gc_quest_notify("alimentar", "cavalo", 1);
+
+        gc_quest_toast("Cavalo alimentado!", 80);
+        tocar_som_efeito(snd_blip_2, 1, 1);
+    }
+}
+
 #region movimentacao do cavalo
 if (!montado) {
     sprite_index = sprite_idle;
