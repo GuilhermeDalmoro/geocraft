@@ -283,6 +283,7 @@
     {"id":{"name":"obj_dejeto","path":"objects/obj_dejeto/obj_dejeto.yy",},},
     {"id":{"name":"obj_dia_noite","path":"objects/obj_dia_noite/obj_dia_noite.yy",},},
     {"id":{"name":"obj_dialogo","path":"objects/obj_dialogo/obj_dialogo.yy",},},
+    {"id":{"name":"obj_dev_console","path":"objects/obj_dev_console/obj_dev_console.yy",},},
     {"id":{"name":"obj_diario","path":"objects/obj_diario/obj_diario.yy",},},
     {"id":{"name":"obj_distort_controller","path":"objects/obj_distort_controller/obj_distort_controller.yy",},},
     {"id":{"name":"obj_dona_petunia","path":"objects/obj_dona_petunia/obj_dona_petunia.yy",},},
