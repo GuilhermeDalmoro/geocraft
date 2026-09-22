@@ -207,6 +207,19 @@ function gc_state_counter_add(_name, _amount = 1) {
     return gc_state_counter_set(_name, gc_state_counter_get(_name, 0) + _amount);
 }
 
+function gc_state_reputation_get(_name, _default = 0) {
+    gc_game_state_bootstrap();
+
+    var _rep = global.game_state.campaign.reputation;
+
+    if (!variable_struct_exists(_rep, _name)) {
+        variable_struct_set(_rep, _name, _default);
+        variable_global_set(_name, _default);
+    }
+
+    return variable_struct_get(_rep, _name);
+}
+
 function gc_state_reputation_add(_name, _amount) {
     gc_game_state_bootstrap();
     var _rep = global.game_state.campaign.reputation;
@@ -215,6 +228,22 @@ function gc_state_reputation_add(_name, _amount) {
     variable_struct_set(_rep, _name, _value);
     variable_global_set(_name, _value);
     return _value;
+}
+
+function gc_state_area_get(_area, _default = false) {
+    gc_game_state_bootstrap();
+
+    var _i = clamp(_area - 1, 0, 5);
+
+    if (!is_array(global.game_state.campaign.areas)) {
+        global.game_state.campaign.areas = array_create(6, false);
+    }
+
+    if (_i >= array_length(global.game_state.campaign.areas)) {
+        return _default;
+    }
+
+    return global.game_state.campaign.areas[_i];
 }
 
 function gc_state_area_set(_area, _unlocked = true) {
