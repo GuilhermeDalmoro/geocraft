@@ -13,6 +13,9 @@ gc_world_restore_room(room_get_name(room));
 last_room_seen = room;
 journal_pause_owned = false;
 journal_selected = 0;
+quest_reconcile_tick = 0;
+
+gc_dev_setup();
 
 global.game_state.runtime.quest_journal_open = false;
 global.game_state.runtime.debug_open = false;
