@@ -117,8 +117,8 @@ dev_parse_value = function(_text) {
     if (_lower == "noone") return noone;
 
     if (string_length(_s) >= 2
-    && string_char_at(_s, 1) == """
-    && string_char_at(_s, string_length(_s)) == """) {
+    && string_char_at(_s, 1) == chr(34)
+    && string_char_at(_s, string_length(_s)) == chr(34)) {
         return string_copy(_s, 2, string_length(_s) - 2);
     }
 
