@@ -127,7 +127,8 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		ds_grid_add_text("Pera... \n [zoom]MAS QUE PORRA É AQUELA???? [/zoom] [semefeito]Sdash, você não tocou naquele [/semefeito] [cor=roxo] dejeto [semefeito] né? [/semefeito]", spr_ret_king_arts_normal, 1, "King of Art's")//obj_king_art.meu_nome)
 		ds_grid_add_text("Então.... eu comi um pouco, e to me sentindo... diferente [pulsar] [cor=vermelho] eu acho..", spr_ret_sdash_normal, 0, "Sdash");
 		ds_grid_add_text("Sdash... SEU IMBECIL ME ESPERE NO ESTABULO, EU IREI COMUNICAR O [cor=amarelo] ALMUDEAO [/cor] [semefeito] COM VOCÊ [/semefeito]", spr_ret_king_arts_bravo, 0, "King of Art's")
-        global.area_1 = true;
+        gc_state_area_set(1, true);
+        gc_quest_start("m001_almudeao");
 		break;
 		
 		
@@ -168,7 +169,7 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		break;
 		
 		case"rsp 1":
-		//scr_missoes_notificar("falar", "almudeon");
+		gc_quest_start("treino_gmd");
     
 		ds_grid_add_text("Vamos nessa então", spr_ret_king_arts_bravo, 1, "King of Art's")
 		ds_grid_add_text("Porém antes receba uma magia", spr_ret_king_arts_bravo, 1, "King of Art's");
@@ -176,18 +177,19 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		ds_grid_add_text("Para usar a magia utilize a tecla Z e para utilizar o [cor=amarelo] arco [/cor] equipe no inventario e utilize o botao esquerdo", spr_ret_king_arts_bravo, 1, "King of Art's");
 		var _inst = instance_create_layer(x + 8, y - 9, "Instances", obj_item)
 		_inst.item = global.itens[| ITENS.arco]
-		global.tem_magia[0] = true;
+		gc_state_magic_set(0, true);
 		ds_grid_add_text("[cor=amarelo] [flutuar] Para acessar o menu de missões aperte M", spr_ret_reia, 0, "Aviso")
-		global.lealdade -=3;
+		gc_state_reputation_add("lealdade", -3);
 		break;
 		case"rsp 2":
 		ds_grid_add_text("Ta bom então né", spr_ret_king_arts_bravo, 0, "King of Art's")
-		global.lealdade -=1;
+		gc_state_reputation_add("lealdade", -1);
 		break;
 		
 		case "Texto treino pag 2":
 		ds_grid_add_text("MUITO BEM SDASH, voce conseguiiiiu",spr_ret_king_arts_orgulhoso,1,"King of Art's");
-		global.tem_magia[1] = true;
+gc_quest_complete("treino_gmd");
+        gc_quest_start("alimentar_cavalos");
 		ds_grid_add_text("Agora que voce treinou o bastante sdash, me espere no estabulo que \n nos iremos alimentar os cavalos do almudeão:",spr_ret_king_arts_orgulhoso,1,"King of Art's");
 		break;
 		
@@ -213,13 +215,15 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 	    ds_grid_add_text("Olá sdash, eu preciso te dizer uma coisa...", spr_almudeao_frente, 1, "Almudeao");
 	    ds_grid_add_text("O - oque... ;--;", spr_ret_sdash_normal, 0, "Sdash");
 	    ds_grid_add_text("Não é algo muito grave né?", spr_ret_sdash_emotivo, 0, "Sdash");
-	    ds_grid_add_text("Não,  é so que.. no caminho eu ouvi [flutuar] um barulho [/flutuar]...", spr_almudeao_frente, 1, "Almudeao");
-	    ds_grid_add_text("Vamos indo ate o centro da cidade, pegue um cavalo e vamos nessa", spr_almudeao_frente, 1, "Almudeao");
-	    add_op("Ok to indo", "resp1cav");
+	    ds_grid_add_text("Não, é só que no caminho eu ouvi [flutuar] um barulho [/flutuar] estranho...", spr_almudeao_frente, 1, "Almudeao");
+	    ds_grid_add_text("Antes da viagem, me ajuda no estábulo: alimente os cavalos, escolha um e depois vamos para CúbicLand.", spr_almudeao_frente, 1, "Almudeao");
+	    ds_grid_add_text("[cor=amarelo]Chegue perto de um cavalo e aperte Control para alimentá-lo.[/cor]", spr_ret_reia, 1, "Aviso");
+	    add_op("Ok, bora", "resp1cav");
 		break;
 						
 			case "resp1cav":
-		    ds_grid_add_text("otimo", spr_almudeao_frente, 1, "Almudeao");
+            gc_quest_start("alimentar_cavalos");
+		    ds_grid_add_text("Ótimo. Quando terminar, escolha um cavalo e vamos para CúbicLand.", spr_almudeao_frente, 1, "Almudeao");
 			break;
     
 	
@@ -309,6 +313,9 @@ function scr_textos(){ //esse é o script que ira guardar todos os dialogos simp
 		ds_grid_add_text("Não se preocupe, o jogo ira te guiar quando precisar ", spr_ret_criador, 0, "Sdash");
 	    ds_grid_add_text("[cor=vermelho] Porém cuidado com quem você fala \n Ele é poderoso", spr_ret_criador_puto, 0, "Sdash");
 		global.tutorial = true;
+        if (variable_global_exists("game_state") && is_struct(global.game_state)) {
+            global.game_state.campaign.unlocks.tutorial = true;
+        }
 	    break;
 		
 		  case "Salva jogo":
