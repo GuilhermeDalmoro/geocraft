@@ -303,7 +303,9 @@ global.salva_jogo = function(_slot = global.save_slot) {
             max_estamina : _sdash.max_estamina,
 
             item_id : gc_save_item_id(),
-            magia_selecionada : global.magia_selecionada
+            magia_selecionada : variable_global_exists("magia_selecionada")
+                ? global.magia_selecionada
+                : noone
         },
 
         inventario : _inv,
