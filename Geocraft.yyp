@@ -477,6 +477,8 @@
     {"id":{"name":"npc_move_with_collision","path":"scripts/npc_move_with_collision/npc_move_with_collision.yy",},},
     {"id":{"name":"scr_camera","path":"scripts/scr_camera/scr_camera.yy",},},
     {"id":{"name":"scr_cutscene_tocar","path":"scripts/scr_cutscene_tocar/scr_cutscene_tocar.yy",},},
+    {"id":{"name":"scr_quest_system","path":"scripts/scr_quest_system/scr_quest_system.yy",},},
+    {"id":{"name":"scr_game_state","path":"scripts/scr_game_state/scr_game_state.yy",},},
     {"id":{"name":"scr_lootbox","path":"scripts/scr_lootbox/scr_lootbox.yy",},},
     {"id":{"name":"scr_missao_teste","path":"scripts/scr_missao_teste/scr_missao_teste.yy",},},
     {"id":{"name":"scr_missao001","path":"scripts/scr_missao001/scr_missao001.yy",},},
