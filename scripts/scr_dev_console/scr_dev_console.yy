@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_dev_console",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_dev_console",
+  "parent":{
+    "name":"sistemas",
+    "path":"folders/Scripts/Configurações/sistemas.yy"
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0"
+}
