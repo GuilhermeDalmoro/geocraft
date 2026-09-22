@@ -1,3 +1,5 @@
+if (global.pause || global.dialogo_acontecendo) exit;
+
 if instance_exists(obj_sdash){
 	if (!obj_sdash.active) exit;
 		for (var i = 0; i < num_slots; i++) {
