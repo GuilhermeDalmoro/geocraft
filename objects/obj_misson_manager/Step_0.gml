@@ -122,75 +122,13 @@ if (keyboard_check_pressed(vk_f10)) {
     global.game_state.runtime.debug_open = !global.game_state.runtime.debug_open;
 }
 
-// F9 liga/desliga atalhos internos de desenvolvimento.
-if (keyboard_check_pressed(vk_f9)) {
-    global.game_state.runtime.dev_mode = !global.game_state.runtime.dev_mode;
-
-    gc_quest_toast(
-        global.game_state.runtime.dev_mode ? "DEV MODE: ON" : "DEV MODE: OFF",
-        90
-    );
-}
-
-// Atalhos uteis do DEV MODE. So funcionam quando F9 esta ligado.
-if (global.game_state.runtime.dev_mode
+// F9 abre o DEV Console completo.
+// O proprio obj_dev_console cuida de fechar com F9 para evitar toggle duplo.
+if (keyboard_check_pressed(vk_f9)
+&& !global.game_state.runtime.dev_mode
+&& !instance_exists(obj_dev_console)
 && !global.dialogo_acontecendo
 && !global.game_state.runtime.quest_journal_open) {
 
-    if (keyboard_check_pressed(vk_f1)) {
-        global.moedas += 100;
-        gc_game_state_sync_from_legacy();
-        gc_quest_toast("DEV: +100 moedas", 70);
-    }
-
-    if (keyboard_check_pressed(vk_f2)) {
-        if (variable_global_exists("inventario_slots")
-        && ds_exists(global.inventario_slots, ds_type_grid)) {
-            adiciona_ao_inventario(ITENS.madeira, 32);
-            adiciona_ao_inventario(ITENS.pedra, 32);
-            adiciona_ao_inventario(ITENS.flor, 12);
-            adiciona_ao_inventario(ITENS.reia, 8);
-            gc_quest_toast("DEV: materiais adicionados", 80);
-        }
-    }
-
-    if (keyboard_check_pressed(vk_f3) && instance_exists(obj_sdash)) {
-        var _dev_sdash = instance_find(obj_sdash, 0);
-        _dev_sdash.vida = _dev_sdash.max_vida;
-        _dev_sdash.estamina = _dev_sdash.max_estamina;
-        gc_quest_toast("DEV: vida e estamina restauradas", 80);
-    }
-
-    if (keyboard_check_pressed(vk_f4)) {
-        for (var _mi = 0; _mi < 5; _mi++) {
-            gc_state_magic_set(_mi, true);
-        }
-        gc_quest_toast("DEV: todas as magias desbloqueadas", 90);
-    }
-
-    if (keyboard_check_pressed(vk_f6)) {
-        var _dev_q = gc_quest_get_tracked();
-
-        if (_dev_q != noone) {
-            if (is_array(_dev_q.objetivos)) {
-                for (var _oi = 0; _oi < array_length(_dev_q.objetivos); _oi++) {
-                    _dev_q.objetivos[_oi].current = _dev_q.objetivos[_oi].required;
-                    _dev_q.objetivos[_oi].complete = true;
-                }
-            }
-
-            _dev_q.status = "pronta";
-            gc_quest_complete(_dev_q.id_m);
-            gc_quest_toast("DEV: missao rastreada concluida", 90);
-        }
-        else {
-            gc_quest_toast("DEV: nenhuma missao rastreada", 70);
-        }
-    }
-
-    if (keyboard_check_pressed(vk_f8)) {
-        if (variable_global_exists("salva_jogo")) {
-            global.salva_jogo();
-        }
-    }
+    instance_create_depth(0, 0, -1000000, obj_dev_console);
 }
