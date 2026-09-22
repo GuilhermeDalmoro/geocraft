@@ -56,8 +56,13 @@ if (inicializar) {
         }
 
         if (keyboard_check_pressed(vk_enter) || gamepad_button_check_pressed(global.controle, gp_face1)) {
+            // A escolha tambem conta como conclusao da conversa atual.
+            gc_quest_notify("falar", npc_nome, 1);
+
             var _dialogo = instance_create_layer(x, y, "Dialogo", obj_dialogo);
             _dialogo.npc_nome = opcao_resposta[opcao_selecionado];
+            _dialogo.npc_ref = npc_ref;
+
             instance_destroy();
         }
     }
