@@ -1,14 +1,56 @@
-if !active exit
-    
-if (montado) exit;
-    
-script_execute (estado);
+if (!active) exit;
+
+// Morte antes do pause para nunca deixar o jogador preso em menu.
+if (vida <= 0) {
+    active = false;
+    instance_destroy();
+    room_goto(Room_game_over);
+    exit;
+}
+
+// Pause de menus, diario, fornalha e DEV Console interrompe o jogador.
+if (global.pause) {
+    audio_listener_position(x, y, 0);
+    exit;
+}
+
+// Cavalo controla o movimento enquanto montado.
+// R desmonta sem depender de colisao pixel-perfect.
+if (montado) {
+    if (!instance_exists(meu_cavalo)) {
+        montado = false;
+        meu_cavalo = noone;
+    }
+    else if (keyboard_check_pressed(ord("R"))) {
+        var _horse = meu_cavalo;
+
+        montado = false;
+        meu_cavalo = noone;
+
+        _horse.montado = false;
+        _horse.cavaleiro = noone;
+
+        if (variable_instance_exists(_horse, "mount_cooldown")) {
+            _horse.mount_cooldown = 12;
+        }
+
+        x = clamp(_horse.x + 18, 0, room_width);
+        y = clamp(_horse.y, 0, room_height);
+    }
+    else {
+        audio_listener_position(x, y, 0);
+        exit;
+    }
+}
+
+script_execute(estado);
 
 depth = -y;
 
 #region Ferramenta
 
-if (keyboard_check_pressed(ord("C")) or gamepad_axis_value(global.controle, gp_shoulderlb)) {
+if (keyboard_check_pressed(ord("C"))
+|| gamepad_button_check_pressed(global.controle, gp_shoulderlb)) {
     ferramenta_selecionada = !ferramenta_selecionada;
         if (ferramenta_selecionada) {
             
@@ -36,8 +78,8 @@ estamina = clamp(estamina, 0, max_estamina);
 
 #region Dialogo
 
-if (!global.dialogo_acontecendo){
-    if distance_to_object(obj_par_npc)<= 15 {
+if (!global.dialogo_acontecendo && !global.pause) {
+    if (distance_to_object(obj_par_npc) <= 20) {
         if keyboard_check_pressed(ord("F")) or gamepad_button_check_pressed(global.controle,gp_face2){
             global.dialogo_acontecendo = true
     var _npc = instance_nearest(x,y,obj_par_npc);
@@ -86,16 +128,7 @@ create_particle_effect(x,y - 800,"rain", 200, c_white, 10, 360, 2, 1000)
 
 #endregion
 
-#region Morte
 
-if (vida <= 0) {
-    obj_sdash.hspeed = -2;
-    obj_sdash.image_angle += 2;
-    instance_destroy(obj_sdash);
-    room_goto(Room_game_over);
-active = false
-}
-#endregion
 #region trocar arma
 //if keyboard_check_pressed(ord("R")){
 // arma += 1;
@@ -193,26 +226,9 @@ if (fade_estado == 2) { // Abrindo
 }
 #endregion
 #region cavalos
-if (!montado) {
-    var cav = instance_place(x, y, obj_cavalos);
-    if (cav != noone && keyboard_check_pressed(ord("R"))) {
-        montado = true;
-        meu_cavalo = cav;
-        cav.montado = true;
-        cav.cavaleiro = id;
-    }
-}
-else {
-    // enquanto montado, não anda
-    exit;
-}
+// Alimentar/montar e controlado pelo obj_cavalos.
+// Desmontar e tratado no topo deste Step.
 #endregion
-if keyboard_check_pressed(vk_right){
-    room_goto(Room_dentro_masmorra);
-}
-if keyboard_check_pressed(vk_left){
-    room_goto(Room5);
-}
 #region Jukebox
 audio_listener_position(x, y, 0);
 #endregion
