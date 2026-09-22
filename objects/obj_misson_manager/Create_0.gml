@@ -1,16 +1,20 @@
-//show_message("Gerenciador de missões iniciado");
+/// Gerenciador persistente de campanha e missoes.
+if (instance_number(obj_misson_manager) > 1) {
+    instance_destroy();
+    exit;
+}
 
-global.missoes = scr_missoes_banco();
+gc_game_state_bootstrap();
+gc_quest_repair_progression();
 
-//show_message("Missões carregadas:");
-//show_message(global.missoes[0].id_m);
+gc_world_room_entered(room_get_name(room));
+gc_world_restore_room(room_get_name(room));
 
-var _m = scr_missoes_pegar("teste");
+last_room_seen = room;
+journal_pause_owned = false;
+journal_selected = 0;
 
-scr_missoes_iniciar(_m);
+global.game_state.runtime.quest_journal_open = false;
+global.game_state.runtime.debug_open = false;
 
-if (_m != noone) {
-    //show_message("Missão encontrada: " + _m.nome);
-} else {
-    //show_message("Missão NÃO encontrada");
-    }
+show_debug_message("[GEOCRAFT] GameState v3 + QuestSystem v3 carregados.");

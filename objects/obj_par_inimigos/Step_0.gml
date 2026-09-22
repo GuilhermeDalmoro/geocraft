@@ -4,8 +4,10 @@ script_execute(estado);
 depth = -y;
 
 if vida <= 0{
+    global.inimigos_mortos += 1;
+    gc_game_state_sync_from_legacy();
+    gc_quest_notify("matar", "inimigo", 1);
 	instance_destroy();
-	global.inimigos_mortos += 1;
 }
 
 if (queimando) {

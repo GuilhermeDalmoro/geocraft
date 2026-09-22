@@ -1,0 +1,10 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_quest_system",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_quest_system",
+  "parent":{"name":"missoes","path":"folders/Scripts/Configurações/missoes.yy",},
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,8 +1,35 @@
-if !active exit
+if (!active) exit;
+
+// Enquanto montado, o cavalo controla o movimento. R desmonta com seguranca.
+if (montado) {
+    if (!instance_exists(meu_cavalo)) {
+        montado = false;
+        meu_cavalo = noone;
+    }
+    else {
+        if (keyboard_check_pressed(ord("R"))) {
+            var _horse = meu_cavalo;
+
+            montado = false;
+            meu_cavalo = noone;
+
+            _horse.montado = false;
+            _horse.cavaleiro = noone;
+            _horse.mount_cooldown = 12;
+
+            x = clamp(_horse.x + 18, 0, room_width);
+            y = clamp(_horse.y, 0, room_height);
+
+            gc_quest_toast("Sdash desmontou", 55);
+        }
+        else {
+            audio_listener_position(x, y, 0);
+            exit;
+        }
+    }
+}
     
-if (montado) exit;
-    
-script_execute (estado);
+script_execute(estado);
 
 depth = -y;
 
@@ -52,36 +79,12 @@ if (!global.dialogo_acontecendo){
 
 #region Magia
 
-    if (keyboard_check_pressed(ord("Z"))) { // exemplo, tecla Z pra usar magia
-    switch(global.magia_selecionada) {
-        case 0: //fogo
-    //if instance_exists(obj_sdash) {
-    // with(obj_sdash) {
-    // //active = false;
-    // //visible = false;
-           
-    // var _layer = layer_create(-700, "ataque_especial");
-    // layer_sequence_create(_layer, x, y, sq_ataque_especial_sdash1);
-    // }
-    //}
-break;
-//repeat(8){
-// var _inst = instance_create_layer(x, y, "Instances", obj_bola_de_fogo);
-// _inst.angulo_base = dir;
-// }
-        case 1: // agua
-create_particle_effect(x,y - 800,"rain", 200, c_white, 10, 360, 2, 1000)
-        break;
-        case 2: //raio
-  
-        break;
-        case 3: //planta
-           // create_particle_effect(x,y,"spark", 200, c_white, 10, 360, 10, 100)
-        break;
-        case 4: //shooter
-//instance_create_layer(x,y,"Instances", obj)
-        break;
-    }
+if (magia_cooldown > 0) {
+    magia_cooldown--;
+}
+
+if (!global.pause && keyboard_check_pressed(ord("Z"))) {
+    gc_magic_cast(id, global.magia_selecionada);
 }
 
 #endregion
@@ -89,12 +92,12 @@ create_particle_effect(x,y - 800,"rain", 200, c_white, 10, 360, 2, 1000)
 #region Morte
 
 if (vida <= 0) {
-    obj_sdash.hspeed = -2;
-    obj_sdash.image_angle += 2;
-    instance_destroy(obj_sdash);
-    room_goto(Room_game_over);
-active = false
+    active = false;
+    instance_destroy();
+    room_goto(Room_game_over);
+    exit;
 }
+
 #endregion
 #region trocar arma
 //if keyboard_check_pressed(ord("R")){
@@ -193,25 +196,18 @@ if (fade_estado == 2) { // Abrindo
 }
 #endregion
 #region cavalos
-if (!montado) {
-    var cav = instance_place(x, y, obj_cavalos);
-    if (cav != noone && keyboard_check_pressed(ord("R"))) {
-        montado = true;
-        meu_cavalo = cav;
-        cav.montado = true;
-        cav.cavaleiro = id;
-    }
-}
-else {
-    // enquanto montado, não anda
-    exit;
-}
+// Montar agora e controlado pelo proprio cavalo por distancia.
+// Aqui fica apenas a compatibilidade; desmontar e tratado no topo deste Step.
 #endregion
-if keyboard_check_pressed(vk_right){
-    room_goto(Room_dentro_masmorra);
-}
-if keyboard_check_pressed(vk_left){
-    room_goto(Room5);
+// Teleportes de desenvolvimento nao ficam mais ativos na gameplay normal.
+if (variable_global_exists("game_state") && is_struct(global.game_state)
+&& global.game_state.runtime.dev_mode) {
+    if (keyboard_check_pressed(vk_right)) {
+        room_goto(Room_dentro_masmorra);
+    }
+    if (keyboard_check_pressed(vk_left)) {
+        room_goto(Room5);
+    }
 }
 #region Jukebox
 audio_listener_position(x, y, 0);

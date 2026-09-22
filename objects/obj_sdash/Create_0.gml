@@ -1,3 +1,10 @@
+inimigos_atingidos = -1;
+
+if (instance_number(obj_sdash) > 1) {
+    instance_destroy();
+    exit;
+}
+
 #region Equipamentos
 // enumerator armas
 enum ARMAS{
@@ -105,6 +112,9 @@ dano_alfa = -1;
 
 //armas do sdash
 arma = 0;
+
+//Magias
+magia_cooldown = 0;
 
 //fade in da transicao
 fade_alpha = 0;

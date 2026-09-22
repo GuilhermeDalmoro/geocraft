@@ -1,3 +1,8 @@
+if (instance_number(obj_slot_magia) > 1) {
+    instance_destroy();
+    exit;
+}
+
 num_slots = 5;            // número de slots
 raio = 30;                // distância entre centro e slot
 centro_x = display_get_gui_width()/2;

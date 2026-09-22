@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_magic_system",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_magic_system",
+  "parent":{
+    "name":"sistemas",
+    "path":"folders/Scripts/Configurações/sistemas.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
